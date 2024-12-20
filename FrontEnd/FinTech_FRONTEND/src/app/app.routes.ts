@@ -9,6 +9,7 @@ import { ProfileComponent } from './auth/components/profile/profile.component';
 import path from 'path';
 import { HeaderComponent } from './auth/components/header/header.component';
 import { SidebarComponent } from './auth/components/side-bar/side-bar.component';
+import { WalletComponent } from './components/wallet/wallet.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -21,6 +22,7 @@ export const routes: Routes = [
   { path: 'logout', redirectTo: '/login', pathMatch: 'full' },
   {path:'header',component: HeaderComponent},
   {path:'sidebar',component: SidebarComponent},
+  {path:'Wallet',component: WalletComponent},
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 
 
