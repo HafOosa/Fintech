@@ -1,0 +1,148 @@
+/* Fullscreen Signup Container */
+.signup-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #1e1e2f, #2b2c47);
+    overflow: hidden;
+  }
+  .body{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
+  
+  /* Centered Signup Form */
+  .signup-form {
+    position: relative;
+    z-index: 2;
+    background: rgba(45, 53, 72, 0.9);
+    padding: 2.5rem;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+    text-align: center;
+    color: #f0f0f0;
+  
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 15px;
+      color: #ffffff;
+    }
+  
+    .form-row {
+      display: flex;
+      gap: 20px;
+    }
+  
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+      flex: 1;
+  
+      label {
+        font-weight: 600;
+        color: #e0e0e0;
+        display: block;
+        margin-bottom: 5px;
+      }
+  
+      input {
+        width: 100%;
+        padding: 10px;
+        padding-inline: 5px;
+        border: 2px solid transparent;
+        border-bottom: 2px;
+        border-radius: 6px;
+        background: #3e4458;
+        color: #fff;
+        font-size: 1rem;
+        transition: border 0.3s;
+  
+        &:focus {
+          border: 2px solid #4caf50;
+          outline: none;
+        }
+  
+        &.invalid {
+          border-color: #ff4d4f;
+        }
+      }
+  
+      .error-message {
+        color: #ff4d4f;
+        font-size: 0.85rem;
+        margin-top: 5px;
+      }
+    }
+  
+    /* Checkbox Styling */
+    .checkbox {
+        display: flex;
+        align-items: center;  
+      input[type="checkbox"] {
+        margin-right: 10px;
+        cursor: pointer;
+        accent-color: #4caf50;
+      }
+  
+      label {
+        font-size: 0.95rem;
+        color: #e0e0e0;
+      }
+    }
+  
+    /* Submit Button */
+    .submit-btn {
+      width: 100%;
+      padding: 10px;
+      background: #562a9e;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.1s;
+  
+      &:hover {
+        background: #45a049;
+      }
+    }
+  
+    /* Login Link */
+    .login-link {
+      margin-top: 15px;
+      font-size: 0.95rem;
+  
+      .login-link-text {
+        color: #80c2ff;
+        text-decoration: none;
+        transition: color 0.3s;
+  
+        &:hover {
+          text-decoration: underline;
+          color: #ffffff;
+        }
+      }
+    }
+  }
+  
+  /* Floating Crypto Icons */
+  app-crypto-icons {
+    position: absolute;
+    top: 0;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    animation: float 12s infinite ease-in-out;
+  }
+  
+  /* Floating Animation */
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  

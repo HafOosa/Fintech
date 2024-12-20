@@ -1,0 +1,32 @@
+<div class="content">
+<div class="transactions-container">
+  <app-sidebar></app-sidebar>
+  <app-header></app-header>
+    <h1>Transactions</h1>
+  
+    <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Transaction Type</label>
+        <select formControlName="type">
+          <option *ngFor="let type of transactionTypes" [value]="type">
+            {{ type }}
+          </option>
+        </select>
+      </div>
+  
+      <div class="form-group">
+        <label>Amount</label>
+        <input type="number" formControlName="amount" placeholder="Enter amount">
+      </div>
+  
+      <div class="form-group">
+        <label>Recipient</label>
+        <input type="text" formControlName="recipient" placeholder="Enter recipient">
+      </div>
+  
+      <button type="submit" [disabled]="!transactionForm.valid">
+        Submit Transaction
+      </button>
+    </form>
+  </div>
+</div>

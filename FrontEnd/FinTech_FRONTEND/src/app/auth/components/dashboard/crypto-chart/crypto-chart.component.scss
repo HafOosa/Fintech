@@ -1,0 +1,61 @@
+.chart-container {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .chart-header {
+    margin-bottom: 1.5rem;
+  }
+  .chart-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  .currency-selector {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .selected-currency {
+    font-weight: bold;
+  }
+  .price {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  .change {
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    background: rgba(255,61,0,0.1);
+  }
+  .change.negative {
+    color: #ff3d00;
+  }
+  .chart-metrics {
+    display: flex;
+    gap: 2rem;
+  }
+  .metric {
+    display: flex;
+    flex-direction: column;
+  }
+  .label {
+    color: #666;
+    font-size: 0.9rem;
+  }
+  .time-controls {
+    display: flex;
+    gap: 1rem;
+  }
+  .time-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  .time-button.active {
+    background: #e3f2fd;
+    color: #1976d2;
+  }

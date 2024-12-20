@@ -1,0 +1,50 @@
+.body{
+  height: max-content;
+}
+.sidebar {
+  margin-bottom: 0;
+  top: 0; /* Align to the top of the page */
+  left: 0;
+  position: fixed;
+  width: 250px;
+  height: 100vh;
+  background: #1a2233;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.nav-menu {
+  flex: 1;
+  margin-top: 2rem;
+}
+.menu-section {
+  margin-bottom: 2rem;
+}
+.menu-section h3 {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+.nav-menu a {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.75rem 1rem;
+  color: #a8b1c1;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+.nav-menu a:hover,
+.nav-menu a.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-radius: 4px;
+}

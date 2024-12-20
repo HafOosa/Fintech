@@ -1,0 +1,54 @@
+<div class="content">
+  <app-sidebar></app-sidebar>
+  <app-header></app-header>
+
+  
+  <!-- <app-crypto-card></app-crypto-card> -->
+  <div class="content-wrapper">
+<app-crypto-card></app-crypto-card>
+<app-latest-activities></app-latest-activities>
+    <!-- Account Summary Section -->
+    <section class="account-summary">
+      <div class="total-balance">
+        <h2>Total Balance</h2>
+        <p class="balance">{{ accountBalance | currency }}</p>
+      </div>
+      
+      <div class="crypto-balances">
+        <h3>Crypto Wallets</h3>
+        <div *ngFor="let crypto of cryptoBalances" class="crypto-item">
+          <span>{{ crypto.name }} ({{ crypto.symbol }})</span>
+          <span>{{ crypto.balance }} {{ crypto.symbol }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recent Transactions Section -->
+    <section class="recent-transactions">
+      <h2>
+        Recent Transactions 
+        <button (click)="viewAllTransactions()">View All</button>
+      </h2>
+      
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let transaction of recentTransactions">
+            <td>{{ transaction.date | date: 'short' }}</td>
+            <td>{{ transaction.type }}</td>
+            <td>{{ transaction.amount }} {{ transaction.currency }}</td>
+            <td>{{ transaction.status }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+</div>
+
