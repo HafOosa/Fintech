@@ -7,6 +7,7 @@ import { BlockchainComponent } from './auth/components/blockchain/blockchain.com
 import { ProfileComponent } from './components/profile/profile.component';
 import { WalletComponent } from './components/wallet/wallet.component';
 import { LayoutComponent } from './components/layout/layout.component'; // New layout component
+import { SettingsComponent } from './components/settings/settings.component';
 
 export const routes: Routes = [
   // Public routes
@@ -23,6 +24,7 @@ export const routes: Routes = [
       { path: 'transactions', component: TransactionsComponent },
       { path: 'blockchain', component: BlockchainComponent },
       { path: 'profile', component: ProfileComponent },
+      { path: 'settings',component:SettingsComponent },
       { path: 'wallet', component: WalletComponent },
     ],
   },

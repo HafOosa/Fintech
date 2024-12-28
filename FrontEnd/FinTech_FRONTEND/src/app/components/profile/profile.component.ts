@@ -13,7 +13,7 @@ export class ProfileComponent {
     email: 'johndoe@example.com',
     phone: '+123456789',
     address: '123 Main Street, City, Country',
-    profileImage: '/profile.jpg',
+    profileImage: '/user.png',
     memberSince: new Date('2020-01-01'),
   };
 

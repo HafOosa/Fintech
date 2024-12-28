@@ -1,18 +1,27 @@
 /* General Reset */
-.body{
+.body.content{
   overflow-y: auto;
 }
 * {
   margin: 0;
   font-family: Arial, sans-serif;
 }
+.content {
+  padding-top: 10px;
+  margin-left: 205px; /* Adjust for the fixed sidebar width */
+  margin-top: 60px; /* Adjust for the fixed header height */
+  height: 100%;/* Add spacing inside the content area */
+  flex: 1; /* Allow the content to take up remaining width and height */
+  background-color: rgb(186, 184, 194);/* Light background for content readability */
+  box-sizing: border-box; /* Ensure padding is included in width/height */
+}
 
 
 // .content {  
 //   display: flex;
 //   position: fixed; 
-//   top: 6%;
-//   left: 6%;
+//   // top: 10%;
+//   left: 200px;
 //   width: 100%;
 //   height: 100%;
 //   padding: 15px;
@@ -20,23 +29,23 @@
 //   border-radius: 10px;
 //   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 //   background-color: #f7f9fc;
-  
+//   overflow-y: scroll;
 // }
-.content {  
-  display: flex;
-  position: fixed; 
-  top: 60px;
-  left: 250px;
-  height: 90vh;
-  width: 80vw;
-  margin: 5px;
-  padding: 20px;
-  background-color: rgb(54, 44, 109);
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  background-color: #f7f9fc;
-  overflow-y: auto;
-}
+// .content {  
+//   display: flex;
+//   position: fixed; 
+//   top: 60px;
+//   left: 250px;
+//   height: 90vh;
+//   width: 80vw;
+//   margin: 5px;
+//   padding: 20px;
+//   background-color: rgb(54, 44, 109);
+//   border-radius: 10px;
+//   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+//   background-color: #f7f9fc;
+//   overflow-y: auto;
+// }
 .brand-logo h2 {
   font-size: 1.5rem;
   color: #7d71ff; /* Accent color */
@@ -167,3 +176,6 @@ h1 {
 
 
 
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

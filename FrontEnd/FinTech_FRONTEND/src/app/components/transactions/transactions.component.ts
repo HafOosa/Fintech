@@ -24,7 +24,8 @@ export class TransactionsComponent implements OnInit {
     this.transactionForm = this.fb.group({
       type: ['', Validators.required],
       amount: ['', [Validators.required, Validators.min(0)]],
-      recipient: ['', Validators.required]
+      recipient: ['', Validators.required],
+      destination_address: ['', Validators.required] // Added destination_address
     });
   }
 
@@ -33,7 +34,9 @@ export class TransactionsComponent implements OnInit {
   onSubmit(): void {
     if (this.transactionForm.valid) {
       // Submit transaction logic
-      console.log(this.transactionForm.value);
+      console.log('Transaction Data:', this.transactionForm.value);
+    } else {
+      console.error('Form is invalid');
     }
   }
 }

@@ -1,48 +1,67 @@
-import { HeaderComponent } from '../header/header.component';
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { DashboardService } from './dashboard.service';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { SidebarComponent } from "../side-bar/side-bar.component";
-import { CryptoCardComponent } from '../crypto-card/crypto-card.component';
-import { LatestActivitiesComponent } from '../latest-activities/latest-activities.component';
-import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule,CryptoCardComponent,LatestActivitiesComponent],
+  imports: [
+    NgxChartsModule,
+    CommonModule,
+  ],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
-
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  // User account details
-  accountBalance = 0;
-  cryptoBalances = [
-    { name: 'Bitcoin', balance: 0.5, symbol: 'BTC' },
-    { name: 'Ethereum', balance: 2.3, symbol: 'ETH' }
-  ];
+  accountBalance: number = 0;
+  cryptoBalances: Array<{
+    name: string;
+    symbol: string;
+    balance: number;
+  }> = [];
+  recentTransactions: Array<{
+    date: string;
+    type: string;
+    amount: number;
+    currency: string;
+    status: string;
+  }> = [];
+  lineChartData: any[] = [];
 
-  // Recent transactions
-  recentTransactions = [
-    { 
-      date: new Date(), 
-      type: 'Transfer', 
-      amount: 100, 
-      currency: 'USD',
-      status: 'Completed' 
-    }
-  ];
+  // Chart options
+  view: [number, number] = [800, 400];
+  legend: boolean = true;
+  animations: boolean = true;
+  xAxis: boolean = true;
+  yAxis: boolean = true;
+  showYAxisLabel: boolean = true;
+  showXAxisLabel: boolean = true;
+  xAxisLabel: string = 'Time';
+  yAxisLabel: string = 'Price ($US)';
+  timeline: boolean = true;
 
-  constructor() {}
+  constructor(private dashboardService: DashboardService) {}
 
   ngOnInit(): void {
-    // Fetch user data, account balances, etc.
+    this.loadDashboardData();
   }
 
-  // Method to navigate to detailed transactions
+  private loadDashboardData(): void {
+    this.dashboardService.getDashboardData().subscribe({
+      next: (data) => {
+        this.accountBalance = data.accountBalance;
+        this.cryptoBalances = data.cryptoBalances;
+        this.recentTransactions = data.recentTransactions;
+        this.lineChartData = data.lineChartData;
+      },
+      error: (error) => {
+        console.error('Error loading dashboard data:', error);
+      }
+    });
+  }
+
   viewAllTransactions(): void {
-    // Navigation logic
+    console.log('View All Transactions clicked');
   }
 }
