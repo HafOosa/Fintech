@@ -1,12 +1,10 @@
 <aside class="sidebar">
   <div class="logo">
-    <!-- <img src="" alt="Coinspace">-->
-    <span>COINSPACE</span> 
+    <span>COINSPACE</span>
   </div>
   <nav class="nav-menu">
     <div class="menu-section">
       <h3>Quick Access</h3>
-
       <a routerLink="/dashboard" routerLinkActive="active">
         <i class="fas fa-home"></i> Dashboard
       </a>
@@ -29,13 +27,14 @@
         <i class="fas fa-yen-sign"></i> Deposit Yen
       </a>
     </div>
+    <div class="menu-section">
+      <h3>Settings</h3>
+      <a routerLink="/settings" routerLinkActive="active">
+        <i class="fas fa-cog"></i> Settings
+      </a>
+      <a routerLink="/logout">
+        <i class="fas fa-sign-out-alt"></i> Log Out
+      </a>
+    </div>
   </nav>
-  <div class="sidebar-footer">
-    <a routerLink="/settings">
-      <i class="fas fa-cog"></i> Settings
-    </a>
-    <a routerLink="/logout">
-      <i class="fas fa-sign-out-alt"></i> Log Out
-    </a>
-  </div>
 </aside>

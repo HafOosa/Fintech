@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SidebarComponent } from '../side-bar/side-bar.component';
-import { HeaderComponent } from '../header/header.component';
+import { SidebarComponent } from '../../components/side-bar/side-bar.component';
+import { HeaderComponent } from '../../components/header/header.component';
 
 @Component({
   selector: 'app-transactions',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,SidebarComponent,HeaderComponent],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './transactions.component.html',
   styleUrls: ['./transactions.component.scss']
 })

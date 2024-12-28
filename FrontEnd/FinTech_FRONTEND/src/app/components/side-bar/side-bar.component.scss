@@ -1,0 +1,77 @@
+.body {
+  height: max-content;
+}
+
+.sidebar {
+  padding-left: 0.5%;
+  padding-bottom: 1%;
+  margin-bottom: 0;
+  top: 0; /* Align to the top of the page */
+  left: 0;
+  position: fixed;
+  width: 200px;
+  height: 100%;
+  background: #1a2233;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.nav-menu {
+  flex: 1;
+  margin-top: 0.5rem;
+}
+
+.menu-section {
+  margin-bottom: 0.5rem;
+}
+
+.menu-section h3 {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+}
+
+.nav-menu a {
+  font-size: 0.9rem;
+
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.75rem 1rem;
+  color: #a8b1c1;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-radius: 4px; /* Rounded edges for hover effect */
+}
+
+/* Hover effect */
+.nav-menu a:hover {
+  background: rgba(76, 175, 80, 0.1); /* Light green background */
+  color: #4caf50; /* Green text */
+}
+
+/* Active link styling */
+.nav-menu a.active {
+  background: rgba(76, 175, 80, 0.2); /* Slightly darker background for active */
+  color: #4caf50; /* Green text */
+  font-weight: bold; /* Highlight active item with bold text */
+  border-left: 4px solid #4caf50; /* Add a green indicator */
+}
+
+/* Icon Styling */
+.nav-menu a i {
+  font-size: 1rem;
+}

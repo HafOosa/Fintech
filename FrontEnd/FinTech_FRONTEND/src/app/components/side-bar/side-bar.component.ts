@@ -9,4 +9,10 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss']
 })
-export class SidebarComponent {}
+export class SidebarComponent {
+  isCollapsed = false;
+
+  toggleSidebar() {
+    this.isCollapsed = !this.isCollapsed;
+  }
+}
