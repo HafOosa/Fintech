@@ -1,4 +1,6 @@
 /* General Reset */
+
+$color-active:rgba(167, 167, 179, 0.135);
 .body.content{
   overflow-y: auto;
 }
@@ -7,12 +9,14 @@
   font-family: Arial, sans-serif;
 }
 .content {
+  
+  z-index: 3;
   padding-top: 10px;
   margin-left: 205px; /* Adjust for the fixed sidebar width */
   margin-top: 60px; /* Adjust for the fixed header height */
-  height: 100%;/* Add spacing inside the content area */
+  height: 200vh;/* Add spacing inside the content area */
   flex: 1; /* Allow the content to take up remaining width and height */
-  background-color: rgb(186, 184, 194);/* Light background for content readability */
+  background-color: $color-active;/* Light background for content readability */
   box-sizing: border-box; /* Ensure padding is included in width/height */
 }
 

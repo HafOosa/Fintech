@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from "../header/header.component";
 import { SidebarComponent } from "../side-bar/side-bar.component";
+import { CryptoIconsComponent } from '../../auth/components/crypto-icons/crypto-icons.component';
 
 @Component({
   selector: 'app-layout',
