@@ -8,6 +8,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { WalletComponent } from './components/wallet/wallet.component';
 import { LayoutComponent } from './components/layout/layout.component'; // New layout component
 import { SettingsComponent } from './components/settings/settings.component';
+import { AuthGuard } from './auth/guards/auth.guard';
 
 export const routes: Routes = [
   // Public routes
@@ -17,8 +18,9 @@ export const routes: Routes = [
 
   // Authenticated routes (inside the layout)
   {
-    path: '',
-    component: LayoutComponent, // Use LayoutComponent as the parent container
+    path: ':userId',
+    component: LayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'transactions', component: TransactionsComponent },

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
+import { LoginResponse } from '../../services/auth/auth.service';
 import { 
   FormBuilder, 
   FormGroup, 
@@ -16,6 +18,7 @@ import { CryptoIconsComponent } from '../crypto-icons/crypto-icons.component';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
+
 export class LoginComponent {
   loginForm: FormGroup;
   submitted = false;
@@ -24,7 +27,8 @@ export class LoginComponent {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [
@@ -33,7 +37,7 @@ export class LoginComponent {
       ]],
       password: ['', [
         Validators.required,
-        Validators.minLength(4)
+        Validators.minLength(6)
       ]]
     });
   }
@@ -52,16 +56,20 @@ export class LoginComponent {
       // Simulate login logic (replace with actual authentication service)
       const { email, password } = this.loginForm.value;
       
-      // Mock authentication (replace with real service)
-      if (this.validateCredentials(email, password)) {
-        // Successful login
-        console.log('Login Successful');
-        // Navigate to dashboard or home page
-        this.router.navigate(['/dashboard']);
-      } else {
-        // Failed login
-        this.loginError = true;
-      }
+      // Utiliser le AuthService pour effectuer la connexion
+      this.authService.login(email, password).subscribe({
+        next: (response: LoginResponse) => {
+          const userId = response.user.user_id;
+          localStorage.setItem('token', response.access_token);
+          localStorage.setItem('user_id', userId.toString());
+          console.log('Login Successful', response);
+          this.router.navigate([`/${userId}/dashboard`]);
+        },
+        error: (error) => {
+          console.error('Login failed', error);
+          this.loginError = true; // Afficher une erreur en cas de problème
+        }
+      });
     }
   }
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { DashboardService } from './dashboard.service';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,6 +15,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  userId!: string;
   accountBalance: number = 0;
   cryptoBalances: Array<{
     name: string;
@@ -41,10 +43,12 @@ export class DashboardComponent implements OnInit {
   yAxisLabel: string = 'Price ($US)';
   timeline: boolean = true;
 
-  constructor(private dashboardService: DashboardService) {}
+  constructor(private dashboardService: DashboardService, private activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.loadDashboardData();
+    this.userId = this.activatedRoute.snapshot.paramMap.get('userId') || '';
+    console.log('User ID:', this.userId);
   }
 
   private loadDashboardData(): void {

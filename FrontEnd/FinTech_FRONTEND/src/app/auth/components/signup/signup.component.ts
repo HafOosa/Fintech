@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth/auth.service';
+
 import { 
   FormBuilder, 
   FormGroup, 
@@ -21,7 +23,7 @@ export class SignupComponent {
   signupForm: FormGroup;
   submitted = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private authService: AuthService) {
     this.signupForm = this.fb.group({
       firstName: ['', [
         Validators.required, 
@@ -77,11 +79,10 @@ export class SignupComponent {
 
   // Form submission handler
   onSubmit() {
-    this.submitted = true;
-
     if (this.signupForm.valid) {
-      console.log('Form Submitted', this.signupForm.value);
-      // Here you would typically send the form data to your backend
+      this.authService.register(this.signupForm.value).subscribe((response) => {
+        console.log('Registration successful', response);
+      });
     }
   }
 
