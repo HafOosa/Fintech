@@ -3,6 +3,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { DashboardService } from './dashboard.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { TransactionService } from '@services/transaction-normale.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,6 +30,7 @@ export class DashboardComponent implements OnInit {
     currency: string;
     status: string;
   }> = [];
+  normalTransactions: any[] = [];
   lineChartData: any[] = [];
 
   // Chart options
@@ -43,12 +45,21 @@ export class DashboardComponent implements OnInit {
   yAxisLabel: string = 'Price ($US)';
   timeline: boolean = true;
 
-  constructor(private dashboardService: DashboardService, private activatedRoute: ActivatedRoute) {}
+  constructor(private dashboardService: DashboardService, private activatedRoute: ActivatedRoute, private transactionService: TransactionService,) {}
 
   ngOnInit(): void {
-    this.loadDashboardData();
-    this.userId = this.activatedRoute.snapshot.paramMap.get('userId') || '';
+    this.userId = this.activatedRoute.snapshot.paramMap.get('userId') || localStorage.getItem('user_id') || '';
+
+  if (!this.userId) {
+    console.error('User ID not found');
+    // Gérer le cas où l'ID est manquant (redirection ou affichage d'un message d'erreur)
+  } else {
     console.log('User ID:', this.userId);
+    console.log('User ID from URL:', this.activatedRoute.snapshot.paramMap.get('userId'));
+    console.log('User ID from localStorage:', localStorage.getItem('user_id'));
+    this.loadDashboardData();
+    this.loadNormalTransactions();
+  }
   }
 
   private loadDashboardData(): void {
@@ -63,6 +74,24 @@ export class DashboardComponent implements OnInit {
         console.error('Error loading dashboard data:', error);
       }
     });
+  }
+
+  // Charger les transactions normales
+  private loadNormalTransactions(): void {
+    this.transactionService.getUserTransactions(0, 10).subscribe(
+      (response) => {
+        this.normalTransactions = response.transactions;
+      },
+      (error) => {
+        console.error('Error fetching normal transactions:', error);
+        this.normalTransactions = []; // Assurez-vous que la variable est bien initialisée
+      }
+    );
+  }
+
+  // Charger les transactions récentes (méthode existante ou à définir)
+  private loadRecentTransactions(): void {
+    // Exemple pour charger des transactions récentes si nécessaire
   }
 
   viewAllTransactions(): void {

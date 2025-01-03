@@ -1,0 +1,76 @@
+<div class="admin-dashboard">
+  <h1>Admin Dashboard</h1>
+
+  <!-- Logout and Add User Buttons -->
+  <div class="action-buttons-container">
+    <button class="logout-button" (click)="logout()">Logout</button>
+    <button class="action-button add" (click)="openAddUserModal()">Add User</button>
+  </div>
+
+  <!-- Message when no users are available -->
+  <div *ngIf="users.length === 0" class="no-users-message">
+    No users to display.
+  </div>
+
+  <!-- User table -->
+  <div *ngIf="users.length > 0" class="user-table">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.user_id }}</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>
+            <button class="action-button edit" (click)="openEditUserModal(user)">Edit</button>
+            <button class="action-button delete" (click)="deleteUser(user.user_id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal for Adding User -->
+  <div class="modal" *ngIf="showAddUserModal">
+    <div class="modal-content">
+      <h2>Add User</h2>
+      <form (ngSubmit)="addUser()">
+        <input type="text" [(ngModel)]="newUser.first_name" placeholder="First Name" name="firstName" required />
+        <input type="text" [(ngModel)]="newUser.last_name" placeholder="Last Name" name="lastName" required />
+        <input type="email" [(ngModel)]="newUser.email" placeholder="Email" name="email" required />
+        <input type="password" [(ngModel)]="newUser.password" placeholder="Password" name="password" required />
+        <div class="button-group">
+          <button type="submit" class="action-button add">Submit</button>
+          <button type="button" (click)="closeAddUserModal()" class="action-button cancel">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal for Editing User -->
+  <div class="modal" *ngIf="showEditUserModal">
+    <div class="modal-content">
+      <h2>Edit User</h2>
+      <form (ngSubmit)="editUser()">
+        <input type="text" [(ngModel)]="selectedUser.first_name" placeholder="First Name" name="editFirstName" required />
+        <input type="text" [(ngModel)]="selectedUser.last_name" placeholder="Last Name" name="editLastName" required />
+        <input type="email" [(ngModel)]="selectedUser.email" placeholder="Email" name="editEmail" required />
+        <select [(ngModel)]="selectedUser.role" name="editRole">
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+        </select>
+        <div class="button-group">
+          <button type="submit" class="action-button edit">Save</button>
+          <button type="button" (click)="closeEditUserModal()" class="action-button cancel">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -9,12 +9,16 @@ import { WalletComponent } from './components/wallet/wallet.component';
 import { LayoutComponent } from './components/layout/layout.component'; // New layout component
 import { SettingsComponent } from './components/settings/settings.component';
 import { AuthGuard } from './auth/guards/auth.guard';
+import { AdminDashboardComponent } from '@components/admin/admin-dashboard.component';
 
 export const routes: Routes = [
   // Public routes
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: SignupComponent },
+  { path: 'profile', component: ProfileComponent },
+  { path: 'admin', component: AdminDashboardComponent, canActivate : [AuthGuard]},
+  
 
   // Authenticated routes (inside the layout)
   {
@@ -24,10 +28,9 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'transactions', component: TransactionsComponent },
-      { path: 'blockchain', component: BlockchainComponent },
-      { path: 'profile', component: ProfileComponent },
-      { path: 'settings',component:SettingsComponent },
       { path: 'wallet', component: WalletComponent },
+      { path: 'blockchain', component: BlockchainComponent },
+      { path: 'settings',component:SettingsComponent },
     ],
   },
 

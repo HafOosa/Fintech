@@ -12,7 +12,7 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 
 #Userlogin:
 #User1: "email": "david.moreau@example.com","password": "password123"
-#User2(admin): "email": "emma.dubois@example.com","password": "Newpassword333"
-#User3: "email": "louis.bernard@example.com", "password": "password789"
+#User4(admin): "email": "admin1@gmail.com","password": "NewStrongPassword123!"
+#User3: "email": "louis.bernard@example.com", "password": ""
 
 

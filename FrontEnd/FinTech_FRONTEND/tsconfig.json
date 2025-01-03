@@ -16,6 +16,12 @@
     "declaration": false,
     "experimentalDecorators": true,
     "moduleResolution": "bundler",
+    "baseUrl": "./",
+    "paths": {
+      "@services/*": ["src/app/services/*"],
+      "@components/*": ["src/app/components/*"],
+      "@auth/*": ["src/app/auth/*"]
+    },
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",

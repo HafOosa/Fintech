@@ -1,9 +1,8 @@
-from fastapi import FastAPI,Depends,HTTPException
+from fastapi import APIRouter,Depends,HTTPException
 from typing import Optional
 from pydantic import BaseModel,field_validator
 from database import Session,get_db
-from models import Transaction
-from enum import Enum
+from models import Transaction,Utilisateur
 from datetime import datetime,timezone
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
@@ -20,38 +19,23 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="users/login")
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        user_id = payload.get("user_id")
-        if user_id is None:
+        user_email = payload.get("sub")
+        if user_email is None:
             raise HTTPException(status_code=401, detail="Invalid token")
-        return user_id
+        user = db.query(Utilisateur).filter(Utilisateur.email == user_email).first()
+        if not user:
+            raise HTTPException(status_code=401, detail="User not found")
+        return user.user_id
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
 
-app = FastAPI()
 
-
-class TransactionModel(BaseModel):
-    transaction_id: int
-    transaction_type: str
-    montant: float
-    user_id: int
-    date: Optional[datetime]
-    destination_address: str
-    gas_fee: Optional[float]
-
-    class Config:
-        orm_mode = True
-
-
-class TransactionType(str, Enum):
-    PAYMENT = "payment"
-    TRANSFER = "transfer"
-    DEPOSIT = "deposit"
-
+router = APIRouter()
 
 class TransactionCreate(BaseModel):
-    transaction_type: TransactionType
+    transaction_type: str
     montant: float
+    recipient: Optional[str] = None
     destination_address: str
 
     @field_validator("montant")
@@ -60,33 +44,32 @@ class TransactionCreate(BaseModel):
             raise ValueError("Amount must be positive")
         return value
 
-
 class TransactionUpdate(BaseModel):
-    montant : Optional[float]
-    destination_address : Optional[str]
+    montant: Optional[float]
+    destination_address: Optional[str]
 
-
-class TransactionsResponse(BaseModel):
-    total: int
-    transactions: list[TransactionModel]
+class TransactionModel(BaseModel):
+    transaction_id: int
+    transaction_type: str
+    montant: float
+    user_id: int
+    date: Optional[datetime]
+    destination_address: str
+    recipient : str
+    gas_fee: Optional[float]
 
     class Config:
-        from_attributes = True
+        orm_mode = True
 
+# Endpoints
 
-@app.get("/")
-def root():
-    return {"message": "Welcome to the Transactions Microservice"}
-
-
-
-@app.get('/transactions', response_model=dict)
+@router.get('/transactions', response_model=dict)
 def get_all_transactions(
     skip: int = 0,
     limit: int = 10,
     db: Session = Depends(get_db),
     current_user: int = Depends(get_current_user)
-):
+    ):
     total = db.query(Transaction).filter(Transaction.user_id == current_user).count()
     transactions = db.query(Transaction).filter(Transaction.user_id == current_user).offset(skip).limit(limit).all()
 
@@ -97,6 +80,7 @@ def get_all_transactions(
             "montant": transaction.montant,
             "user_id": transaction.user_id,
             "date": transaction.date.isoformat() if transaction.date else None,
+            "recipient" : transaction.recipient,
             "destination_address": transaction.destination_address,
             "gas_fee": transaction.gas_fee,
         }
@@ -106,12 +90,14 @@ def get_all_transactions(
     return {"total": total, "transactions": transactions_list}
 
 
-@app.post('/transactions', response_model=TransactionModel)
+
+@router.post('/transactions', response_model=TransactionModel)
 def add_transaction(
     transaction_data: TransactionCreate,
     db: Session = Depends(get_db),
     current_user: int = Depends(get_current_user)
-):
+    ):
+
     new_transaction = Transaction(
         **transaction_data.model_dump(),
         user_id=current_user,
@@ -123,13 +109,13 @@ def add_transaction(
     return new_transaction
 
 
-@app.put('/transactions/{id}', response_model=TransactionModel)
+@router.put('/transactions/{id}', response_model=TransactionModel)
 def modify_transaction(
     id: int,
     transaction_mod: TransactionUpdate,
     db: Session = Depends(get_db),
     current_user: int = Depends(get_current_user)
-):
+    ):
     transaction = db.query(Transaction).filter(Transaction.transaction_id == id, Transaction.user_id == current_user).first()
     if not transaction:
         raise HTTPException(status_code=404, detail="Transaction not found")
@@ -140,12 +126,12 @@ def modify_transaction(
     return transaction
 
 
-@app.delete('/transactions/{id}')
+@router.delete('/transactions/{id}')
 def remove_transaction(
     id: int,
     db: Session = Depends(get_db),
     current_user: int = Depends(get_current_user)
-):
+    ):
     transaction = db.query(Transaction).filter(Transaction.transaction_id == id, Transaction.user_id == current_user).first()
     if not transaction:
         raise HTTPException(status_code=404, detail="Transaction not found")

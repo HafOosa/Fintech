@@ -1,0 +1,244 @@
+/* Admin Dashboard Container */
+.admin-dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1e1e2f, #2b2c47);
+  font-family: 'Arial', sans-serif;
+}
+
+/* Header Style */
+h1 {
+  color: #ffffff;
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 20px;
+  text-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* No Users Message */
+.no-users-message {
+  color: #ffffff;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1.2rem;
+}
+
+/* User Table */
+.user-table {
+  width: 90%;
+  max-width: 1200px;
+  background: rgba(62, 68, 88, 0.9);
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  overflow: hidden;
+  animation: slideIn 0.5s ease-in-out;
+}
+
+.user-table table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.user-table th,
+.user-table td {
+  padding: 12px 15px;
+  color: #ffffff;
+  border-bottom: 1px solid #4caf50;
+  text-align: left;
+}
+
+.user-table th {
+  background: #562a9e;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.user-table tr:hover {
+  background: rgba(86, 42, 158, 0.7);
+  transition: background 0.3s ease;
+}
+
+.action-button.delete {
+  background: #e53e3e;
+  color: #ffffff;
+}
+
+.action-button.delete:hover {
+  background: #c53030;
+  transform: translateY(-2px);
+}
+
+/* Animation for Table Appearance */
+@keyframes slideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, #1e1e2f, #2b2c47);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  width: 90%;
+  max-width: 400px;
+  animation: modalFadeIn 0.5s ease-out;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.modal h2 {
+  color: #ffffff;
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  text-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.modal input,
+.modal select {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 6px;
+  background: #3e4458;
+  color: #ffffff;
+  font-size: 1rem;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.modal input:focus,
+.modal select:focus {
+  background: #4caf50;
+  outline: none;
+  transform: scale(1.02);
+}
+
+.modal-content input::placeholder {
+  color: #888;
+}
+
+.action-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.action-button.add {
+  margin-bottom: 20px;
+  background: #4caf50;
+  color: #ffffff;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.action-button.add:hover {
+  background: #45a049;
+  transform: translateY(-2px);
+}
+
+.action-button.cancel {
+  background: #e0e0e0;
+  color: #000000;
+  font-size: 1rem; /* Ensure consistent font size */
+  padding: 10px 20px; /* Match padding with Submit button */
+  border-radius: 8px; /* Match border radius */
+  text-align: center; /* Center text */
+}
+
+.action-button.cancel:hover {
+  background: #cccccc;
+  transform: translateY(-2px);
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -45%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.action-button.edit {
+  background: #ffa500;
+  color: #ffffff;
+  margin-right: 10px;
+}
+
+.action-button.edit:hover {
+  background: #e69500;
+  transform: translateY(-2px);
+}
+
+.action-button.delete {
+  background: #e53e3e;
+  color: #ffffff;
+}
+
+.action-button.delete:hover {
+  background: #c53030;
+  transform: translateY(-2px);
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between; /* Align buttons side by side */
+  width: 100%;
+  gap: 15px;
+}
+
+.logout-button {
+  background: #ff6666;
+  color: white;
+  transition: background 0.3s ease, transform 0.2s ease;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.logout-button:hover {
+  background: #ff4c4c;
+  transform: translateY(-2px);
+}
+
+/* Container for action buttons */
+.action-buttons-container {
+  display: flex; /* Align buttons horizontally */
+  gap: 20px; /* Space between the buttons */
+  margin-bottom: 20px; /* Add some spacing below the buttons */
+  justify-content: center; /* Center the buttons horizontally */
+}

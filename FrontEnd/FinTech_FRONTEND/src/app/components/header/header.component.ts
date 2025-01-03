@@ -1,20 +1,26 @@
-import { Component, HostListener} from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { ProfileComponent } from '../profile/profile.component';
+import { AuthService } from '@auth/services/auth/auth.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, FormsModule,RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
+  providers: [AuthService],
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   isDropdownOpen = false;
+  user: any = null;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, public authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.loadUserData();
+  }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
@@ -29,13 +35,23 @@ export class HeaderComponent {
   }
 
   logout() {
-    // Implement your logout logic here
-    console.log('Logging out...');
+    this.authService.logout();
     this.router.navigate(['/login']);
   }
+
+  private loadUserData(): void {
+    const userId = this.authService.getUserIdFromToken();
+    if (userId) {
+      this.authService.getUserById(userId).subscribe({
+        next: (data) => {
+          this.user = data;
+        },
+        error: (err) => {
+          console.error('Failed to load user data:', err);
+        },
+      });
+    } else {
+      console.error('User ID not found in token');
+    }
+  }
 }
-
-
-
-
-

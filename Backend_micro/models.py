@@ -57,6 +57,7 @@ class Transaction(Base):
     date = Column(DateTime)
     destination_address = Column(String, nullable=False)
     gas_fee = Column(Float)
+    recipient = Column(String, nullable=True)
 
 
 

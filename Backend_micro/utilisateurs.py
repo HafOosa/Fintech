@@ -1,4 +1,4 @@
-from fastapi import FastAPI,Depends,HTTPException
+from fastapi import APIRouter,Depends,HTTPException
 from pydantic import BaseModel,EmailStr
 from typing import Optional
 from database import Session,get_db
@@ -10,18 +10,24 @@ from dotenv import load_dotenv
 import os
 from fastapi.security import OAuth2PasswordBearer
 
+
+
 load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="users/login")
 
 
-
 class CreateUser(BaseModel):
-    name : str
-    email : str
-    password : str
-    role : str
+    first_name: str
+    last_name: str
+    email: str
+    password: str
+
+    @property
+    def name(self):
+        # Combiner `first_name` et `last_name` pour former `name`
+        return f"{self.first_name} {self.last_name}".strip()
 
 class UpdateUser(BaseModel):
     name: Optional[str] = None
@@ -72,15 +78,10 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
         raise HTTPException(status_code=401, detail=f"Invalid token: {str(e)}")
 
 
-app = FastAPI()
+router = APIRouter()
 
 
-@app.get("/")
-def root():
-    return {"message": "Welcome to the users Microservice"}
-
-
-@app.get('/users', response_model=list[UserResponse])
+@router.get('/users', response_model=list[UserResponse])
 def get_users(
     skip: int = 0,
     limit: int = 10,
@@ -96,7 +97,7 @@ def get_users(
 
 
 
-@app.get('/users/{user_id}', response_model=UserResponse)
+@router.get('/users/{user_id}', response_model=UserResponse)
 def get_user(user_id: int, db: Session = Depends(get_db), current_user: Utilisateur = Depends(get_current_user)):
     if current_user.role != "admin" and current_user.user_id != user_id:
         raise HTTPException(status_code=403, detail="Access forbidden")
@@ -106,7 +107,7 @@ def get_user(user_id: int, db: Session = Depends(get_db), current_user: Utilisat
     return user
 
 
-@app.post('/users', response_model=UserResponse)
+@router.post('/users', response_model=UserResponse)
 def add_user(user: CreateUser, db: Session = Depends(get_db), current_user: Utilisateur = Depends(get_current_user)):
     if current_user.role != "admin":
         raise HTTPException(status_code=403, detail="Access forbidden")
@@ -118,7 +119,7 @@ def add_user(user: CreateUser, db: Session = Depends(get_db), current_user: Util
         name=user.name,
         email=user.email,
         password=hashed_password,
-        role=user.role
+        role="user"
     )
     db.add(new_user)
     db.commit()
@@ -127,7 +128,7 @@ def add_user(user: CreateUser, db: Session = Depends(get_db), current_user: Util
 
 
 
-@app.delete('/users/{user_id}')
+@router.delete('/users/{user_id}')
 def delete_user(user_id: int, db: Session = Depends(get_db), current_user: Utilisateur = Depends(get_current_user)):
     if current_user.role != "admin":
         raise HTTPException(status_code=403, detail="Access forbidden")
@@ -146,13 +147,13 @@ def create_access_token(data: dict):
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
 
-@app.post('/users/login', response_model=LoginResponse)
+@router.post('/users/login', response_model=LoginResponse)
 def login_user(credentials: LoginRequest, db: Session = Depends(get_db)):
     user = db.query(Utilisateur).filter(Utilisateur.email == credentials.email).first()
     if not user or not verify_password(credentials.password, user.password):
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
-    access_token = create_access_token({"sub": user.email, "user_id": user.user_id})
+    access_token = create_access_token({"sub": user.email, "user_id": user.user_id, "role": user.role})
     return {
         "user": {
             "user_id": user.user_id,
@@ -165,15 +166,15 @@ def login_user(credentials: LoginRequest, db: Session = Depends(get_db)):
     }
 
 
-@app.put('/users/{user_id}', response_model=UserResponse)
+@router.put('/users/{user_id}', response_model=UserResponse)
 def update_user(
     user_id: int,
     user_data: UpdateUser,
     db: Session = Depends(get_db),
     current_user: Utilisateur = Depends(get_current_user)
 ):
-    if current_user.user_id != user_id:
-        raise HTTPException(status_code=403, detail="You can only update your own information")
+    if current_user.role != "admin" and current_user.user_id != user_id:
+        raise HTTPException(status_code=403, detail="Access forbidden")
 
     user = db.query(Utilisateur).filter(Utilisateur.user_id == user_id).first()
     if not user:
@@ -192,3 +193,33 @@ def update_user(
     db.commit()
     db.refresh(user)
     return user
+
+
+
+@router.post('/users/register', response_model=UserResponse)
+def register_user(user: CreateUser, db: Session = Depends(get_db)):
+    # Vérifier si l'email est déjà utilisé
+    existing_user = db.query(Utilisateur).filter(Utilisateur.email == user.email).first()
+    if existing_user:
+        raise HTTPException(status_code=400, detail="Email already registered")
+
+    # Hasher le mot de passe avant de le stocker
+    hashed_password = hash_password(user.password)
+
+    # Fusionner le prénom et le nom pour le champ `name` dans la BDD
+    full_name = user.name
+
+    # Créer un nouvel utilisateur
+    new_user = Utilisateur(
+        name=full_name,
+        email=user.email,
+        password=hashed_password,
+        role="user"  # Par défaut, le rôle est "user".
+    )
+
+    # Ajouter l'utilisateur à la BDD
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+
+    return new_user

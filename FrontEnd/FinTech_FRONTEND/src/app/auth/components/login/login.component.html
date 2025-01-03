@@ -2,15 +2,15 @@
   <!-- Crypto Icons in Background -->
   <app-crypto-icons></app-crypto-icons>
 
+  <!-- Login Error Global Message -->
+  <div *ngIf="loginError" class="error-banner">
+    <p>Invalid email or password. Please try again.</p>
+  </div>
+
   <!-- Login Form -->
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
     <h2 class="login-title">Welcome Back</h2>
     <p class="subtitle">Please login to your account</p>
-
-    <!-- Login Error Banner -->
-    <div *ngIf="loginError" class="error-banner">
-      Invalid email or password. Please try again.
-    </div>
 
     <!-- Email Input -->
     <div class="form-group">

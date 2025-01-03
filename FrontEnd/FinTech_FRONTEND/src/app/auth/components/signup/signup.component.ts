@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth/auth.service';
+import { Router } from '@angular/router';
 
 import { 
   FormBuilder, 
@@ -23,7 +24,7 @@ export class SignupComponent {
   signupForm: FormGroup;
   submitted = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.signupForm = this.fb.group({
       firstName: ['', [
         Validators.required, 
@@ -45,7 +46,7 @@ export class SignupComponent {
         this.passwordStrengthValidator
       ]],
       confirmPassword: ['', [Validators.required]],
-      termsAccepted: [false, Validators.requiredTrue]
+      termsAccepted: [true]
     }, { validators: this.passwordMatchValidator });
   }
 
@@ -79,12 +80,41 @@ export class SignupComponent {
 
   // Form submission handler
   onSubmit() {
-    if (this.signupForm.valid) {
-      this.authService.register(this.signupForm.value).subscribe((response) => {
-        console.log('Registration successful', response);
+    this.submitted = true;
+  
+    if (this.signupForm.invalid) {
+      console.log('Form is invalid:', this.signupForm.errors);
+      console.log('Field errors:', {
+        firstName: this.signupForm.get('firstName')?.errors,
+        lastName: this.signupForm.get('lastName')?.errors,
+        email: this.signupForm.get('email')?.errors,
+        password: this.signupForm.get('password')?.errors,
+        confirmPassword: this.signupForm.get('confirmPassword')?.errors,
+        termsAccepted: this.signupForm.get('termsAccepted')?.errors,
       });
+      return;
     }
+  
+    const formValue = this.signupForm.value;
+  
+    const userData = {
+      firstName: formValue.firstName,
+      lastName: formValue.lastName,
+      email: formValue.email,
+      password: formValue.password,
+    };
+  
+    this.authService.register(userData).subscribe({
+      next: (response) => {
+        console.log('Registration successful:', response);
+        this.router.navigate(['/login']);
+      },
+      error: (error) => {
+        console.error('Registration failed:', error);
+      },
+    });
   }
+  
 
   // Getter methods for easy access in template
   get f() { return this.signupForm.controls; }

@@ -6,6 +6,35 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class WalletService {
+  private apiUrl = 'http://127.0.0.1:8000/wallets';
+
+  constructor(private http: HttpClient) {}
+
+  getWallet(): Observable<any> {
+    return this.http.get<any>(this.apiUrl);
+  }
+
+  createWallet(): Observable<any> {
+    return this.http.post<any>(this.apiUrl, {});
+  }
+
+  depositFunds(amount: number): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/deposit`, { amount });
+  }
+
+  withdrawFunds(amount: number): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/withdraw`, { amount });
+  }
+
+  getTransactionHistory(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/history`);
+  }
+}
+
+
+
+
+export class WalletServiceCrypto {
   private apiUrl = 'http://127.0.0.1:5000'; // Flask API URL
 
   constructor(private http: HttpClient) {}

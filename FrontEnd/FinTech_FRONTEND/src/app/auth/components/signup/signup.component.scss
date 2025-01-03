@@ -145,4 +145,9 @@
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
   }
-  
+
+  .error-message {
+    margin-top: 5px; /* Espace au-dessus du message d'erreur */
+    font-size: 0.8rem;
+    color: #e53e3e;
+  }

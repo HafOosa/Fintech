@@ -40,7 +40,7 @@
   <!-- Recent Transactions Section -->
   <section class="recent-transactions">
     <h2>
-      Recent Transactions 
+      Recent Crypto-Transactions 
       <button (click)="viewAllTransactions()">View All</button>
     </h2>
     
@@ -62,5 +62,31 @@
         </tr>
       </tbody>
     </table>
+  </section>
+
+  <!-- Normal Transactions Section -->
+  <section class="normal-transactions">
+    <h2>Recent Normal Transactions</h2>
+    <table *ngIf="normalTransactions.length > 0; else noTransactions">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Type</th>
+          <th>Amount</th>
+          <th>Destination Address</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let transaction of normalTransactions">
+          <td>{{ transaction.date | date: 'short' }}</td>
+          <td>{{ transaction.transaction_type }}</td>
+          <td>{{ transaction.montant | currency }}</td>
+          <td>{{ transaction.destination_address }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <ng-template #noTransactions>
+      <p>No normal transactions found.</p>
+    </ng-template>
   </section>
 </div>

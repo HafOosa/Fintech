@@ -1,5 +1,38 @@
-<p>settings works!</p>
 <div class="settings-container">
-        <h1>Settings</h1>
-        <p>Manage your account settings here.</p>
+    <h2>Settings</h2>
+  
+    <form (ngSubmit)="updateSettings()">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" [(ngModel)]="user.name" name="name" required />
+      </div>
+  
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" [(ngModel)]="user.email" name="email" required />
+      </div>
+  
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          [(ngModel)]="user.password"
+          name="password"
+          placeholder="Enter new password (optional)"
+        />
+      </div>
+  
+      <div class="button-group">
+        <button type="submit" class="btn btn-save">Save Changes</button>
+        <button type="button" class="btn btn-cancel" (click)="resetForm()">Cancel</button>
+      </div>
+    </form>
+  
+    <div *ngIf="successMessage" class="success-message">
+      {{ successMessage }}
     </div>
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+  </div>

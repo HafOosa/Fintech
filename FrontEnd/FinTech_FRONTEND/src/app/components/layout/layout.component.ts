@@ -14,6 +14,10 @@ import { CryptoIconsComponent } from '../../auth/components/crypto-icons/crypto-
 })
 export class LayoutComponent {
   
+  constructor() {
+    console.log('LayoutComponent loaded');
+  }
+  
   isDropdownOpen = false;
 
   @HostListener('document:click', ['$event'])

@@ -207,3 +207,20 @@ app-crypto-icons {
   text-decoration: underline;
   color: #fff;
 }
+
+.error-banner {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+  text-align: center;
+  opacity: 1;
+  transition: opacity 0.5s ease-out; /* Transition d'opacité */
+}
+
+.error-banner.hidden {
+  opacity: 0; /* Réduit l'opacité à 0 pour la transition */
+  visibility: hidden;
+}

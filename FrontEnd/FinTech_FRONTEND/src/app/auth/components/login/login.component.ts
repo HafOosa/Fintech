@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { LoginResponse } from '../../services/auth/auth.service';
+import {jwtDecode} from 'jwt-decode';
 import { 
   FormBuilder, 
   FormGroup, 
@@ -14,15 +15,15 @@ import { CryptoIconsComponent } from '../crypto-icons/crypto-icons.component';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterModule,CommonModule, ReactiveFormsModule, CryptoIconsComponent],
+  imports: [RouterModule, CommonModule, ReactiveFormsModule, CryptoIconsComponent],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-
 export class LoginComponent {
   loginForm: FormGroup;
   submitted = false;
   loginError = false;
+  isLoading = false;
   showPassword = false;
 
   constructor(
@@ -42,49 +43,69 @@ export class LoginComponent {
     });
   }
 
-  // Toggle password visibility
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
 
-  // Form submission handler
   onSubmit() {
     this.submitted = true;
     this.loginError = false;
-
+    this.isLoading = true; // Activer le chargement
+  
     if (this.loginForm.valid) {
-      // Simulate login logic (replace with actual authentication service)
       const { email, password } = this.loginForm.value;
-      
-      // Utiliser le AuthService pour effectuer la connexion
+  
       this.authService.login(email, password).subscribe({
         next: (response: LoginResponse) => {
-          const userId = response.user.user_id;
-          localStorage.setItem('token', response.access_token);
-          localStorage.setItem('user_id', userId.toString());
-          console.log('Login Successful', response);
-          this.router.navigate([`/${userId}/dashboard`]);
+          // Décoder le token pour récupérer le userId
+          const decodedToken: any = jwtDecode(response.access_token);
+          const userId = decodedToken?.user_id;
+          const role = decodedToken?.role;
+  
+          if (userId) {
+            // Stocker les informations nécessaires dans localStorage
+            localStorage.setItem('token', response.access_token);
+            localStorage.setItem('user_id', userId.toString());
+            localStorage.setItem('role', response.user.role);
+  
+            console.log('Login Successful', response);
+            console.log('User ID:', userId);
+            console.log('Decoded Token:', decodedToken);
+            console.log('Extracted User ID:', userId);
+
+            if (role === 'admin') {
+              this.router.navigate(['/admin']); // Redirection vers la page admin
+            } else {
+              this.router.navigate([`/${userId}/dashboard`]); // Redirection utilisateur
+            }
+            
+          } else {
+            console.error('Error: user_id not found in token');
+            this.loginError = true;
+          }
+  
+          this.isLoading = false; // Désactiver le chargement
         },
         error: (error) => {
           console.error('Login failed', error);
-          this.loginError = true; // Afficher une erreur en cas de problème
+          this.loginError = true;
+          this.isLoading = false; // Désactiver le chargement
+  
+          // Masquer le message d'erreur après 3 secondes
+          setTimeout(() => {
+            this.loginError = false;
+          }, 3000);
         }
       });
+    } else {
+      console.error('Form is invalid');
+      this.isLoading = false; // Désactiver le chargement
     }
   }
 
-  // Mock credential validation method
-  private validateCredentials(email: string, password: string): boolean {
-    // Placeholder for actual authentication logic
-    // In real-world scenario, this would be handled by an AuthService
-    return email === 'test@example.com' && password === 'Password123!';
-  }
-
-  // Forgot password navigation
   onForgotPassword() {
     this.router.navigate(['/forgot-password']);
   }
 
-  // Getter methods for easy access in template
   get f() { return this.loginForm.controls; }
 }

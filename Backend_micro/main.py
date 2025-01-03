@@ -3,12 +3,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import create_engine
 from database import DATABASE_URL
 from models import Base
+from wallets import router as wallets_router
+from transactions import router as transactions_router
+from utilisateurs import router as utilisateurs_router
 
-
-#wallets:port7000
-#users:port3000
-#trasncations:port9000
-#main:normal port
+#main: port 8000
 
 engine = create_engine(DATABASE_URL)
 Base.metadata.create_all(bind=engine)
@@ -17,7 +16,8 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=['http://localhost:3000'],
+    allow_origins=['http://localhost:4200'],
+    allow_credentials=True,
     allow_methods=['*'],
     allow_headers=['*'],
 )
@@ -27,4 +27,6 @@ app.add_middleware(
 def home():
     return {"message" : "Finetech project"}
 
-
+app.include_router(wallets_router, tags=["Wallets"])
+app.include_router(transactions_router, tags=["Transactions"])
+app.include_router(utilisateurs_router, tags=["Utilisateurs"])
