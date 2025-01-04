@@ -10,10 +10,12 @@ import { LayoutComponent } from './components/layout/layout.component'; // New l
 import { SettingsComponent } from './components/settings/settings.component';
 import { AuthGuard } from './auth/guards/auth.guard';
 import { AdminDashboardComponent } from '@components/admin/admin-dashboard.component';
+import { HomePageComponent } from '@components/Home/home-page/home-page.component';
 
 export const routes: Routes = [
   // Public routes
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/Home', pathMatch: 'full' },
+  { path: 'Home', component: HomePageComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: SignupComponent },
   { path: 'profile', component: ProfileComponent },

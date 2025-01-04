@@ -1,0 +1,65 @@
+<div class="container" [class.light-mode]="!isDarkTheme">
+    <!-- Header -->
+    <mat-toolbar  class="header">
+<span class="logo">
+  <img src="/bitcoin.png" alt="">ANCATI
+  <!-- <i class="fab fa-bitcoin"></i>ancati -->
+</span>
+      <span class="spacer"></span>
+      <!-- <button mat-icon-button (click)="toggleTheme()">
+        <mat-icon>{{ isDarkTheme ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      </button>       -->
+      <button mat-button routerLink="/login">Se connecter</button>
+      <button mat-raised-button color="accent" routerLink="/register">S'inscrire</button>
+    </mat-toolbar>
+
+    <!-- Main Content -->
+    <main>
+      <app-crypto-icons></app-crypto-icons>
+      <!-- Hero Section -->
+      <section class="hero">
+  
+          <h2 class="mat-display-2">Gérez votre argent et vos cryptos en un seul endroit</h2>
+          <p class="mat-body-1">
+            Bancati vous offre une solution complète pour gérer vos finances traditionnelles 
+            et vos actifs numériques de manière simple et sécurisée.
+          </p>
+          <button mat-raised-button color="primary" class="hero-button" routerLink="/register">
+            Commencer maintenant
+            <mat-icon>arrow_forward</mat-icon>
+          </button>
+      </section>
+
+      <!-- Features Section -->
+      <section class="features">
+        <div class="features-grid">
+          <mat-card *ngFor="let feature of features" class="feature-card">
+            <mat-icon class="feature-icon" aria-hidden="true">{{ feature.icon }}</mat-icon>
+            <h3>{{ feature.title }}</h3>
+            <p>{{ feature.description }}</p>
+          </mat-card>
+        </div>
+      </section>
+    </main>
+
+<!-- Footer -->
+<footer class="footer">
+<div class="footer-content">
+  <div class="footer-grid">
+    <div *ngFor="let section of footerSections" class="footer-section">
+      <h4 class="footer-title">{{ section.title }}</h4>
+      <ul class="footer-links">
+        <li *ngFor="let link of section.links">
+          <a [href]="link.url" class="footer-link">{{ link.text }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-divider"></div>
+  <div class="footer-bottom">
+    <p>© {{ currentYear }} Bancati. Tous droits réservés.</p>
+  </div>
+</div>
+</footer>
+
+  </div>

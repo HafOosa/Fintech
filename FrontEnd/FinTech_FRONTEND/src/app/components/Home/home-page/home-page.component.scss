@@ -1,0 +1,347 @@
+// Variables de couleur
+$primary-bg: #1a202c; // Fond sombre pour le footer et le header
+$secondary-bg: #2d3748; // Fond pour les sections principales
+$accent-color: #4fd1c5; // Accent turquoise
+$text-light: #edf2f7; // Texte clair
+$text-muted: #a0aec0; // Texte adouci
+$button-bg: #319795; // Couleur des boutons
+$button-hover: #2c7a7b; // Couleur au survol des boutons
+$glow-effect: 0 0 20px rgba(79, 209, 197, 0.5);
+
+// Mixins
+@mixin glassmorphism {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@mixin card-hover {
+  transition: all 0.3s ease;
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: $glow-effect;
+  }
+}
+
+@mixin fade-in {
+  animation: fadeIn 1s ease-in-out;
+}
+
+@mixin slide-up {
+  animation: slideUp 0.8s ease-in-out;
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+// Global Styles
+.container {
+  min-height: 100vh;
+  background: $secondary-bg;
+  color: $text-light;
+  @include fade-in;
+}
+
+// Header
+.header {
+  background: $primary-bg;
+  color: $text-light;
+  padding: 0 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  @include fade-in;
+  .logo img {
+    height: 30px; /* Ajustez la taille selon vos besoins */
+    width: 30px; /* Assurez-vous que la largeur et la hauteur sont égales */
+    border-radius: 50%; /* Rend l'image circulaire */
+    object-fit: cover; /* S'assure que l'image est bien cadrée à l'intérieur du cercle */
+    margin-bottom: 5px; /* Espacement entre l'image et le texte */
+    vertical-align: middle; /* Aligne verticalement avec le texte */
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: rgb(235, 180, 30);
+    i.bitcoin-icon {
+      font-size: 2rem;
+      display: inline-block;
+      margin-right: 0.2rem;
+      transform: rotate(45deg);
+      color: rgb(183, 171, 1);
+      animation: bounce 2s infinite alternate;
+    }
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+   color: rgb(235, 180, 30);
+
+  }
+
+  button {
+    margin-left: 1rem;
+    font-weight: bold;
+    background: transparent;
+    color: rgb(235, 180, 30);
+
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.1);
+      background-color: rgb(235, 180, 30);
+      color: $text-light;
+    
+    }
+
+    &.mat-raised-button {
+      background: $button-bg;
+      
+
+      &:hover {
+        background-color: rgb(235, 180, 30);
+        box-shadow: $glow-effect;
+        
+      }
+    }
+  }
+}
+
+main {
+  background: $secondary-bg;
+  padding: 2rem 1rem;
+
+  .hero {
+    padding: 4rem 2rem;
+    max-width: 600px;
+    left:25%;
+
+    text-align: center;
+    background: linear-gradient(135deg, #4fd1c5, #319795);
+    border-radius: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      left: -50px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      filter: blur(50px);
+      animation: pulse 4s infinite;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      color:#1a202c;
+      animation: fadeIn 1.5s;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.25rem;
+      color:#1a202c;
+      animation: fadeIn 2s;
+      margin-bottom: 2rem;
+    }
+
+    .hero-button {
+      background: $button-bg;
+      color: $text-light;
+      padding: 1rem 2rem;
+      border-radius: 0.5rem;
+      font-size: 1.25rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      transition: transform 0.3s ease, background 0.3s ease;
+
+      &:hover {
+        background: $button-hover;
+        box-shadow: $glow-effect;
+        transform: translateY(-5px);
+        background-color: rgb(235, 180, 30);
+
+      }
+    }
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      opacity: 0.7;
+    }
+    50% {
+      transform: scale(1.2);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 0.7;
+    }
+  }
+
+  .features {
+    padding: 4rem 2rem;
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+
+      .feature-card {
+        background: $primary-bg;
+        color: $text-light;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        @include card-hover;
+
+        h3 {
+          color: $accent-color;
+          display: flex;
+        }
+
+        p {
+          display: flex;
+          color: $text-muted;
+        }
+      }
+    }
+  }
+
+
+
+  .features {
+    padding: 4rem 2rem;
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      display: flex;
+      .feature-card {
+        background: $primary-bg;
+        color: $text-light;
+        padding: 2rem;
+        display: flex;
+        border-radius: 0.5rem;
+        @include card-hover;
+
+        h3 {
+          display: flex;
+          color: $accent-color;
+          
+        }
+
+        p {
+          color: $text-muted;
+        }
+      }
+    }
+  }
+}
+
+// Footer
+.footer {
+  background: $primary-bg;
+  color: $text-light;
+  padding: 4rem 2rem 2rem;
+  @include fade-in;
+
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+  }
+
+  .footer-section {
+    .footer-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      // color: $accent-color;
+  color: rgb(235, 180, 30);
+
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+
+      li {
+        margin-bottom: 0.8rem;
+      }
+
+      .footer-link {
+        color: $text-muted;
+        text-decoration: none;
+        transition: color 0.3s ease;
+
+        &:hover {
+          // color: $accent-color;
+         color: rgb(235, 180, 30);
+
+        }
+      }
+    }
+  }
+
+  .footer-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 2rem 0;
+  }
+
+  .footer-bottom {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .hero {
+    padding: 2rem 1rem;
+
+    h2 {
+      font-size: 2rem;
+    }
+  }
+
+  .features {
+    padding: 2rem 1rem;
+  }
+
+  .footer {
+    padding: 2rem 1rem;
+  }
+}
+
