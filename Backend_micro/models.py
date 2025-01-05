@@ -13,6 +13,8 @@ class Utilisateur(Base):
     email = Column(String, nullable=False, unique=True, index=True)
     password = Column(String)
     role = Column(Enum('admin', 'user', name="user_roles"), nullable=False)
+    address = Column(String, nullable=True)  # Adresse du wallet, nullable
+    private_key = Column(String, nullable=True)
 
 
 
@@ -32,6 +34,7 @@ class WalletTransaction(Base):
     wallet_id = Column(Integer, ForeignKey("wallets.wallet_id", ondelete="CASCADE"))
     transaction_type = Column(String, nullable=False)
     amount = Column(Float, nullable=False)
+    category = Column(String(255), nullable=True)
     timestamp = Column(DateTime, default=datetime.now(timezone.utc))
 
 
@@ -113,57 +116,13 @@ class Dashboard(Base):
     date_maj = Column(DateTime)
 
 
-
-"""
-with Session(engine) as session:
-    utilisateurs = [
-        Utilisateur(
-            name="Alice Dupont",
-            email="alice.dupont@example.com",
-            password="hashedpassword123",
-            role="admin",
-        ),
-        Utilisateur(
-            name="Bob Martin",
-            email="bob.martin@example.com",
-            password="hashedpassword456",
-            role="user",
-        ),
-        Utilisateur(
-            name="Charlie Leblanc",
-            email="charlie.leblanc@example.com",
-            password="hashedpassword789",
-            role="user",
-        ),
-    ]
-
-    transactions = [
-        Transaction(
-            transaction_type='Depot',
-            montant=100.50,
-            user_id=1,
-            date=datetime(2024, 9, 23, 18, 49, 0),
-            destination_address="0x123ABCDEF456789",
-            gas_fee=0.005
-        ),
-        Transaction(
-            transaction_type = 'virement',
-            montant=500.75,
-            user_id=2,
-            date=datetime(2024, 12, 17, 14, 30, 0),
-            destination_address="0x987ZYXW654321",
-            gas_fee=0.02
-        ),
-        Transaction(
-            transaction_type = 'virement',
-            montant=50.00,
-            user_id=3,
-            date=datetime(2024, 12, 18, 9, 0, 0),
-            destination_address="0x0FEADBEEF123456",
-            gas_fee=0.001
-        ),
-    ]
-"""
+class Beneficiary(Base):
+    __tablename__ = "beneficiaries"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("utilisateur.user_id"), nullable=False)
+    name = Column(String, nullable=False)
+    wallet_address = Column(String, nullable=False)
+    created_at = Column(DateTime, default=datetime.now(timezone.utc))
 
 
 

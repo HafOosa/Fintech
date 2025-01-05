@@ -18,16 +18,32 @@ export class WalletService {
     return this.http.post<any>(this.apiUrl, {});
   }
 
-  depositFunds(amount: number): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/deposit`, { amount });
+  depositFunds(amount: number, category: string): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/deposit`, { amount , category});
   }
 
-  withdrawFunds(amount: number): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/withdraw`, { amount });
+  withdrawFunds(amount: number, category: string): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/withdraw`, { amount, category });
   }
 
   getTransactionHistory(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/history`);
+  }
+
+  transferFunds(recipientWalletAddress: string, amount: number): Observable<any> {
+    return this.http.post<any[]>(`${this.apiUrl}/transfer`, {recipientWalletAddress, amount});
+  }
+
+  getBeneficiaries(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/beneficiaires`);
+  }
+  
+  addBeneficiary(name: string, wallet_address: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/beneficiaires`, { name, wallet_address });
+  }
+  
+  deleteBeneficiary(beneficiaryId: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/beneficiaires/${beneficiaryId}`);
   }
 }
 

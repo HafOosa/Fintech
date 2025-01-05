@@ -1,0 +1,14 @@
+
+Backend_micro/migrations/versions/__pycache__/6c8991434012_add_category_to_wallet_transaction.cpython-312.pyc
+Backend_micro/__pycache__/utilisateurs.cpython-312.pyc
+Backend_micro/__pycache__/wallets.cpython-312.pyc
+Backend_micro/migrations/__pycache__/env.cpython-312.pyc
+Backend_micro/migrations/versions/__pycache__/2ee482dc4985_add_table_beneficiaire_to_the_database.cpython-312.pyc
+Backend_micro/__pycache__/main.cpython-312.pyc
+*.pyc
+*.pyc
+Backend_micro/__pycache__/main.cpython-312.pyc
+*.pyc
+*.pyc
+*.pyc
+FrontEnd/FinTech_FRONTEND/.hintrc

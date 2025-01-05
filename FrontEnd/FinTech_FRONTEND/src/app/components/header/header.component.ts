@@ -10,7 +10,6 @@ import { AuthService } from '@auth/services/auth/auth.service';
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  providers: [AuthService],
 })
 export class HeaderComponent implements OnInit {
   isDropdownOpen = false;

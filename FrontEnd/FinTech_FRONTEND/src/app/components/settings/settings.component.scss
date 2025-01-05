@@ -1,75 +1,368 @@
-.settings-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  h2 {
-    text-align: center;
-    margin-bottom: 20px;
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
     color: #333;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  label {
-    display: block;
+}
+
+.settings-container {
+    max-width: 1200px; /* Augmentation de la largeur totale */
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-wrap: wrap; /* Permet d'adapter les éléments à l'espace disponible */
+    justify-content: space-between; /* Distribution uniforme */
+    padding: 15px;
+    gap: 10px; /* Réduction de l'espacement */
+}
+
+.header {
+    flex: 1 1 100%; /* Prend toute la largeur */
+    text-align: center;
+    margin-bottom: 10px; /* Réduction des marges */
+}
+
+.header h1 {
+    font-size: 20px; /* Taille de police réduite */
+    margin: 0;
+}
+
+.settings-list {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 calc(50% - 20px); /* Adapte la largeur à la moitié disponible */
+    gap: 10px; /* Réduction de l'espacement entre les items */
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+}
+
+.setting-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Espace entre icônes et contenu */
+    padding: 8px 15px; /* Réduction du padding */
+    border: 1px solid #ddd;
+    border-radius: 8px; /* Bords arrondis */
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s, transform 0.2s;
+}
+
+.setting-item:hover {
+    background: rgba(0, 0, 0, 0.05);
+    transform: translateY(-1px);
+}
+
+.icon {
+    width: 25px; /* Réduction de la taille des icônes */
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.icon.orange { background-color: orange; }
+.icon.blue { background-color: blue; }
+.icon.green { background-color: green; }
+.icon.purple { background-color: purple; }
+.icon.red { background-color: red; }
+
+.setting-info {
+    flex: 1;
+    font-size: 12px; /* Taille de texte réduite */
+}
+
+.btn {
+    padding: 6px 12px; /* Taille ajustée des boutons */
+    border: none;
+    border-radius: 5px;
+    font-size: 12px; /* Réduction de la taille de la police */
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-edit {
+    background-color: #4caf50;
+    color: white;
+}
+
+.btn-edit:hover {
+    background-color: #45a049;
+}
+
+.details-container {
+    flex: 1 1 calc(50% - 20px); /* Adapte la largeur à la moitié disponible */
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espacement réduit */
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.details-item {
+    padding: 10px; /* Réduction du padding */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s, transform 0.2s;
+}
+
+.details-item:hover {
+    background: rgba(0, 0, 0, 0.05);
+    transform: translateY(-1px);
+}
+
+.details-item h3 {
+    margin: 0 0 5px; /* Espacement réduit */
+    font-size: 14px; /* Taille de texte ajustée */
+    font-weight: bold;
+}
+
+.details-item p {
+    margin: 0;
+    font-size: 12px; /* Taille de texte réduite */
+    color: #666;
+}
+
+/* Styles généraux pour tous les modals */
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 30px; /* Uniform padding */
+    z-index: 1000;
+    width: 90%;
+    max-width: 500px; /* Largeur maximale */
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Espacement entre les éléments */
+}
+
+.modal h2 {
+    margin: 0 0 20px; /* Espacement en bas du titre */
+    font-size: 24px; /* Taille de police augmentée */
+    text-align: center;
+    color: #333;
+}
+
+/* Champs d'entrée dans les modals */
+.modal label {
+    font-size: 14px;
     font-weight: bold;
     margin-bottom: 5px;
-  }
-  
-  input {
+    display: inline-block;
+}
+
+.modal input, .modal select {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
     border-radius: 5px;
-  }
-  
-  .button-group {
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+/* Boutons dans les modals */
+.modal .btn-group {
     display: flex;
     justify-content: space-between;
-  }
-  
-  .btn-save {
-    background: #4caf50;
+    gap: 10px;
+}
+
+.modal .btn-save {
+    background-color: #4caf50;
     color: white;
-    border: none;
     padding: 10px 20px;
+    border: none;
     border-radius: 5px;
-    cursor: pointer;
+    font-size: 14px;
     font-weight: bold;
-  }
-  
-  .btn-save:hover {
-    background: #45a049;
-  }
-  
-  .btn-cancel {
-    background: #f5f5f5;
-    color: #333;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
     cursor: pointer;
-  }
-  
-  .btn-cancel:hover {
-    background: #e0e0e0;
-  }
-  
-  .success-message {
-    color: #4caf50;
-    margin-top: 10px;
+    transition: background 0.3s;
+}
+
+.modal .btn-save:hover {
+    background-color: #45a049;
+}
+
+.modal .btn-cancel {
+    background-color: #f5f5f5;
+    color: #333;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.modal .btn-cancel:hover {
+    background-color: #ddd;
+}
+
+/* Overlay pour tous les modals */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
+    z-index: 999;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Animation de fade-in */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+
+}
+
+/* Boutons spécifiques aux sections */
+.btn-profile {
+    background-color: orange;
+    color: white;
+    width: 68px;
+}
+
+.btn-profile:hover {
+    background-color: #e69500; /* Teinte plus foncée pour le hover */
+}
+
+.btn-password {
+    background-color: blue;
+    color: white;
+}
+
+.btn-password:hover {
+    background-color: #0033cc; /* Teinte plus foncée pour le hover */
+}
+
+.btn-notifications {
+    background-color: green;
+    color: white;
+}
+
+.btn-notifications:hover {
+    background-color: #006600; /* Teinte plus foncée pour le hover */
+}
+
+.btn-general {
+    background-color: red;
+    color: white;
+}
+
+.btn-general:hover {
+    background-color: #b30000; /* Teinte plus foncée pour le hover */
+}
+
+.btn-language {
+    background-color: purple;
+    color: white;
+}
+
+
+
+/* Modal spécifique pour "Edit Profile" */
+.edit-profile-modal .modal {
+    border-top: 5px solid orange;
+}
+
+/* Modal spécifique pour "Change Password" */
+.change-password-modal .modal {
+    border-top: 5px solid blue;
+}
+
+/* Modal spécifique pour "Select Language" */
+.language-modal .modal {
+    border-top: 5px solid purple;
+}
+
+@media (max-width: 768px) {
+    .modal {
+        width: 95%; /* Largeur ajustée */
+        padding: 20px; /* Réduction du padding */
+    }
+
+    .modal h2 {
+        font-size: 20px;
+    }
+
+    .modal .btn-save, .modal .btn-cancel {
+        font-size: 12px; /* Taille de texte réduite */
+        padding: 8px 15px;
+    }
+}
+
+/* Ajoutez une classe pour le conteneur des boutons */
+.modal .btn-group {
+    display: flex; /* Utilise flexbox pour aligner les boutons */
+    justify-content: space-between; /* Espace entre les boutons */
+    gap: 15px; /* Espacement horizontal entre les boutons */
+    margin-top: 20px; /* Espace au-dessus des boutons */
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 10px 15px;
+    border: 1px solid #c3e6cb;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    text-align: center;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.alert {
+    padding: 10px 20px;
+    margin: 10px 0;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
     text-align: center;
   }
   
-  .error-message {
-    color: #e53e3e;
-    margin-top: 10px;
-    text-align: center;
+  .alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+  
+  .alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
   }

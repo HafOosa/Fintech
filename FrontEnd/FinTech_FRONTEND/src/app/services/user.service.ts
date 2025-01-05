@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -31,7 +31,16 @@ export class UserService {
     return this.http.put<any>(`${this.apiUrl}/${userId}`, user);
   }
 
-  getCurrentUser(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/current`); // Ajouter un endpoint pour récupérer l'utilisateur actuel
+  getUserById(userId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${userId}`);
+  }
+
+  changePassword(userId: number, newPassword: string) {
+    const token = localStorage.getItem('accessToken');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+  
+    return this.http.put(`http://127.0.0.1:8000/users/${userId}/password`, { new_password: newPassword }, { headers });
   }
 }

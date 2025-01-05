@@ -1,4 +1,5 @@
 <div class="wallet-container">
+  <!-- Si aucun wallet n'existe -->
   <div *ngIf="!wallet" class="create-wallet">
     <p>Vous ne disposez d'aucun wallet. Cliquez sur ce bouton pour en créer un :</p>
     <button (click)="createWallet()" class="btn btn-create-wallet">Create Wallet</button>
@@ -8,13 +9,20 @@
   <div *ngIf="wallet" class="wallet-summary">
     <h2>Current Balance</h2>
     <h1>{{ wallet?.balance | currency: 'USD' }}</h1>
-    <p class="wallet-address">{{ wallet?.address }}</p>
+    <p class="wallet-address">
+      {{ showFullAddress ? wallet?.address : '*'.repeat(wallet?.address?.length || 0) }}
+      <button (click)="toggleAddressVisibility()" class="btn btn-toggle-address">
+        <i class="fas" [ngClass]="showFullAddress ? 'fa-eye-slash' : 'fa-eye'"></i>
+      </button>
+    </p>
     <div class="wallet-actions">
       <button (click)="openDepositModal()" class="btn btn-top-up">+ Top up</button>
+      <button (click)="openTransferModal()" class="btn btn-transfer">→ Transfer</button>
       <button (click)="openWithdrawModal()" class="btn btn-withdraw">- Withdraw</button>
     </div>
   </div>
 
+  <!-- Historique des transactions -->
   <div *ngIf="wallet" class="wallet-history">
     <h3>History</h3>
     <div class="history-items" [class.scrollable]="showShowLess">
@@ -23,39 +31,38 @@
         class="history-item"
         [class.positive]="transaction.transaction_type === 'deposit'"
         [class.negative]="transaction.transaction_type === 'withdraw'"
+        [class.transfer]="transaction.transaction_type === 'transfer_out'"
       >
-        <span class="transaction-type">
-          <span *ngIf="transaction.transaction_type === 'deposit'" class="symbol">+</span>
-          <span *ngIf="transaction.transaction_type === 'withdraw'" class="symbol">-</span>
-          {{ transaction.transaction_type | titlecase }}
-        </span>
+        <div class="transaction-details">
+          <span class="transaction-type">
+            <span *ngIf="transaction.transaction_type === 'deposit'" class="symbol">+</span>
+            <span *ngIf="transaction.transaction_type === 'withdraw'" class="symbol">-</span>
+            <span *ngIf="transaction.transaction_type === 'transfer_out'" class="symbol transfer-icon">→</span>
+            {{ transaction.transaction_type | titlecase }}
+          </span>
+          <span class="transaction-date">
+            {{ transaction.timestamp | date: 'short' }}
+          </span>
+        </div>
         <span class="transaction-amount">
           {{ transaction.amount | currency: 'USD' }}
         </span>
       </div>
     </div>
-    <button *ngIf="showSeeMore" (click)="showAllTransactions()" class="see-more">
-      See More
-    </button>
-    <button *ngIf="showShowLess" (click)="showLessTransactions()" class="show-less">
-      Show Less
-    </button>
+    <button *ngIf="showSeeMore" (click)="showAllTransactions()" class="see-more">See More</button>
+    <button *ngIf="showShowLess" (click)="showLessTransactions()" class="show-less">Show Less</button>
   </div>
 
   <!-- Message de succès -->
-  <div *ngIf="successMessage" class="success-message">
-    {{ successMessage }}
-  </div>
-
-  <div *ngIf="errorMessage" class="error-message">
-    {{ errorMessage }}
-  </div>
+  <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 
   <!-- Modals -->
   <div class="modal" *ngIf="showDepositModal">
     <div class="modal-content">
       <h3>Deposit Funds</h3>
       <input type="number" [(ngModel)]="amount" placeholder="Enter amount" />
+      <input type="text" [(ngModel)]="category" placeholder="Motif" />
       <div class="modal-actions">
         <button (click)="deposit()" class="btn btn-confirm">Confirm</button>
         <button (click)="closeDepositModal()" class="btn btn-cancel">Cancel</button>
@@ -67,9 +74,78 @@
     <div class="modal-content">
       <h3>Withdraw Funds</h3>
       <input type="number" [(ngModel)]="amount" placeholder="Enter amount" />
+      <input type="text" [(ngModel)]="category" placeholder="Motif" />
       <div class="modal-actions">
         <button (click)="withdraw()" class="btn btn-withdraw-confirm">Confirm</button>
         <button (click)="closeWithdrawModal()" class="btn btn-cancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de transfert -->
+  <div class="modal" *ngIf="showTransferModal">
+    <div class="modal-content">
+      <h3>Transfer Funds</h3>
+
+      <!-- Liste des bénéficiaires -->
+      <div>
+        <label for="beneficiarySelect">Select Beneficiary:</label>
+        <select
+          id="beneficiarySelect"
+          [(ngModel)]="selectedBeneficiary"
+          (change)="onBeneficiarySelected()"
+        >
+          <option value="" disabled hidden>Select a beneficiary</option>
+          <option *ngFor="let beneficiary of beneficiaries" [value]="beneficiary.wallet_address">
+            {{ beneficiary.name }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Adresse du portefeuille du bénéficiaire sélectionné -->
+      <div>
+        <label>Recipient Wallet Address:</label>
+        <input
+          type="text"
+          [(ngModel)]="recipientWalletAddress"
+          placeholder="Recipient wallet address"
+          readonly
+        />
+      </div>
+
+      <!-- Montant -->
+      <div>
+        <label>Amount:</label>
+        <input type="number" [(ngModel)]="transferAmount" placeholder="Enter amount" />
+      </div>
+
+      <!-- Ajouter un bénéficiaire -->
+      <div class="add-beneficiary">
+        <button (click)="openAddBeneficiaryModal()" class="btn btn-add-beneficiary">+ Add Beneficiary</button>
+      </div>
+
+      <div class="modal-actions">
+        <button (click)="transferFunds()" class="btn btn-transfer">Transfer</button>
+        <button (click)="closeTransferModal()" class="btn btn-cancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal pour ajouter un bénéficiaire -->
+  <div class="modal" *ngIf="showAddBeneficiaryModal">
+    <div class="modal-content">
+      <h3>Add Beneficiary</h3>
+      <div>
+        <label>Name:</label>
+        <input type="text" [(ngModel)]="newBeneficiaryName" placeholder="Enter beneficiary name" />
+      </div>
+      <div>
+        <label>Wallet Address:</label>
+        <input type="text" [(ngModel)]="newBeneficiaryWalletAddress" placeholder="Enter wallet address" />
+      </div>
+      <div class="modal-actions">
+        <button (click)="addBeneficiary()" class="btn btn-confirm">Add</button>
+        <button (click)="closeAddBeneficiaryModal()" class="btn btn-cancel">Cancel</button>
       </div>
     </div>
   </div>

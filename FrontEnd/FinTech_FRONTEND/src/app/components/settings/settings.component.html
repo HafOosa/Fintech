@@ -1,38 +1,151 @@
 <div class="settings-container">
-    <h2>Settings</h2>
-  
-    <form (ngSubmit)="updateSettings()">
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" id="name" [(ngModel)]="user.name" name="name" required />
-      </div>
-  
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" [(ngModel)]="user.email" name="email" required />
-      </div>
-  
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          [(ngModel)]="user.password"
-          name="password"
-          placeholder="Enter new password (optional)"
-        />
-      </div>
-  
-      <div class="button-group">
-        <button type="submit" class="btn btn-save">Save Changes</button>
-        <button type="button" class="btn btn-cancel" (click)="resetForm()">Cancel</button>
-      </div>
-    </form>
-  
-    <div *ngIf="successMessage" class="success-message">
+  <header class="header">
+    <h1>Settings</h1>
+    <!-- Affichage des messages de succès ou d'erreur -->
+    <div *ngIf="successMessage" class="alert alert-success">
       {{ successMessage }}
     </div>
-    <div *ngIf="errorMessage" class="error-message">
+    <div *ngIf="errorMessage" class="alert alert-error">
       {{ errorMessage }}
     </div>
+  </header>
+
+  <div class="settings-list">
+    <h3>Profile</h3>
+    <div class="setting-item">
+      <div class="icon orange">
+        <i class="fas fa-user"></i>
+      </div>
+      <div class="setting-info">
+        <p>Edit Profile</p>
+      </div>
+      <button class="btn btn-profile" (click)="openEditProfileModal()">Edit</button>
+    </div>
+
+    <div class="setting-item">
+      <div class="icon blue">
+        <i class="fas fa-key"></i>
+      </div>
+      <div class="setting-info">
+        <p>Change Password</p>
+      </div>
+      <button class="btn btn-password" (click)="openChangePasswordModal()">Change</button>
+    </div>
+
+    <h3>Notifications</h3>
+    <div class="setting-item">
+      <div class="icon green">
+        <i class="fas fa-bell"></i>
+      </div>
+      <div class="setting-info">
+        <p>Notifications</p>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="notificationsToggle" [(ngModel)]="isNotificationsEnabled" (change)="toggleNotifications()" />
+        <span class="slider round"></span>
+      </label>
+    </div>
+
+    <h3>General</h3>
+    <div class="setting-item">
+      <div class="icon">
+        <i class="fas fa-moon"></i>
+      </div>
+      <div class="setting-info">
+        <p>Dark Mode</p>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="darkModeToggle" [(ngModel)]="isDarkMode" (change)="toggleDarkMode()" />
+        <span class="slider round"></span>
+      </label>
+    </div>
+    <div class="setting-item">
+      <div class="icon purple">
+        <i class="fas fa-language"></i>
+      </div>
+      <div class="setting-info">
+        <p>Language</p>
+      </div>
+      <button class="btn btn-language" (click)="openLanguageModal()">Select</button>
+    </div>
+
+    <div class="setting-item">
+      <div class="icon red">
+        <i class="fas fa-sign-out-alt"></i>
+      </div>
+      <div class="setting-info">
+        <p>Logout</p>
+      </div>
+      <button class="btn btn-general" (click)="logout()">Logout</button>
+    </div>
   </div>
+
+  <!-- Modals -->
+  <div *ngIf="showEditProfileModal" class="edit-profile-modal">
+    <div class="modal-overlay" (click)="closeEditProfileModal()"></div>
+    <div class="modal">
+      <div class="modal-content">
+        <h2>Edit Profile</h2>
+
+        <div *ngIf="successMessage" class="alert alert-success">
+          {{ successMessage }}
+        </div>
+        <form (ngSubmit)="updateProfile()">
+          <label for="profile-picture">Profile Picture</label>
+          <input type="file" id="profile-picture" (change)="onFileSelected($event)" />
+          
+          <label for="first-name">First Name</label>
+          <input type="text" id="first-name" [(ngModel)]="user.firstName" name="firstName" />
+
+          <label for="last-name">Last Name</label>
+          <input type="text" id="last-name" [(ngModel)]="user.lastName" name="lastName" />
+
+          <label for="email">Email</label>
+          <input type="email" id="email" [(ngModel)]="user.email" name="email" />
+          <div class="btn-group">
+            <button type="submit" class="btn btn-save">Save</button>
+            <button type="button" class="btn btn-cancel" (click)="closeEditProfileModal()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="showChangePasswordModal" class="change-password-modal">
+    <div class="modal-overlay" (click)="closeChangePasswordModal()"></div>
+    <div class="modal">
+      <div class="modal-content">
+        <h2>Change Password</h2>
+        <form (ngSubmit)="updatePassword()">
+          <label for="current-password">Current Password</label>
+          <input type="password" id="current-password" [(ngModel)]="currentPassword" name="currentPassword" />
+          
+          <label for="new-password">New Password</label>
+          <input type="password" id="new-password" [(ngModel)]="newPassword" name="newPassword" />
+          <div class="btn-group">
+            <button type="submit" class="btn btn-save">Save</button>
+            <button type="button" class="btn btn-cancel" (click)="closeChangePasswordModal()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="showLanguageModal" class="language-modal">
+    <div class="modal-overlay" (click)="closeLanguageModal()"></div>
+    <div class="modal">
+      <div class="modal-content">
+        <h2>Select Language</h2>
+        <select [(ngModel)]="selectedLanguage" name="language">
+          <option value="en">English</option>
+          <option value="fr">French</option>
+          <option value="es">Spanish</option>
+        </select>
+        <div class="btn-group">
+          <button (click)="applyLanguage()" class="btn btn-save">Apply</button>
+          <button (click)="closeLanguageModal()" class="btn btn-cancel">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

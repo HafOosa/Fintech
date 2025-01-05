@@ -78,7 +78,7 @@ export class AuthService {
     if (token) {
       try {
         const decodedToken: any = jwtDecode(token); // Décodage du token
-        return decodedToken.sub ? parseInt(decodedToken.sub, 10) : null; // Récupérer `user_id` depuis `sub`
+        return decodedToken.user_id || null; // Utilisez `user_id` au lieu de `sub`
       } catch (error) {
         console.error('Error decoding token:', error);
         return null;

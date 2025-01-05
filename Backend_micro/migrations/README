@@ -1,0 +1,12 @@
+Generic single-database configuration.
+
+1. **Installer les dépendances**
+   Assurez-vous d'avoir installé les dépendances nécessaires :
+   ```bash
+   pip install -r requirements.txt
+
+2. Créer une nouvelle migration Si vous avez modifié les modèles SQLAlchemy et souhaitez créer une nouvelle migration
+    alembic revision --autogenerate -m "Description de la migration"
+
+3.  Pour appliquer les migrations à votre base de données :
+    alembic upgrade head

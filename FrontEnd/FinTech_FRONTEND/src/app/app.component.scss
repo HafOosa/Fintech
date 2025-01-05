@@ -8,3 +8,20 @@
     overflow-y: auto;
     background-color: #f5f6fa;
   }
+
+
+  .dark-mode {
+    background-color: black !important;
+    color: white !important;  
+    background-color: var(--page-background);
+    color: var(--text-color);
+  
+    button {
+      background-color: var(--button-background);
+      color: var(--text-color);
+    }
+  
+    .settings-container {
+      background-color: var(--background-color);
+    }
+  }

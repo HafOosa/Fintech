@@ -63,6 +63,10 @@ class LoginResponse(BaseModel):
     token_type: str
 
 
+class PasswordUpdateRequest(BaseModel):
+    new_password: str
+
+
 
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     try:
@@ -223,3 +227,28 @@ def register_user(user: CreateUser, db: Session = Depends(get_db)):
     db.refresh(new_user)
 
     return new_user
+
+
+
+@router.put('/users/{user_id}/password')
+def change_password(
+    user_id: int,
+    request: PasswordUpdateRequest,  # Utilisation du schéma pour valider l'entrée
+    db: Session = Depends(get_db),
+    current_user: Utilisateur = Depends(get_current_user),
+):
+    # Extraire la nouvelle valeur de mot de passe
+    new_password = request.new_password
+
+    if current_user.user_id != user_id:
+        raise HTTPException(status_code=403, detail="You can only update your own password")
+
+    user = db.query(Utilisateur).filter(Utilisateur.user_id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    # Hasher la chaîne de mot de passe et la stocker
+    user.password = hash_password(new_password)
+    db.commit()
+
+    return {"detail": "Password updated successfully"}

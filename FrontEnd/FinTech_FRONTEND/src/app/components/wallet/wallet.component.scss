@@ -59,7 +59,7 @@ body {
 .wallet-summary .wallet-actions {
   display: flex;
   justify-content: center; /* Centrer les boutons */
-  gap: 10px; /* Réduire l'espacement entre les boutons */
+  gap: 15px; /* Réduire l'espacement entre les boutons */
   margin-top: 20px;
 }
 
@@ -68,18 +68,39 @@ body {
   font-size: 14px;
   border-radius: 20px;
   font-weight: bold;
+  border: none;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.3s ease;
 }
 
 .wallet-summary .btn-top-up {
   background: #f5fff5;
   color: #66cc66;
   border: 1px solid #66cc66;
+  text-align: center;
+  display: flex;
+  flex-direction: column; /* Colonne pour empiler le signe et le texte */
+  align-items: center; /* Centre les éléments horizontalement */
+  justify-content: center; /* Centre les éléments verticalement */
+  transition: all 0.3s ease-in-out;
 }
 
 .wallet-summary .btn-top-up:hover {
   background: #e0ffe0;
+  transform: scale(1.05);
+}
+
+.wallet-summary .btn-transfer {
+  color: #ffffff; /* Couleur du texte : blanc */
+  background: #ffe082; /* Fond : jaune pastel */
+  border: 1px solid #ffe082; /* Bordure : jaune */
+}
+
+.wallet-summary .btn-transfer:hover {
+  background: #ffd54f; /* Fond légèrement plus foncé au survol */
+  border: 1px solid #ffd54f; /* Bordure correspondante */
+  color: #ffffff;
+  transform: scale(1.05); /* Effet de zoom au survol */
 }
 
 .wallet-summary .btn-withdraw {
@@ -90,6 +111,7 @@ body {
 
 .wallet-summary .btn-withdraw:hover {
   background: #ffe5e5;
+  transition: all 0.3s ease-in-out;
 }
 
 /* Wallet History Section */
@@ -114,14 +136,32 @@ body {
 }
 
 .history-items {
-  max-height: 300px; /* Hauteur maximale pour éviter un grand conteneur */
-  overflow: hidden; /* Cache le scrollbar initialement */
-  transition: max-height 0.3s ease;
+  max-height: 300px; /* Hauteur fixe pour le conteneur */
+  overflow-y: auto; /* Scroll vertical activé */
+  scrollbar-width: thin; /* Réduction de la largeur du scrollbar (Firefox) */
+  scrollbar-color: #ccc #f5f5f5; /* Couleur du scrollbar et de l'arrière-plan (Firefox) */
+  transition: all 0.3s ease-in-out; /* Animation fluide pour le changement */
+}
+
+.history-items::-webkit-scrollbar {
+  width: 8px; /* Largeur du scrollbar */
+}
+
+.history-items::-webkit-scrollbar-track {
+  background: #f5f5f5; /* Couleur d'arrière-plan */
+}
+
+.history-items::-webkit-scrollbar-thumb {
+  background-color: #ccc; /* Couleur du scrollbar */
+  border-radius: 10px; /* Bords arrondis */
+}
+
+.history-items::-webkit-scrollbar-thumb:hover {
+  background-color: #aaa; /* Couleur plus sombre au survol */
 }
 
 .history-items.scrollable {
-  max-height: 600px; /* Augmente la hauteur pour permettre le scroll */
-  overflow-y: auto; /* Active le scroll vertical uniquement */
+  overflow-y: auto; /* Assure le scroll vertical si "See More" est activé */
 }
 
 
@@ -183,7 +223,9 @@ body {
 .modal-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
+  gap: 20px;
+  width: 100%;
 }
 
 .modal-content h3 {
@@ -192,20 +234,64 @@ body {
   color: #333;
   font-weight: bold;
   text-align: center;
+  width: 100%;
 }
 
+.modal-content label {
+  display: block;
+  font-size: 14px;
+  color: #555;
+  font-weight: bold;
+  margin-bottom: 5px; 
+}
+
+
 .modal-content input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  transition: box-shadow 0.3s ease;
+  width: 100%; /* Tous les champs prennent la largeur disponible */
+  padding: 12px; /* Espacement interne */
+  margin-bottom: 0; /* Espacement inférieur */
+  border: 1px solid #ddd; /* Bordure douce */
+  border-radius: 8px; /* Coins arrondis */
+  font-size: 14px; /* Taille du texte */
+  color: #333; /* Couleur du texte */
+  background-color: #f9f9f9; /* Fond clair */
+  transition: all 0.3s ease;
 }
 
 .modal-content input:focus {
   outline: none;
-  box-shadow: 0 0 10px rgba(66, 133, 244, 0.6);
+  border-color: #4285f4; /* Bordure bleue au focus */
+  box-shadow: 0 0 8px rgba(66, 133, 244, 0.5); /* Effet lumineux */
+  background-color: #ffffff; /* Fond blanc pour le focus */
+}
+
+.modal-content input[type="number"] {
+  appearance: none;
+  -webkit-appearance: none/* Supprime les flèches dans Firefox */
+}
+
+.modal-content input[type="number"]::-webkit-inner-spin-button,
+.modal-content input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none; /* Supprime les flèches dans Chrome et Safari */
+}
+
+.modal-content label {
+  display: block; /* Les labels occupent toute la largeur */
+  font-size: 14px; /* Taille du texte */
+  font-weight: bold; /* Texte en gras */
+  color: #555; /* Couleur douce */
+  margin-bottom: 5px; /* Espacement avec le champ */
+}
+
+.modal-content input::placeholder {
+  color: #aaa; /* Couleur plus douce pour le placeholder */
+  font-style: italic; /* Style en italique */
+}
+
+.modal-content .modal-actions {
+  display: flex;
+  justify-content: space-between; /* Espace entre les boutons */
+  align-items: center;
 }
 
 .modal-actions {
@@ -219,12 +305,17 @@ body {
   border-radius: 20px;
   font-weight: bold;
   cursor: pointer;
+  font-size: 14px;
   transition: all 0.3s ease;
 }
 
 .modal-actions .btn-cancel {
   background: #f5f5f5;
   color: #888;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 20px;
   border: none;
 }
 
@@ -380,4 +471,200 @@ body {
   font-size: 14px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   animation: fadeInOut 3s ease-in-out;
+}
+
+.transaction-category {
+  font-style: italic;
+  color: #666; /* Couleur grise pour différencier */
+  margin-left: 8px; /* Espacement avec le type de transaction */
+}
+
+.btn-toggle-address {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 0.9em;
+  margin-left: 10px;
+
+  &:hover {
+    color: #0056b3;
+  }
+}
+
+.btn-transfer {
+  background: #ffe082; /* Jaune doux */
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+
+.btn-transfer:hover {
+  background: #ffd54f; /* Jaune légèrement plus foncé */
+  transform: scale(1.05); /* Effet de zoom au survol */
+}
+
+/* Message de succès */
+.success-message {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  animation: fadeInOut 3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.modal-actions .btn-transfer {
+  background: #ffe082;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modal-actions .btn-transfer:hover {
+  background: #ffd54f;
+  transform: scale(1.05); /* Animation au survol */
+}
+
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  10%, 90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* Modal animation */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
+.history-item .symbol.transfer-icon {
+  color: #ffc107; /* Jaune pour les transferts */
+  font-size: 16px; /* Taille légèrement plus grande */
+  font-weight: bold;
+}
+
+.history-item.transfer .transaction-amount {
+  color: #ffc107; /* Couleur jaune */
+}
+
+
+.transaction-details {
+  display: flex;
+  flex-direction: column; /* Aligne le type et la date verticalement */
+  gap: 5px; /* Espacement entre le type et la date */
+}
+
+.transaction-type {
+  font-size: 14px; /* Taille de police pour le type */
+  font-weight: bold; /* Rend le type de transaction en gras */
+}
+
+.transaction-date {
+  font-size: 13px; /* Taille de police légèrement augmentée */
+  color: #555; /* Couleur grise plus foncée */
+  font-style: italic; /* Italique pour différencier la date */
+  font-weight: 500; /* Légèrement plus épais */
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.2); /* Ajoute une légère ombre */
+}
+
+select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: #f9f9f9;
+  font-size: 14px;
+}
+
+select:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(66, 133, 244, 0.6);
+}
+
+
+.btn-add-beneficiary {
+  background-color: #4caf50; /* Vert */
+  color: white;
+  font-weight: bold;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-add-beneficiary:hover {
+  background-color: #45a049; /* Vert légèrement plus foncé */
+  transform: scale(1.05); /* Effet de zoom */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Légère ombre */
+}
+
+.btn-add-beneficiary:active {
+  background-color: #3e8e41; /* Vert encore plus foncé */
+  transform: scale(0.95); /* Réduction légère à l'interaction */
 }
