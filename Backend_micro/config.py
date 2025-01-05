@@ -6,7 +6,7 @@ DATABASE = {
     "port": os.getenv("DB_PORT", "5432"),
     "user": os.getenv("DB_USER", "postgres"),
     "password": os.getenv("DB_PASSWORD", "0000"),
-    "database": os.getenv("DB_NAME", "finetech_project6")
+    "database": os.getenv("DB_NAME", "finetech_project7")
 }
 
 DEBUG = os.getenv("DEBUG", True)
