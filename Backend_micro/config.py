@@ -5,7 +5,7 @@ DATABASE = {
     "host": os.getenv("DB_HOST", "localhost"),
     "port": os.getenv("DB_PORT", "5432"),
     "user": os.getenv("DB_USER", "postgres"),
-    "password": os.getenv("DB_PASSWORD", "0000"),
+    "password": os.getenv("DB_PASSWORD", "ezzahraa"),
     "database": os.getenv("DB_NAME", "finetech_project7")
 }
 
