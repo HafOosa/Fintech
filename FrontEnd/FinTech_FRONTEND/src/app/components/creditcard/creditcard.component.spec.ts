@@ -1,18 +1,18 @@
-import { NewsComponent} from '@components/news/news.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CreditCardComponent } from './creditcard.component';
 
 
-describe('NewsComponent', () => {
-  let component: NewsComponent
-  let fixture: ComponentFixture<NewsComponent>;
+describe('CreditcardComponent', () => {
+  let component: CreditCardComponent;
+  let fixture: ComponentFixture<CreditCardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NewsComponent]
+      imports: [CreditCardComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(NewsComponent);
+    fixture = TestBed.createComponent(CreditCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

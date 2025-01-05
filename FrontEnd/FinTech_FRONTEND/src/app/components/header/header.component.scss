@@ -1,27 +1,28 @@
 /* Header Styles */
 .header {
   display: flex;
+  padding:10%;
   align-items: center;
   justify-content: space-between;
   position: fixed;
   top: 0;
-  left: 200px;
-   /* Adjust for sidebar width */
-  width: calc(100% - 200px);
-  height: 60px; /* Reduced height */
+  left: 160px;
+  width: calc(100% - 160px);
+  height: fit-content; 
   padding: 0 1rem;
-  background: white;
+  background: whitesmoke;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   z-index: 1000;
+  font-weight: bold; 
 }
 
 .search-container {
-  flex: 1;
+  padding: 5px;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   width: 20px;
-  height: 20px;
+  height: 10px;
 }
 
 .search-input {
@@ -48,13 +49,13 @@
 
 .notification-badge {
   position: absolute;
-  top: -4px; /* Adjusted position */
-  right: -4px;
+  top: -6px;
+  right: -6px;
   background: #ff5252;
   color: white;
   border-radius: 50%;
-  padding: 2px 5px;
-  font-size: 0.8rem;
+  padding: 2px;
+  font-size: 0.9rem;
   font-weight: bold;
 }
 

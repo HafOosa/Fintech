@@ -26,6 +26,7 @@ import 'chartjs-chart-financial';
               <span class="value">¥718,000</span>
             </div>
             <div class="metric">
+            
               <span class="label">24h Volume</span>
               <span class="value">677.7 BTC</span>
             </div>

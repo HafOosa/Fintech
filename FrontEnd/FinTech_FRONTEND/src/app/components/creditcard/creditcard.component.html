@@ -1,0 +1,21 @@
+<div class="credit-card">
+    <div class="card-front">
+      <div class="card-top">
+        <div class="card-logo">
+          <img src="https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/chip.png" alt="Chip" />
+        </div>
+        <div class="card-brand">
+          <img
+            [src]="'https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/' + cardType + '.png'"
+            alt="Card Brand"
+          />
+        </div>
+      </div>
+      <div class="card-number">{{ cardNumber || '#### #### #### ####' }}</div>
+      <div class="card-bottom">
+        <div class="card-holder">User Name</div>
+        <div class="card-expiry">11/24 </div>
+      </div>
+    </div>
+  </div>
+  

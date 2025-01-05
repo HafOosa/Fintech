@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { 
   FormBuilder, 
@@ -16,7 +16,7 @@ import { CryptoIconsComponent } from '../crypto-icons/crypto-icons.component';
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, CryptoIconsComponent],
+  imports: [CommonModule, ReactiveFormsModule, CryptoIconsComponent,RouterLink],
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })

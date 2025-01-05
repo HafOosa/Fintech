@@ -1,21 +1,32 @@
 import { Component, OnInit } from '@angular/core';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+import {  NgxChartsModule } from '@swimlane/ngx-charts';
 import { DashboardService } from './dashboard.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { TransactionService } from '@services/transaction-normale.service';
+import { CryptoChartComponent } from "../crypto-chart/crypto-chart.component";
+import { NewsComponent } from "../news/news.component";
+import { CreditCardComponent } from '@components/creditcard/creditcard.component';
+import { boxsComponent } from "./boxs.component";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [
+    CreditCardComponent,
     NgxChartsModule,
     CommonModule,
-  ],
+    NewsComponent,
+    boxsComponent
+],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+
+
+
+
   userId!: string;
   accountBalance: number = 0;
   cryptoBalances: Array<{
@@ -97,4 +108,15 @@ export class DashboardComponent implements OnInit {
   viewAllTransactions(): void {
     console.log('View All Transactions clicked');
   }
+  profiles = [
+    { name: 'Michael Jordan', image: 'assets/profiles/michael.png' },
+    { name: 'Edelyn Sandra', image: 'assets/profiles/edelyn.png' },
+    { name: 'Ahmed Azhar', image: 'assets/profiles/ahmed.png' },
+    { name: 'Celyn Gustav', image: 'assets/profiles/celyn.png' },
+  ];
+  
+  cardNumber = '5995 7474 1103 7513'; // Example card number
+  cardType = 'visa';
+  currentCardBackground = Math.floor(Math.random() * 25 + 1);
+  
 }

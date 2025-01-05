@@ -1,68 +1,115 @@
 <div class="content-wrapper">
 
-  <!-- Account Summary Section -->
-  <section class="account-summary">
-    <div class="total-balance">
-      <h2>Total Balance</h2>
-      <p class="balance">{{ accountBalance | currency }}</p>
+    <!-- Left Section -->
+    <div class="dashboard-layout">
+      <div class="dashboard-left">
+        <section class="account-summary">
+          <div class="total-balance">
+            <span>Transactions</span>
+            <p class="balance">{{ accountBalance }}</p>
+            <i class="fas fa-dollar-sign"></i>
+          </div>
+          <div class="total-balance">
+            <span>Amount</span>
+            <p class="balance">{{ accountBalance }}</p>
+            <i class="fas fa-dollar-sign"></i>
+          </div>
+          <div class="total-balance">
+            <span>Transactions</span>
+            <p class="balance">{{ accountBalance }}</p>
+            <i class="fab fa-ethereum"></i>
+          </div>
+          <div class="total-balance">
+            <span>Amount</span>
+            <p class="balance">{{ accountBalance }}</p>
+            <i class="fab fa-ethereum"></i>
+          </div>
+        </section>
+        
+
+
+      <section class="crypto-trend-chart">
+        <div class="crypto-balances">
+          <h2>Cryptocurrency Price Trends</h2>
+          <ngx-charts-line-chart
+            *ngIf="lineChartData.length > 0"
+            [view]="view"
+            [results]="lineChartData"
+            [legend]="legend"
+            [animations]="animations"
+            [xAxis]="xAxis"
+            [yAxis]="yAxis"
+            [showYAxisLabel]="showYAxisLabel"
+            [showXAxisLabel]="showXAxisLabel"
+            [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel"
+            [timeline]="timeline"
+            [autoScale]="true"
+          ></ngx-charts-line-chart>
+          <p *ngIf="lineChartData.length === 0">No data available</p>
+        </div>
+      </section>
+
+      <section class="recent-transactions">
+        <h2>
+          Recent Crypto-Transactions
+          <button (click)="viewAllTransactions()">View All</button>
+        </h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let transaction of recentTransactions">
+              <td>{{ transaction.date | date: 'short' }}</td>
+              <td>{{ transaction.type }}</td>
+              <td>{{ transaction.amount }} {{ transaction.currency }}</td>
+              <td>{{ transaction.status }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
     </div>
-    
-    <div class="crypto-balances">
-      <h3>Crypto Wallets</h3>
-      <div *ngFor="let crypto of cryptoBalances" class="crypto-item">
-        <span>{{ crypto.name }} ({{ crypto.symbol }})</span>
-        <span>{{ crypto.balance }} {{ crypto.symbol }}</span>
+
+    <!-- Right Section -->
+    <div class="dashboard-right">
+      <!-- Card Section -->
+      <span class="title">My Card</span>
+       <app-credit-card></app-credit-card>
+      <div class="grid grid-cols-12 gap-4">
+        <!-- Other dashboard widgets -->
+        <div class="col-span-4">
+          <app-news></app-news>
+        </div>
+        <!-- Other dashboard widgets -->
+      </div>
+
+
+
+
+      <!-- Quick Transaction Section -->
+      <div class="quick-transaction">
+        <h3>Quick Transaction</h3>
+        <div class="transaction-list">
+          <div class="profile" *ngFor="let profile of profiles">
+            <img [src]="profile.image" [alt]="profile.name" class="profile-img" />
+            <span>{{ profile.name }}</span>
+          </div>
+        </div>
+        <div class="transaction-input">
+          <input type="text" placeholder="$ Amount" class="amount-input" />
+          <button class="send-btn">Send</button>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <section class="crypto-trend-chart">
-    <h2>Cryptocurrency Price Trends</h2>
-    <ngx-charts-line-chart
-      *ngIf="lineChartData.length > 0"
-      [view]="view"
-      [results]="lineChartData"
-      [legend]="legend"
-      [animations]="animations"
-      [xAxis]="xAxis"
-      [yAxis]="yAxis"
-      [showYAxisLabel]="showYAxisLabel"
-      [showXAxisLabel]="showXAxisLabel"
-      [xAxisLabel]="xAxisLabel"
-      [yAxisLabel]="yAxisLabel"
-      [timeline]="timeline"
-      [autoScale]="true"
-    ></ngx-charts-line-chart>
-    <p *ngIf="lineChartData.length === 0">No data available</p>
-  </section>
-  
 
-  <!-- Recent Transactions Section -->
-  <section class="recent-transactions">
-    <h2>
-      Recent Crypto-Transactions 
-      <button (click)="viewAllTransactions()">View All</button>
-    </h2>
-    
-    <table>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Type</th>
-          <th>Amount</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let transaction of recentTransactions">
-          <td>{{ transaction.date | date: 'short' }}</td>
-          <td>{{ transaction.type }}</td>
-          <td>{{ transaction.amount }} {{ transaction.currency }}</td>
-          <td>{{ transaction.status }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
 
   <!-- Normal Transactions Section -->
   <section class="normal-transactions">

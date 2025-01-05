@@ -21,7 +21,7 @@ interface CryptoData {
         </div>
         <div class="crypto-details">
           <span class="symbol">{{data.symbol}}</span>
-          <span class="name">{{data.name}}</span>
+          <span class="name">{{data.name}} </span>
         </div>
       </div>
       <div class="price-info">
@@ -30,8 +30,10 @@ interface CryptoData {
           {{data.change > 0 ? '+' : ''}}{{data.change}}%
         </div>
       </div>
+ 
       <div class="chart-preview">
         <!-- Placeholder for mini chart -->
+       
         <svg viewBox="0 0 100 30" class="mini-chart">
           <path [class.positive]="data.change > 0" [class.negative]="data.change < 0"
                 d="M0 15 L10 10 L20 20 L30 15 L40 25 L50 20 L60 30 L70 25 L80 15 L90 20 L100 15"/>

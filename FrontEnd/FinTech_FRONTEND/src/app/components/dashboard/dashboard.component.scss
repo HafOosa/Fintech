@@ -1,9 +1,27 @@
+/* Main Content Wrapper */
 .content-wrapper {
   padding: 1rem;
   animation: fadeIn 1s ease-in-out;
 }
 
-/* Animation pour la transition d'apparition */
+/* Dashboard Layout */
+.dashboard-layout {
+  display: flex;
+  gap: 20px;
+}
+
+.dashboard-left {
+  flex: 3;
+}
+
+.dashboard-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Animation */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -15,154 +33,346 @@
   }
 }
 
-/* Sections avec une légère animation au survol */
-.account-summary,
-.crypto-trend-chart,
-.recent-transactions,
-.normal-transactions {
-  background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-  padding: 20px;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.account-summary:hover,
-.crypto-trend-chart:hover,
-.recent-transactions:hover,
-.normal-transactions:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-}
-
-/* Total Balance */
-.total-balance {
-  border-bottom: 2px solid #ecf0f1;
-  padding-bottom: 10px;
-  margin-bottom: 15px;
-  animation: slideInLeft 1s ease-in-out;
-}
-
-/* Animation pour le total balance */
-@keyframes slideInLeft {
-  from {
-    transform: translateX(-100px);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-.balance {
-  font-size: 28px;
-  font-weight: bold;
-  color: #27ae60;
-}
-
-/* Crypto Balances */
-.crypto-balances {
-  margin-top: 15px;
-}
-
-.crypto-item {
+/* Account Summary Section */
+.account-summary {
   display: flex;
   justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px solid #ecf0f1;
+  align-items: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.total-balance {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  flex: 1;
+  margin: 0 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.total-balance:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.total-balance span {
+  font-size: 14px;
+  font-weight: bold;
+  color: #888888;
+  margin-bottom: 10px;
+}
+
+.total-balance p.balance {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333333;
+  margin: 0;
+}
+
+.total-balance i {
+  font-size: 24px;
+  margin-top: 10px;
+}
+
+.total-balance:first-child i {
+  color: #4caf50; /* Green for Transactions */
+}
+
+.total-balance:nth-child(2) i {
+  color: #f57c00; /* Orange for Amount */
+}
+
+.total-balance:nth-child(3) i {
+  color: #007bff; /* Blue for Ethereum Transactions */
+}
+
+.total-balance:last-child i {
+  color: #ff4081; /* Pink for Ethereum Amount */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .account-summary {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .total-balance {
+    margin: 0;
+    width: 100%;
+  }
+}
+
+/* Quick Transaction Section */
+.quick-transaction {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.quick-transaction h3 {
+  margin-bottom: 20px;
+}
+
+.transaction-list {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.transaction-list .profile {
+  text-align: center;
+}
+
+.transaction-list .profile .profile-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid #ddd;
+  margin-bottom: 5px;
+}
+
+.transaction-list .profile span {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.transaction-input {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.transaction-input .amount-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.transaction-input .send-btn {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.transaction-input .send-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Crypto Trend Chart Section */
+.crypto-trend-chart {
+  max-width: 700px;
+  margin: 5px auto;
+  padding: 5px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.crypto-trend-chart h2 {
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.crypto-trend-chart .crypto-balances {
+  display: flex;
+  align-items: center;
+}
+
+ngx-charts-line-chart {
+  width: 100%;
+  height: 200px;
+}
+
+.crypto-trend-chart p {
+  font-size: 12px;
+  text-align: center;
+  color: #888;
+  margin-top: 10px;
+}
+/* Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  animation: fadeIn 1s ease-in-out;
+  background-color: #ffffff; /* White background for the table */
+  border-radius: 8px; /* Rounded corners for the table */
+  overflow: hidden; /* Prevent overflow on rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for table */
+}
+
+table th, 
+table td {
+  padding: 12px 15px; /* Padding for table cells */
+  text-align: left; /* Left-aligned text */
+  border-bottom: 1px solid #ecf0f1; /* Subtle border between rows */
   transition: background 0.3s;
 }
 
-.crypto-item:hover {
-  background: #f8f9fa;
+table th {
+  background-color: #007bff; /* Blue background for table headers */
+  color: #ffffff; /* White text color for headers */
+  text-transform: uppercase; /* Uppercase text for headers */
+  font-size: 14px;
+  font-weight: bold;
 }
 
-/* Tables */
-table {
+table tr:nth-child(even) td {
+  background-color: #f9f9f9; /* Light gray background for even rows */
+}
+
+table tr:hover td {
+  background-color: #f1f1f1; /* Highlighted row background on hover */
+}
+
+table td {
+  color: #555; /* Dark gray text for table cells */
+  font-size: 14px; /* Adjust font size */
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+  table, 
+  table thead, 
+  table tbody, 
+  table th, 
+  table td, 
+  table tr {
+    display: block; /* Make table block for small screens */
+  }
+
+  table tr {
+    margin-bottom: 15px; /* Add spacing between rows */
+  }
+
+  table td {
+    text-align: right; /* Right-align text in cells */
+    padding-left: 50%; /* Add left padding for alignment */
+    position: relative;
+  }
+
+  table td:before {
+    content: attr(data-label); /* Add labels for each cell */
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: bold;
+    text-align: left;
+    color: #333;
+  }
+
+  table th {
+    display: none; /* Hide table headers */
+  }
+}
+/* Section Styling */
+.normal-transactions {
+  margin: 20px 0;
+  padding: 20px;
+  background-color: #ffffff; /* White background */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.normal-transactions h2 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #333;
+  text-align: center;
+}
+
+/* Table Styling */
+.normal-transactions table {
   width: 100%;
   border-collapse: collapse;
   animation: fadeIn 1s ease-in-out;
 }
 
-table th, table td {
-  padding: 12px;
+.normal-transactions th, 
+.normal-transactions td {
+  padding: 12px 15px; /* Padding for table cells */
   text-align: left;
-  border-bottom: 1px solid #ecf0f1;
-  transition: background 0.3s;
+  border-bottom: 1px solid #ecf0f1; /* Subtle border between rows */
 }
 
-table th {
-  background-color: #2980b9;
-  color: #ffffff;
+.normal-transactions th {
+  background-color: #007bff; /* Blue header background */
+  color: #ffffff; /* White header text */
+  font-size: 14px;
+  font-weight: bold;
   text-transform: uppercase;
 }
 
-table tr:hover td {
-  background-color: #f2f6fa;
+.normal-transactions td {
+  font-size: 14px;
+  color: #555; /* Dark gray text */
 }
 
-/* Buttons */
-button {
-  background-color: #2980b9;
-  color: #ffffff;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+/* Alternate Row Styling */
+.normal-transactions tbody tr:nth-child(even) {
+  background-color: #f9f9f9; /* Light gray for alternate rows */
 }
 
-button:hover {
-  background-color: #1f618d;
-  transform: scale(1.05);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+.normal-transactions tbody tr:hover {
+  background-color: #f1f1f1; /* Highlight row on hover */
 }
 
-/* Crypto Trend Chart */
-.crypto-trend-chart ngx-charts-line-chart {
-  height: 400px;
-  animation: zoomIn 0.8s ease-in-out;
-}
-
-/* Animation pour le graphique */
-@keyframes zoomIn {
-  from {
-    transform: scale(0.9);
-    opacity: 0.8;
+/* Responsive Design */
+@media (max-width: 768px) {
+  .normal-transactions table, 
+  .normal-transactions thead, 
+  .normal-transactions tbody, 
+  .normal-transactions th, 
+  .normal-transactions td, 
+  .normal-transactions tr {
+    display: block;
   }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
 
-/* Normal Transactions Section */
-.normal-transactions {
-  animation: slideInUp 1s ease-in-out;
-}
-
-/* Animation pour les transactions normales */
-@keyframes slideInUp {
-  from {
-    transform: translateY(50px);
-    opacity: 0;
+  .normal-transactions tr {
+    margin-bottom: 15px;
   }
-  to {
-    transform: translateY(0);
-    opacity: 1;
+
+  .normal-transactions td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+  }
+
+  .normal-transactions td:before {
+    content: attr(data-label);
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: bold;
+    text-align: left;
+    color: #333;
+  }
+
+  .normal-transactions th {
+    display: none;
   }
 }
 
-.normal-transactions table th {
-  background-color: #3498db;
-}
-
-/* No Transactions Message */
+/* Empty State Message */
 .normal-transactions p {
   text-align: center;
-  font-style: italic;
-  color: #7f8c8d;
-  animation: fadeIn 0.8s ease-in-out;
-}
+  font-size: 14px;
+  color: #888;

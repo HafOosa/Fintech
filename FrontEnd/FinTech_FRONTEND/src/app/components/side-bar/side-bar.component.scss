@@ -3,17 +3,23 @@
 }
 // $color-active:rgba(90, 78, 202, 0.2);
 $color-active:rgba(167, 167, 179, 0.135);
+$text-color:white;
+$arriere-color:#1a202c;
 .sidebar {
   padding-left: 0.5%;
+  padding-right: 0.5%;
   padding-bottom: 1%;
+  padding-top: 15px;
   margin-bottom: 0;
   top: 0; /* Align to the top of the page */
   left: 0;
   position: fixed;
-  width: 200px;
+  width: 160px;
   height: 100%;
-  background: white;
-  color: #00008a;
+  // background: white;
+  // color: #00008a;
+  background: $arriere-color;
+  color: $text-color;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -21,15 +27,24 @@ $color-active:rgba(167, 167, 179, 0.135);
   z-index: 1000;
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem;
-  font-size: 1rem;
-  font-weight: bold;
+.logo img {
+  height: 30px; 
+  width: 30px; 
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 5px; 
+  vertical-align: middle; 
 }
 
+.logo {
+  color: #1a202c;
+  padding-left: 5px;
+align-items: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: rgb(235, 180, 30);
+
+}
 .nav-menu {
   flex: 1;
   margin-top: 0.4rem;
@@ -40,19 +55,22 @@ $color-active:rgba(167, 167, 179, 0.135);
 }
 
 .menu-section h3 {
-  color:#00008a;
-  font-size: 0.8rem;
+  // color:#00008a;
+  color:$text-color;
+  font-size: 0.78rem;
   margin-bottom: 0.3rem;
 }
 
 .nav-menu a {
-  font-size: 0.9rem;
+  font-weight: bold; 
+  font-size: 0.7rem;
   margin-top: 4px;
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  padding: 0.7rem 1rem;
-  color: #00008a;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  // color: #00008a;
+  color: $text-color;
   text-decoration: none;
   transition: all 0.3s ease;
   border-radius:4px 0px 0px 4px; /* Rounded edges for hover effect */
@@ -60,20 +78,26 @@ $color-active:rgba(167, 167, 179, 0.135);
 
 /* Hover effect */
 .nav-menu a:hover {
-  background:$color-active;
-  font-weight: bold; /* Light green background */
-  color:#00008a; /* Green text */
+  // background:$color-active;
+  background-color: rgb(235, 180, 30);
+  color: $arriere-color;
+  font-weight: bold; 
+  // color:#00008a; 
 }
 
 /* Active link styling */
 .nav-menu a.active {
-  background: $color-active; /* Slightly darker background for active */
-  color: #00008a; /* Green text */
-  font-weight: bold; /* Highlight active item with bold text */
-  border-left: 4px solid #00008a; /* Add a green indicator */
+  // background: $color-active; 
+  // color: #00008a; 
+  // border-left: 4px solid #00008a;
+  font-size: 0.8rem;
+  border-left: 4px solid rgb(235, 180, 30);
+  background-color: transparent;
+  color: rgb(235, 180, 30);
+
 }
 
 /* Icon Styling */
 .nav-menu a i {
-  font-size: 1rem;
+  font-size: 0.9rem;
 }

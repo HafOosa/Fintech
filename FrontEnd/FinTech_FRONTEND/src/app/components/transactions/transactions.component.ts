@@ -16,7 +16,7 @@ export class TransactionsComponent implements OnInit {
   transactionForm: FormGroup;
   transactionTypes = [
     'Bank Transfer', 
-    'Crypto Transfer', 
+    // 'Crypto Transfer', 
     'Payment', 
     'Deposit'
   ];

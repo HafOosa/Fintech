@@ -80,17 +80,12 @@ $glow-effect: 0 0 20px rgba(79, 209, 197, 0.5);
   }
   
   .logo {
+    display: flex;
+    align-items: center; /* Align items vertically */
     font-size: 1.5rem;
     font-weight: bold;
     color: rgb(235, 180, 30);
-    i.bitcoin-icon {
-      font-size: 2rem;
-      display: inline-block;
-      margin-right: 0.2rem;
-      transform: rotate(45deg);
-      color: rgb(183, 171, 1);
-      animation: bounce 2s infinite alternate;
-    }
+
   }
 
   .spacer {
