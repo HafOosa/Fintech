@@ -173,8 +173,9 @@
 
 /* Crypto Trend Chart Section */
 .crypto-trend-chart {
-  max-width: 700px;
-  margin: 5px auto;
+  width: 100%;
+  max-height: width;
+  margin: 5px ;
   padding: 5px;
   background-color: #ffffff;
   border-radius: 8px;
@@ -182,38 +183,29 @@
   overflow: hidden;
 }
 
-.crypto-trend-chart h2 {
-  font-size: 16px;
-  text-align: center;
-  margin-bottom: 10px;
-  color: #333;
+h2 {
+  font-family: 'Inter', sans-serif; /* Modern and clean font similar to the example */
+  font-weight: 600; /* Slightly bold for emphasis */
+  font-size: 1.25rem; /* Medium size for balance */
+  color: #333333; /* Dark gray, soft on the eyes */
+  margin-bottom: 10px; /* Space between title and content */
+  text-transform: capitalize; /* Consistent capitalization */
+  letter-spacing: 0.5px; /* Subtle spacing for readability */
+  text-align: left; /* Align to the left for structure */
 }
 
-.crypto-trend-chart .crypto-balances {
-  display: flex;
-  align-items: center;
-}
 
-ngx-charts-line-chart {
-  width: 100%;
-  height: 200px;
-}
 
-.crypto-trend-chart p {
-  font-size: 12px;
-  text-align: center;
-  color: #888;
-  margin-top: 10px;
-}
+
 /* Table Styling */
 table {
   width: 100%;
   border-collapse: collapse;
   animation: fadeIn 1s ease-in-out;
-  background-color: #ffffff; /* White background for the table */
-  border-radius: 8px; /* Rounded corners for the table */
-  overflow: hidden; /* Prevent overflow on rounded corners */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for table */
+  background-color: #ffffff; 
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
 }
 
 table th, 

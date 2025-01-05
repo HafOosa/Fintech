@@ -5,6 +5,7 @@
   <div class="action-buttons-container">
     <button class="logout-button" (click)="logout()">Logout</button>
     <button class="action-button add" (click)="openAddUserModal()">Add User</button>
+    <button class="overview" [routerLink]="'/AdminOverview'">Overview</button>
   </div>
 
   <!-- Message when no users are available -->

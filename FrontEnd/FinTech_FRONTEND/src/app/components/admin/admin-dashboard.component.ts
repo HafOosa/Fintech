@@ -3,12 +3,13 @@ import { UserService } from '@services/user.service';
 import { CommonModule } from '@angular/common';
 import { trigger, style, transition, animate } from '@angular/animations';
 import { FormsModule } from '@angular/forms'; // Import FormsModule pour [(ngModel)]
+import { RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-admin-dashboard',
-  standalone: true, // Assurez-vous qu'il est standalone
-  imports: [CommonModule, FormsModule], // Importez CommonModule pour utiliser *ngFor
+  standalone: true, 
+  imports: [CommonModule, FormsModule,RouterModule], 
   templateUrl: './admin-dashboard.component.html',
   styleUrls: ['./admin-dashboard.component.scss'],
   animations: [
