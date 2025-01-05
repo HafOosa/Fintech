@@ -13,8 +13,8 @@ class Utilisateur(Base):
     email = Column(String, nullable=False, unique=True, index=True)
     password = Column(String)
     role = Column(Enum('admin', 'user', name="user_roles"), nullable=False)
-    address = Column(String, nullable=True)  # Adresse du wallet, nullable
-    private_key = Column(String, nullable=True)
+    # address = Column(String, nullable=True)  # Adresse du wallet, nullable
+    # private_key = Column(String, nullable=True)
 
 
 

@@ -6,7 +6,7 @@ from models import Base
 from wallets import router as wallets_router
 from transactions import router as transactions_router
 from utilisateurs import router as utilisateurs_router
-from madt import router as madts_router
+# from madt import router as madts_router
 
 #main: port 8000
 
@@ -31,4 +31,4 @@ def home():
 app.include_router(wallets_router, tags=["Wallets"])
 app.include_router(transactions_router, tags=["Transactions"])
 app.include_router(utilisateurs_router, tags=["Utilisateurs"])
-app.include_router(madts_router, tags=["Madt"])
+# app.include_router(madts_router, tags=["Madt"])
