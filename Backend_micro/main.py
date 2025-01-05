@@ -31,4 +31,4 @@ def home():
 app.include_router(wallets_router, tags=["Wallets"])
 app.include_router(transactions_router, tags=["Transactions"])
 app.include_router(utilisateurs_router, tags=["Utilisateurs"])
-app.include_router(utilisateurs_router, tags=["Madt"])
+app.include_router(madts_router, tags=["Madt"])
