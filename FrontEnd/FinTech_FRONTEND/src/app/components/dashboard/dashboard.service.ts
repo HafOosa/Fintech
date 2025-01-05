@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
 
 interface DashboardData {
   accountBalance: number;
@@ -35,5 +37,10 @@ export class DashboardService {
 
   getDashboardData(): Observable<DashboardData> {
     return this.http.get<DashboardData>(this.dataUrl);
+  }
+
+  getHistoricalChartData(): Observable<any[]> {
+    return this.http.get<any[]>('http://127.0.0.1:8080/api/historical').pipe(
+      tap(data => console.log('Raw data from API:', data)));
   }
 }

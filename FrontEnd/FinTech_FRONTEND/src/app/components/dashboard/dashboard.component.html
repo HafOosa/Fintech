@@ -25,30 +25,12 @@
             <i class="fab fa-ethereum"></i>
           </div>
         </section>
-        
 
 
-      <section class="crypto-trend-chart">
-        <div class="crypto-balances">
-          <h2>Cryptocurrency Price Trends</h2>
-          <ngx-charts-line-chart
-            *ngIf="lineChartData.length > 0"
-            [view]="view"
-            [results]="lineChartData"
-            [legend]="legend"
-            [animations]="animations"
-            [xAxis]="xAxis"
-            [yAxis]="yAxis"
-            [showYAxisLabel]="showYAxisLabel"
-            [showXAxisLabel]="showXAxisLabel"
-            [xAxisLabel]="xAxisLabel"
-            [yAxisLabel]="yAxisLabel"
-            [timeline]="timeline"
-            [autoScale]="true"
-          ></ngx-charts-line-chart>
-          <p *ngIf="lineChartData.length === 0">No data available</p>
-        </div>
-      </section>
+
+        <section class="crypto-trend-chart">
+          <app-dynamic-chart></app-dynamic-chart>
+        </section>
 <!-- add here the table  -->
  <section class="recent-transactions">
 <h2>Recent Normal Transactions</h2>
@@ -100,7 +82,7 @@
         </table>
       </section>
 
- 
+
        </div>
 
 
@@ -137,7 +119,7 @@
       </div>
 
     </div>
-    
+
   </div>
 
 

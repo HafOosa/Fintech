@@ -1,0 +1,141 @@
+.chart-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: auto;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.chart-title {
+  font-size: 28px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.period-selector {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+
+  button {
+    background: #2980b9;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+
+    &:hover {
+      background: #e6e6e6;
+    }
+
+    &.active {
+      background: #2980b9;
+      color: #fff;
+      border: none;
+    }
+  }
+}
+
+.chart-container {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  height: auto;
+}
+
+.chart-container ngx-charts-line-chart {
+  path {
+    stroke-width: 2px; /* Épaisseur de la ligne */
+  }
+
+  .line {
+    stroke: #007bff; /* Ligne bleue */
+    fill: rgba(0, 123, 255, 0.2); /* Zone remplie en bleu clair */
+  }
+
+  .grid-line {
+    stroke: #ddd; /* Couleur des lignes de la grille */
+  }
+
+  .axis-label,
+  .tick text {
+    fill: #555; /* Couleur des labels */
+    font-size: 12px;
+  }
+
+  .tooltip-container {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  h2 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.5rem;
+  }
+
+  .chart-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    .live-indicator {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.9rem;
+      color: #7f8c8d;
+
+      &.active {
+        color: #27ae60;
+
+        &::before {
+          content: '';
+          display: inline-block;
+          width: 8px;
+          height: 8px;
+          background-color: #27ae60;
+          border-radius: 50%;
+          animation: pulse 2s infinite;
+        }
+      }
+    }
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.7);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(39, 174, 96, 0);
+  }
+
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(39, 174, 96, 0);
+  }
+}

@@ -8,6 +8,8 @@ import { CryptoChartComponent } from "../crypto-chart/crypto-chart.component";
 import { NewsComponent } from "../news/news.component";
 import { CreditCardComponent } from '@components/creditcard/creditcard.component';
 import { CryptoTableComponent } from './CryptoTableComponent.component';
+import { DynamicChartComponent } from '../dynamic-chart/dynamic-chart.component';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -17,7 +19,9 @@ import { CryptoTableComponent } from './CryptoTableComponent.component';
     NgxChartsModule,
     CommonModule,
     NewsComponent,
-    CryptoTableComponent
+    CryptoTableComponent,
+    DynamicChartComponent
+
 ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
@@ -114,9 +118,9 @@ export class DashboardComponent implements OnInit {
     { name: 'Ahmed Azhar', image: 'assets/profiles/ahmed.png' },
     { name: 'Celyn Gustav', image: 'assets/profiles/celyn.png' },
   ];
-  
+
   cardNumber = '5995 7474 1103 7513'; // Example card number
   cardType = 'visa';
   currentCardBackground = Math.floor(Math.random() * 25 + 1);
-  
+
 }
