@@ -98,6 +98,10 @@ export class DynamicChartComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  yAxisTickFormatting(value: number): string {
+    return `${value} $US`;
+  }
+
   viewAllTime(): void {
     this.chartService.getHistoricalData().subscribe(data => {
       this.updateChartData(data, 'year');
