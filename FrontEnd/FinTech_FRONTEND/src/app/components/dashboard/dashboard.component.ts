@@ -7,7 +7,7 @@ import { TransactionService } from '@services/transaction-normale.service';
 import { CryptoChartComponent } from "../crypto-chart/crypto-chart.component";
 import { NewsComponent } from "../news/news.component";
 import { CreditCardComponent } from '@components/creditcard/creditcard.component';
-import { boxsComponent } from "./boxs.component";
+import { CryptoTableComponent } from './CryptoTableComponent.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,7 +17,7 @@ import { boxsComponent } from "./boxs.component";
     NgxChartsModule,
     CommonModule,
     NewsComponent,
-    boxsComponent
+    CryptoTableComponent
 ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']

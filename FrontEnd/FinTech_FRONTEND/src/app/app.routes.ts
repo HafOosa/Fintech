@@ -15,7 +15,8 @@ import { HomePageComponent } from '@components/Home/home-page/home-page.componen
 import { CreditCardComponent } from '@components/creditcard/creditcard.component';
 import { CryptoCardComponent } from '@components/crypto-card/crypto-card.component';
 import { CryptoChartComponent } from '@components/crypto-chart/crypto-chart.component';
-import { LatestActivitiesComponent } from '@components/latest-activities/latest-activities.component';
+import { UserAnalyseComponent } from '@components/user-analyse/user-analyse.component';
+import { AdminOverveiwComponent } from '@components/admin-overveiw/admin-overveiw.component';
 
 export const routes: Routes = [
   // Public routes
@@ -27,13 +28,15 @@ export const routes: Routes = [
   { path: 'profile', component: ProfileComponent },
   { path: 'Page1', component: CryptoCardComponent },
   { path: 'Page2', component: CryptoChartComponent },
-  { path: 'Page3', component: NewsComponent },
   { path: 'admin', component: AdminDashboardComponent, canActivate : [AuthGuard]},
-  
+  { path: 'AdminOverview', component: AdminOverveiwComponent},
+
 
   // Authenticated routes (inside the layout)
   {
     path: ':userId',
+    // path: '',
+
     component: LayoutComponent,
     canActivate: [AuthGuard],
     children: [
@@ -42,6 +45,7 @@ export const routes: Routes = [
       { path: 'wallet', component: WalletComponent },
       { path: 'blockchain', component: BlockchainComponent },
       { path: 'settings',component:SettingsComponent },
+      { path: 'Overview',component:UserAnalyseComponent },
     ],
   },
 
