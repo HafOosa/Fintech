@@ -150,3 +150,86 @@
     </div>
   </div>
 </div>
+
+
+
+
+<div class="crypto-wallet-container">
+  <div class="wallet-header">
+    <h2 class="network">MAD Token Interface</h2>
+    <div class="profile-pic">
+      <img src="madt-logo.jpg" alt="mad">
+    </div>
+    <h1>Account</h1>
+    <p class="account-balance">Balance: {{ balance || '$0' }}</p>
+    <p class="address">{{ wallet?.address || 'No Wallet' }}</p>
+  </div>
+  
+  <!-- Wallet Actions -->
+  <div class="wallet-actions buttons">
+    <!-- Create Wallet Button -->
+    <button class="btn btn-create" (click)="openCreateWalletModal()">
+      <i class="icon fas fa-wallet"></i>
+      <span>Create Wallet</span>
+    </button>
+
+    <!-- Check Balance Button -->
+    <button class="btn btn-check" (click)="getBalance(wallet?.address)">
+      <i class="icon fas fa-search"></i>
+      <span>Check Balance</span>
+    </button>
+
+    <!-- Mint Tokens Button -->
+    <button class="btn btn-mint" (click)="openMintModal()">
+      <i class="icon fas fa-coins"></i>
+      <span>Mint Tokens</span>
+    </button>
+
+    <!-- Transfer Tokens Button -->
+    <button class="btn btn-transfer" (click)="openTransferModal()">
+      <i class="icon fas fa-paper-plane"></i>
+      <span>Transfer Tokens</span>
+    </button>
+  </div>
+</div>
+
+<!-- Modal for Create Wallet -->
+<div class="modal crypto-modal" *ngIf="showCreateWalletModal">
+  <div class="modal-content">
+    <span class="close" (click)="closeCreateWalletModal()">&times;</span>
+    <h2>Create Wallet</h2>
+    <p>Click the button below to create a new wallet.</p>
+    <button class="btn btn-create-wallet" (click)="createCryptoWallet()">Create Wallet</button>
+    <div *ngIf="successMessage" class="response success">{{ successMessage }}</div>
+    <div *ngIf="errorMessage" class="response error">{{ errorMessage }}</div>
+  </div>
+</div>
+
+<!-- Modal for Mint Tokens -->
+<div class="modal crypto-modal" *ngIf="showMintModal">
+  <div class="modal-content">
+    <span class="close" (click)="closeMintModal()">&times;</span>
+    <h2>Mint Tokens</h2>
+    <input type="text" placeholder="Recipient Address" [(ngModel)]="mintRecipient" />
+    <input type="number" placeholder="Amount" [(ngModel)]="mintAmount" />
+    <button class="btn btn-mint-confirm" (click)="mintTokens(mintRecipient, mintAmount)">Mint</button>
+    <div *ngIf="successMessage" class="response success">{{ successMessage }}</div>
+    <div *ngIf="errorMessage" class="response error">{{ errorMessage }}</div>
+  </div>
+</div>
+
+<!-- Modal for Transfer Tokens -->
+<div class="modal crypto-modal" *ngIf="showTransferModal">
+  <div class="modal-content">
+    <span class="close" (click)="closeTransferModal()">&times;</span>
+    <h2>Transfer Tokens</h2>
+    <input type="text" placeholder="From Address" [(ngModel)]="fromAddress" />
+    <input type="text" placeholder="Private Key" [(ngModel)]="privateKey" />
+    <input type="text" placeholder="To Address" [(ngModel)]="recipientAddress" />
+    <input type="number" placeholder="Amount" [(ngModel)]="transferAmount" />
+    <button class="btn btn-transfer-confirm" (click)="transferTokensFrom(fromAddress, privateKey, recipientAddress, transferAmount)">Transfer</button>
+    <div *ngIf="successMessage" class="response success">{{ successMessage }}</div>
+    <div *ngIf="errorMessage" class="response error">{{ errorMessage }}</div>
+  </div>
+</div>
+

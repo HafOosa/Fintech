@@ -34,6 +34,7 @@ export class WalletComponent implements OnInit {
   showTransferModal: boolean = false;
   recipientWalletAddress: string = '';
   transferAmount: number | null = null;
+  showCreateWalletModal = false; 
 
   wallet: any = null;
   transactions: any[] = [];
@@ -52,13 +53,31 @@ export class WalletComponent implements OnInit {
   newBeneficiaryWalletAddress: string = '';
   showAddBeneficiaryModal: boolean = false;
 
+
+  // Mint Tokens inputs
+  mintRecipient: string = '';
+  mintAmount: number | null = null;
+  showMintModal = false;
+
+  // Transfer Tokens inputs
+  fromAddress: string = '';
+  privateKey: string = '';
+  recipientAddress: string = '';
+
   constructor(private walletService: WalletService) {}
+
 
   ngOnInit(): void {
     this.loadWallet();
     this.loadTransactionHistory();
     this.loadBeneficiaries();
   }
+
+    // Utility function to clear messages
+    clearMessages() {
+      this.successMessage = null;
+      this.errorMessage = null;
+    }
 
   loadWallet() {
     this.walletService.getWallet().subscribe({
@@ -274,4 +293,99 @@ export class WalletComponent implements OnInit {
   closeAddBeneficiaryModal() {
     this.showAddBeneficiaryModal = false;
   }
+
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /*Crypto-wallets*/
+
+  // Create Crypto Wallet
+  // Create Crypto Wallet
+   // Create Crypto Wallet
+  // Backend Actions
+  createCryptoWallet() {
+    this.walletService.createCryptoWallet().subscribe({
+      next: (data) => {
+        this.wallet = data;
+        this.successMessage = `Wallet created successfully! Address: ${data.address}`;
+        this.closeCreateWalletModal();
+        setTimeout(() => (this.successMessage = null), 3000);
+      },
+      error: (err) => {
+        console.error('Error creating wallet:', err);
+        this.errorMessage = 'Failed to create wallet. Please try again.';
+        setTimeout(() => (this.errorMessage = null), 3000);
+      }
+    });
+  }
+
+  getBalance(address: string) {
+    if (!address) {
+      this.errorMessage = 'Address is required to fetch balance.';
+      return;
+    }
+    this.walletService.getBalance(address).subscribe({
+      next: (data) => {
+        this.balance = data.balance;
+        this.successMessage = `Balance: ${data.balance}`;
+      },
+      error: (err) => {
+        console.error('Error fetching balance:', err);
+        this.errorMessage = 'Failed to fetch balance. Please try again.';
+      }
+    });
+  }
+
+  mintTokens(to: string, amount: number | null) {
+    if (!to || !amount || amount <= 0) {
+      this.errorMessage = 'Valid recipient address and amount are required.';
+      return;
+    }
+    this.walletService.mintTokens(to, amount).subscribe({
+      next: (data) => {
+        this.successMessage = `Tokens minted successfully! Transaction Hash: ${data.transaction_hash}`;
+        this.closeMintModal();
+      },
+      error: (err) => {
+        console.error('Error minting tokens:', err);
+        this.errorMessage = 'Failed to mint tokens. Please try again.';
+      }
+    });
+  }
+
+  transferTokensFrom(fromAddress: string, privateKey: string, toAddress: string, amount: number | null) {
+    if (!fromAddress || !privateKey || !toAddress || !amount || amount <= 0) {
+      this.errorMessage = 'Valid details are required for transferring tokens.';
+      return;
+    }
+    this.walletService.transferTokensFrom(fromAddress, privateKey, toAddress, amount).subscribe({
+      next: (data) => {
+        this.successMessage = `Tokens transferred successfully! Transaction Hash: ${data.transaction_hash}`;
+        this.closeTransferModal();
+      },
+      error: (err) => {
+        console.error('Error transferring tokens:', err);
+        this.errorMessage = 'Failed to transfer tokens. Please try again.';
+      }
+    });
+  }
+
+  openMintModal() {
+    this.showMintModal = true;
+  }
+
+  closeMintModal() {
+    this.showMintModal = false;
+    this.clearMessages();
+  }
+
+  openCreateWalletModal() {
+    this.showCreateWalletModal = true;
+  }
+
+  closeCreateWalletModal() {
+    this.showCreateWalletModal = false;
+    this.clearMessages();
+  }
+
+
 }

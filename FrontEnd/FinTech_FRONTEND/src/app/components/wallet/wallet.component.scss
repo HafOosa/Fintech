@@ -29,6 +29,7 @@ body {
   margin: auto;
   margin-top: 20px; /* Centering horizontally */
   animation: fadeIn 0.8s ease-in-out; /* Smooth fade-in animation */
+  margin-bottom: 60px;
 }
 
 /* Wallet Summary Section */
@@ -266,8 +267,8 @@ body {
 }
 
 .modal-content input[type="number"] {
-  appearance: none;
-  -webkit-appearance: none/* Supprime les flèches dans Firefox */
+  -webkit-appearance: none;
+  appearance: nonee/* Supprime les flèches dans Firefox */
 }
 
 .modal-content input[type="number"]::-webkit-inner-spin-button,
@@ -667,4 +668,230 @@ select:focus {
 .btn-add-beneficiary:active {
   background-color: #3e8e41; /* Vert encore plus foncé */
   transform: scale(0.95); /* Réduction légère à l'interaction */
+}
+
+
+
+
+
+/* CSS pour crypto-wallet */
+/* Conteneur principal */
+/* Container Full Width */
+/* Container Full Width */
+.crypto-wallet-container {
+  padding: 20px;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin: 20px auto;
+  width: 80%;
+  max-width: 1200px;
+  animation: fadeIn 0.8s ease-in-out;
+  margin-top: 40px;
+}
+
+/* Wallet Header */
+.wallet-header {
+  text-align: center;
+}
+
+.network {
+  color: #707070;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.profile-pic img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.wallet-header h1 {
+  font-size: 24px;
+  margin: 10px 0;
+}
+
+.account-balance {
+  margin: 10px 0;
+  font-size: 16px;
+  color: #000;
+}
+
+.address {
+  margin: 10px 0;
+  padding: 5px 10px;
+  font-size: 14px;
+  color: #707070;
+  background-color: #f3f3f3;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+/* Buttons Section */
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.buttons .btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  font-size: 14px;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.buttons .btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.buttons .btn .icon {
+  font-size: 16px;
+}
+
+/* Icons and Button Specific Colors */
+.btn-create {
+  background-color: #28a745; /* Green for Create Wallet */
+}
+
+.btn-check {
+  background-color: #17a2b8; /* Cyan for Check Balance */
+}
+
+.btn-mint {
+  background-color: #ffc107; /* Yellow for Mint Tokens */
+}
+
+.btn-transfer {
+  background-color: #dc3545; /* Red for Transfer Tokens */
+}
+
+.btn-create:hover {
+  background-color: #218838;
+}
+
+.btn-check:hover {
+  background-color: #138496;
+}
+
+.btn-mint:hover {
+  background-color: #e0a800;
+}
+
+.btn-transfer:hover {
+  background-color: #c82333;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.crypto-modal {
+  background: #f8f9fa; /* Couleur de fond spécifique */
+  border: 2px solid #007bff; /* Bordure bleue */
+  border-radius: 10px; /* Coins arrondis */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre subtile */
+}
+
+.crypto-modal .modal-content {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  color: #333; /* Couleur du texte */
+}
+
+.crypto-modal .modal-content h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #007bff; /* Couleur spécifique au titre */
+}
+
+.crypto-modal .modal-content input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.crypto-modal .btn-transfer-confirm {
+  background: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.crypto-modal .btn-transfer-confirm:hover {
+  background: #0056b3;
+}
+
+.crypto-modal .close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 18px;
+  cursor: pointer;
+  color: #333;
+}
+
+.crypto-modal .response.success {
+  color: green;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.crypto-modal .response.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.crypto-modal .btn {
+  display: inline-block;
+  background-color: #007bff; /* Couleur bleu primaire */
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.crypto-modal .btn:hover {
+  background-color: #0056b3; /* Couleur bleu foncé pour hover */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Effet d'ombre */
+}
+
+.crypto-modal .btn:disabled {
+  background-color: #ccc; /* Couleur grise pour bouton désactivé */
+  cursor: not-allowed;
 }

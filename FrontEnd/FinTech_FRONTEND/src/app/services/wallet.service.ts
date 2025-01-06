@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class WalletService {
   private apiUrl = 'http://127.0.0.1:8000/wallets';
+  private backendUrl = 'http://127.0.0.1:8000';
 
   constructor(private http: HttpClient) {}
 
@@ -45,25 +46,33 @@ export class WalletService {
   deleteBeneficiary(beneficiaryId: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/beneficiaires/${beneficiaryId}`);
   }
-}
+
+//////////////////////////////////////////////////////////////////////////////////////
 
 
 
-
-export class WalletServiceCrypto {
-  private apiUrl = 'http://127.0.0.1:5000'; // Flask API URL
-
-  constructor(private http: HttpClient) {}
-
-  createWallet(): Observable<any> {
-    return this.http.post(`${this.apiUrl}/wallet/create`, {});
+  // Create Crypto Wallet
+  createCryptoWallet(): Observable<any> {
+    return this.http.post<any>(`${this.backendUrl}/create_wallet`, {});
   }
-
+  
+  // Get Balance
   getBalance(address: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/wallet/balance`, { params: { address } });
+    return this.http.get<any>(`${this.backendUrl}/balance/${address}`);
   }
-
-  importWallet(encryptedKey: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/wallet/import`, { private_key: encryptedKey });
+  
+  // Mint Tokens
+  mintTokens(to: string, amount: number): Observable<any> {
+    return this.http.post<any>(`${this.backendUrl}/mint`, { to, amount });
   }
+  
+  // Transfer Tokens
+  transferTokensFrom(fromAddress: string, privateKey: string, toAddress: string, amount: number): Observable<any> {
+      return this.http.post<any>(`${this.backendUrl}/transfer_from`, {
+        from_address: fromAddress,
+        private_key: privateKey,
+        to_address: toAddress,
+        amount,
+  });
+}
 }
