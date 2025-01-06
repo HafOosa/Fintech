@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes'; // Importez vos routes
 import { importProvidersFrom } from '@angular/core';
+import { CryptoConverterComponent } from './app/crypto-converter/crypto-converter.component';
 
 bootstrapApplication(AppComponent, {
   providers: [

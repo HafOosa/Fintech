@@ -17,6 +17,8 @@ import { CryptoCardComponent } from '@components/crypto-card/crypto-card.compone
 import { CryptoChartComponent } from '@components/crypto-chart/crypto-chart.component';
 import { UserAnalyseComponent } from '@components/user-analyse/user-analyse.component';
 import { AdminOverveiwComponent } from '@components/admin-overveiw/admin-overveiw.component';
+import { CryptoConverterComponent } from './crypto-converter/crypto-converter.component';
+
 
 export const routes: Routes = [
   // Public routes
@@ -46,6 +48,7 @@ export const routes: Routes = [
       { path: 'blockchain', component: BlockchainComponent },
       { path: 'settings',component:SettingsComponent },
       { path: 'Overview',component:UserAnalyseComponent },
+      { path: 'exchange', component: CryptoConverterComponent },
     ],
   },
 

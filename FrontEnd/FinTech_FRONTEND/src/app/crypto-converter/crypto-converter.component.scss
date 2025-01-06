@@ -1,0 +1,207 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    outline: none;
+    font-family: 'Roboto', sans-serif;
+}
+
+div {
+    display: block;
+}
+
+body {
+    width: 100%;
+    color: #26374c;
+    background: #f5f7fa;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Centrer verticalement */
+    margin: 0;
+}
+
+header {
+    background: none;
+    padding-top: 50px;
+    margin-bottom: 5px;
+}
+
+
+
+.img-placed img{
+    width: 600px;
+}
+
+.container {
+    width: 600px;
+    margin: auto;
+    margin-top: 30px;
+    padding: auto;
+    height: 600px;
+    display: block;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+input[type=text] {
+    width: 87%;
+    margin: auto;
+    display: block;
+    font-size: 1rem;
+    background: none;
+    line-height: 1.5;
+    padding: 12px;
+    border-radius: 6px;
+    color: #141e37;
+    border: 1px solid rgb(221, 221, 221);
+    transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+input[type=text]:focus {
+    border-color: rgb(235, 180, 30);
+    transform: scale(1.02);
+}
+
+#select-field {
+    display: flex;
+    justify-content: space-between;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+    transform: scale(1.02);
+}
+
+#fromCurrencyName {
+    margin-top: 0;
+    font-size: 16px;
+    color: rgb(235, 180, 30);
+    font-weight: 600;
+    display: inline-block;
+    margin: 15px 40px 7.5px;
+}
+
+#fromCurrency {
+    width: 40%;
+}
+
+::placeholder {
+    font-size: 1rem;
+    color: rgb(20, 30, 55);
+}
+
+select {
+    margin: auto;
+    display: block;
+    font-size: 1rem;
+    padding: 12px;
+    background: none;
+    border-radius: 6px;
+    color: rgb(20, 30, 55);
+    border: 1px solid rgb(221, 221, 221);
+    transition: border-color 0.3s ease, transform 0.3s ease;
+    transform: scale(1.02);
+    appearance: none;
+}
+
+select:focus {
+    border-color: rgb(235, 180, 30);
+    box-shadow: 0 0 10px rgba(235, 180, 30, 0.5); /* Ajouter une ombre */
+    transform: scale(1.02);
+}
+
+
+
+.primary-btn {
+    display: block;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    min-width: 0px;
+    width: 87%;
+    cursor: pointer;
+    margin: auto;
+    outline-offset: 4px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    transition-property: background-color, border-color;
+    transition-duration: 0.3s;
+    padding: 10px 20px;
+    font-size: 20px;
+    border-radius: 8px;
+    color: rgb(235, 180, 30);
+    background-color: #1a202c; /* Couleur demandée */
+    border: 2px solid rgb(235, 180, 30); /* Bordure jaune */
+    transition: all 0.3s ease-in-out; /* Animation de transition */
+}
+
+.primary-btn:hover {
+    background-color: rgb(235, 180, 30); /* Couleur jaune sur survol */
+    color: #1a202c; /* Couleur du texte inversée */
+    transform: scale(1.05); /* Agrandir légèrement */
+}
+
+#result {
+    color: #141e37;
+    margin-top: 15px;
+    font-size: 20px;
+    font-weight: 400;
+    text-align: center;
+}
+
+@media only screen and (max-width:780px) {
+    .container {
+        width: 340px;
+        height: 430px;
+    }
+
+    .img-placed img {
+        width: 340px;
+    }
+
+    #fromCurrency {
+        width: 38%;
+    }
+
+    select {
+        width: 38%;
+    }
+
+    #fromCurrencyName {
+        margin: 15px 22px 7.5px;
+    }
+}
+
+
+#result {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #1a202c;
+    text-align: center;
+    font-weight: 500;
+}
+
+.conversion-result {
+    background: #f5f7fa;
+    padding: 15px 25px;
+    border-radius: 12px;
+    display: inline-block;
+    color: #333;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.conversion-result i {
+    color: rgb(235, 180, 30);
+    margin-right: 10px;
+}
+
+.conversion-result strong {
+    color: #1a202c;
+    font-weight: 700;
+}

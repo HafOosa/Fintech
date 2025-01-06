@@ -13,8 +13,8 @@ class Utilisateur(Base):
     email = Column(String, nullable=False, unique=True, index=True)
     password = Column(String)
     role = Column(Enum('admin', 'user', name="user_roles"), nullable=False)
-    # address = Column(String, nullable=True)  # Adresse du wallet, nullable
-    # private_key = Column(String, nullable=True)
+    address = Column(String, nullable=True)  # Adresse du wallet, nullable
+    private_key = Column(String, nullable=True)
 
 
 
@@ -25,6 +25,7 @@ class Wallets(Base):
     user_id = Column(Integer, nullable=False, unique=True)
     address = Column(String, nullable=False, unique=True)
     balance = Column(Float, default=0.0)
+
 
 class CryptoWallets(Base):
     __tablename__ = "cryptowallets"

@@ -48,6 +48,7 @@ def create_crypto_wallet(wallet_id: str, private_key: str, db: Session, user_id:
     # Check if the user already has a wallet
     existing_wallet = db.query(CryptoWallets).filter(CryptoWallets.user_id == user_id).first()
     if existing_wallet:
+        print(f"User {user_id} already has a wallet: {existing_wallet.wallet_id}")
         raise HTTPException(status_code=400, detail="User already has a wallet")
 
     # Create the new wallet
@@ -55,7 +56,10 @@ def create_crypto_wallet(wallet_id: str, private_key: str, db: Session, user_id:
     db.add(db_wallet)
     db.commit()
     db.refresh(db_wallet)
+    print(f"Wallet created for user {user_id}: {db_wallet.wallet_id}")
     return db_wallet
+
+
 
 def read_crypto_wallet( user_id: int,db: Session = Depends(get_db)):
     wallet = db.query(CryptoWallets).filter(CryptoWallets.user_id == user_id).first()

@@ -9,7 +9,7 @@
       <a [routerLink]="['/', userId, 'dashboard']" routerLinkActive="active">
         <i class="fas fa-home"></i> Dashboard
       </a>
-      <a [routerLink]="['/', userId, 'exchange']" routerLinkActive="active">
+      <a [routerLink]="['/', userId, 'exchange']" routerLinkActive="active" (click)="debugLink()">
         <i class="fas fa-exchange-alt"></i> Exchange
       </a>
       <a [routerLink]="['/', userId, 'wallet']" routerLinkActive="active">

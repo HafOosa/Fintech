@@ -28,6 +28,9 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
         return user.user_id
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
+
+
+
 # BlockchainService initialization
 blockchain_service = BlockchainService(
     rpc_url="http://127.0.0.1:7545",
@@ -45,12 +48,6 @@ class TransferRequest(BaseModel):
     to: str
     amount: float
 
-from pydantic import BaseModel
-
-class TransferRequest(BaseModel):
-    to: str
-    amount: float
-
 class TransferFromRequest(BaseModel):
     from_address: str
     private_key: str
@@ -60,6 +57,7 @@ class TransferFromRequest(BaseModel):
 # Initialisation du router
 router = APIRouter()
 # Endpoints
+
 @router.get("/balance/{address}")
 def get_balance(address: str):
     try:
@@ -67,14 +65,16 @@ def get_balance(address: str):
         return {"address": address, "balance": balance}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
-    
 
-@router.post("/")
-def read_cryptowallet( db: Session = Depends(get_db), user_id: int = Depends(get_current_user)):
-    wallet=read_crypto_wallet(db=db, user_id=user_id)
+
+@router.get("/madt")
+def read_cryptowallet(db: Session = Depends(get_db), user_id: int = Depends(get_current_user)):
+    wallet = read_crypto_wallet(db=db, user_id=user_id)
     if wallet is None:
         raise HTTPException(status_code=404, detail="Wallet not found")
     return wallet
+
+
 @router.post("/mint")
 def mint_tokens(request: MintRequest):
     print("Incoming Request Data:", request.dict())
@@ -96,6 +96,7 @@ def transfer_tokens(request: TransferRequest):
         print(f"Error in transfer_tokens: {e}")
         raise HTTPException(status_code=400, detail=str(e))
 
+
 @router.post("/create_wallet")
 def create_wallet(db: Session = Depends(get_db), user_id: int = Depends(get_current_user)):
     try:
@@ -109,6 +110,9 @@ def create_wallet(db: Session = Depends(get_db), user_id: int = Depends(get_curr
     except Exception as e:
         print(f"Error creating wallet: {e}")
         raise HTTPException(status_code=500, detail="Failed to create wallet.")
+
+
+
 @router.post("/transfer_from")
 def transfer_tokens_from(request: TransferFromRequest,db: Session = Depends(get_db), user_id: int = Depends(get_current_user)):
     print("Incoming Request Data:", request.dict())

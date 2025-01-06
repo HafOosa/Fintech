@@ -47,34 +47,44 @@ export class WalletService {
     return this.http.delete<any>(`${this.apiUrl}/beneficiaires/${beneficiaryId}`);
   }
 
-//////////////////////////////////////////////////////////////////////////////////////
 
 
 
-  // Create Crypto Wallet
+////////////////////////Crypto wallets services//////////////////////////////////////////
+
+
+
+  // Recupere Crypto Wallet
+  checkCryptoWalletExists() {
+    return this.http.get<any>(`${this.backendUrl}/madt`, {});
+  }
+
+
+  //wallet_creation
   createCryptoWallet(): Observable<any> {
-   this.http.post<any>(`${this.backendUrl}/create_wallet`, {});
     return this.http.post<any>(`${this.backendUrl}/create_wallet`, {});
   }
+
+
   getCryptoWallet(): Observable<any> {
     return this.http.get<any>(`${this.backendUrl}`);
   }
-  // Get Balance
+
+
+  // Recuperation du balance de l'adresse
   getBalance(address: string): Observable<any> {
     return this.http.get<any>(`${this.backendUrl}/balance/${address}`);
   }
 
-  // Mint Tokens
-  mintTokens(to: string, amount: number): Observable<any> {
-    return this.http.post<any>(`${this.backendUrl}/mint`, { to, amount });
+
+  // buy Tokens
+  mintTokens(to: string, amount: number ): Observable<any> {
+    return this.http.post<any>(`${this.backendUrl}/mint`, {to,amount});
   }
 
   // Transfer Tokens
-  transferTokensFrom( toAddress: string, amount: number): Observable<any> {
-      return this.http.post<any>(`${this.backendUrl}/transfer_from`, {
-
-        to_address: toAddress,
-        amount,
-  });
-}
+  // Méthode pour transférer des tokens
+  transferTokens(to: string, amount: number): Observable<any> {
+    return this.http.post<any>(`${this.backendUrl}/transfer`, {to,amount});
+  }
 }

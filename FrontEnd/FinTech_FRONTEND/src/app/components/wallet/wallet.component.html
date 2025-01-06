@@ -8,7 +8,7 @@
   <!-- Si un wallet existe, afficher les informations -->
   <div *ngIf="wallet" class="wallet-summary">
     <h2>Current Balance</h2>
-    <h1>{{ wallet?.balance | currency: 'USD' }}</h1>
+    <h1>{{ formatCurrency(wallet?.balance) }}</h1>
     <p class="wallet-address">
       {{ showFullAddress ? wallet?.address : '*'.repeat(wallet?.address?.length || 0) }}
       <button (click)="toggleAddressVisibility()" class="btn btn-toggle-address">
@@ -154,7 +154,7 @@
 
 
 
-<div class="crypto-wallet-container">
+<div class="crypto-wallet-container animate__animated animate__fadeIn">
   <div class="wallet-header">
     <h2 class="network">MAD Token Interface</h2>
     <div class="profile-pic">
@@ -162,31 +162,41 @@
     </div>
     <h1>Account</h1>
     <p class="account-balance">Balance: {{ balance || '$0' }}</p>
-    <p class="address">{{ cryptowallet?.address_id || 'No Wallet' }}</p>
+    <p class="address">
+      Wallet ID: {{ cryptowallet?.wallet_id || 'No Wallet' }}
+    </p>
+
+    <!-- Afficher la clé privée -->
+    <p class="private-key">
+      Private Key: 
+      <span *ngIf="showPrivateKey; else hiddenKey">
+        {{ cryptowallet?.private_key || 'Not Available' }}
+      </span>
+      <ng-template #hiddenKey>
+        ***************
+      </ng-template>
+      <button (click)="togglePrivateKeyVisibility()" class="btn btn-toggle-key">
+        <i class="fas" [ngClass]="showPrivateKey ? 'fa-eye-slash' : 'fa-eye'"></i>
+      </button>
+    </p>
   </div>
 
   <!-- Wallet Actions -->
   <div class="wallet-actions buttons">
     <!-- Create Wallet Button -->
-    <button class="btn btn-create" (click)="openCreateWalletModal()">
+    <button class="btn btn-create" *ngIf="!hasCryptoWallet" (click)="openCreateWalletModal()">
       <i class="icon fas fa-wallet"></i>
       <span>Create Wallet</span>
     </button>
 
-    <!-- Check Balance Button -->
-    <button class="btn btn-check" (click)="getBalance(wallet?.address)">
-      <i class="icon fas fa-search"></i>
-      <span>Check Balance</span>
-    </button>
-
-    <!-- Mint Tokens Button -->
-    <button class="btn btn-mint" (click)="openMintModal()">
+    <!-- Buy Tokens Button -->
+    <button class="btn btn-mint" (click)="openBuyTokensModal()">
       <i class="icon fas fa-coins"></i>
-      <span>Mint Tokens</span>
+      <span>Buy Tokens</span>
     </button>
 
     <!-- Transfer Tokens Button -->
-    <button class="btn btn-transfer" (click)="openTransferModal()">
+    <button class="btn btn-transfer" (click)="openCryptoTransferModal()">
       <i class="icon fas fa-paper-plane"></i>
       <span>Transfer Tokens</span>
     </button>
@@ -205,28 +215,57 @@
   </div>
 </div>
 
-<!-- Modal for Mint Tokens -->
-<div class="modal crypto-modal" *ngIf="showMintModal">
+<!-- Modal for buy Tokens -->
+<div class="modal crypto-modal" *ngIf="showBuyTokensModal">
   <div class="modal-content">
-    <span class="close" (click)="closeMintModal()">&times;</span>
-    <h2>Mint Tokens</h2>
-    <input type="text" placeholder="Recipient Address" [(ngModel)]="mintRecipient" />
-    <input type="number" placeholder="Amount" [(ngModel)]="mintAmount" />
-    <button class="btn btn-mint-confirm" (click)="mintTokens(mintRecipient, mintAmount)">Mint</button>
+    <span class="close" (click)="closeBuyTokensModal()">&times;</span>
+    <h2>Buy Tokens</h2>
+    <p>Use your wallet balance to purchase tokens.</p>
+    
+    <p>
+      Current Wallet Balance: <strong>{{ formatCurrency(wallet?.balance) }}</strong>
+    </p>
+
+    <label for="amount">Amount of Tokens to Buy:</label>
+    <input type="number" [(ngModel)]="buyAmount" placeholder="Enter amount" min="1" max="{{ wallet?.balance }}"
+    step="1"
+    class="custom-input" />
+
+    <button class="btn btn-buy-confirm" (click)="buyTokens()">Confirm Purchase</button>
+
     <div *ngIf="successMessage" class="response success">{{ successMessage }}</div>
     <div *ngIf="errorMessage" class="response error">{{ errorMessage }}</div>
   </div>
 </div>
 
+
 <!-- Modal for Transfer Tokens -->
-<div class="modal crypto-modal" *ngIf="showTransferModal">
+<div class="modal crypto-modal" *ngIf="showCryptoTransferModal">
   <div class="modal-content">
-    <span class="close" (click)="closeTransferModal()">&times;</span>
+    <span class="close" (click)="closeCryptoTransferModal()">&times;</span>
+    <h2>Transfer Tokens</h2>
     <h2>Transfer Tokens</h2>
 
-    <input type="text" placeholder="To Address" [(ngModel)]="recipientAddress" />
-    <input type="number" placeholder="Amount" [(ngModel)]="transferAmount" />
-    <button class="btn btn-transfer-confirm" (click)="transferTokensFrom(fromAddress, privateKey, recipientAddress, transferAmount)">Transfer</button>
+    <label for="transferToAddress">Recipient Wallet Address:</label>
+    <input
+      type="text"
+      id="transferToAddress"
+      [(ngModel)]="transferToAddress"
+      placeholder="Enter recipient's wallet address"
+      required
+    />
+
+    <label for="transferAmount">Amount:</label>
+    <input
+      type="number"
+      id="transferAmount"
+      [(ngModel)]="transferAmount"
+      placeholder="Enter amount to transfer"
+      min="1"
+      required
+    />
+
+    <button class="btn btn-transfer-confirm" (click)="transferTokens()">Transfer</button>
     <div *ngIf="successMessage" class="response success">{{ successMessage }}</div>
     <div *ngIf="errorMessage" class="response error">{{ errorMessage }}</div>
   </div>

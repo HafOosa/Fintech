@@ -1,0 +1,65 @@
+<div class="container">
+    <div class="img-placed">
+        <img src="https://i.imgur.com/YgmULQP.png" alt="">
+    </div>
+
+    <form (ngSubmit)="convertCurrency()" #currencyForm="ngForm">
+        <input type="text" name="amount" id="amount" placeholder="Enter Amount" required [(ngModel)]="amount">
+
+        <label id="fromCurrencyName">{{ fromCurrencyName }}</label>
+        <div id="select-field">
+            <select name="fromCurrency" id="fromCurrency" [(ngModel)]="fromCurrency" (change)="updateFromCurrencyName()">
+                <option value="USD" selected>USD - US Dollar</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="GBP">GBP - British Pound</option>
+                <option value="CAD">CAD - Canadian Dollar</option>
+                <option value="AUD">AUD - Australian Dollar</option>
+                <option value="JPY">JPY - Japanese Yen</option>
+                <option value="INR">INR - India Rupee</option>
+                <option value="NZD">NZD - New Zealand Dollar</option>
+                <option value="CHF">CHF - Swiss Franc</option>
+                <option value="ZAR">ZAR - South African Rand</option>
+                <option value="BGN">BGN - Bulgarian Lev</option>
+                <option value="SGD">SGD - Singapore Dollar</option>
+                <option value="HKD">HKD - Hong Kong Dollar</option>
+                <option value="SEK">SEK - Swedish Krona</option>
+                <option value="THB">THB - Thai Baht</option>
+                <option value="HUF">HUF - Hungarian Forint</option>
+                <option value="CNY">CNY - Chinese Yuan Renminbi</option>
+                <option value="NOK">NOK - Norwegian Krone</option>
+                <option value="MXN">MXN - Mexican Peso</option>
+                <option value="GHS">GHS - Ghanians Cedi</option>
+                <option value="NGN">NGN - Nigerian Naira</option>
+            </select>
+
+            <select name="toCurrency" id="toCurrency" [(ngModel)]="toCurrency">
+                <option value="BTC">Bitcoin (BTC)</option>
+                <option value="ETH">Ethereum (ETH)</option>
+                <option value="USDT">Tether (USDT)</option>
+                <option value="BNB">Binance Coin (BNB)</option>
+                <option value="USDC">USD Coin (USDC)</option>
+                <option value="XRP">XRP (XRP)</option>
+                <option value="BUSD">Binance USD (BUSD)</option>
+                <option value="ADA">cardano (ADA)</option>
+                <option value="DOGE">Dogecoin (DOGE)</option>
+                <option value="MATIC">Polygon (MATIC)</option>
+                <option value="SOL">Solana (SOL)</option>
+                <option value="DOT">Polkadot (DOT)</option>
+                <option value="SHIB">Shiba Inu (SHIB)</option>
+                <option value="LTC">Litecoin (LTC)</option>
+                <option value="TRX">Tron (TRX)</option>
+                <option value="AVAX">Avalanche (AVAX)</option>
+            </select>
+        </div>
+        <br>
+        <button type="button" id="convert" class="primary-btn" (click)="convertCurrency()">Convert</button>
+    </form>
+
+    <p id="result" *ngIf="resultMessage">
+    <span class="conversion-result">
+        <i class="fas fa-coins"></i>
+        {{ resultMessage }}
+    </span>
+    </p>
+</div>
+

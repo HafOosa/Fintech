@@ -61,9 +61,17 @@ export class WalletComponent implements OnInit {
   showMintModal = false;
 
   // Transfer Tokens inputs
-  fromAddress: string = '';
-  privateKey: string = '';
-  recipientAddress: string = '';
+  transferToAddress: string = '';
+  transfertokenAmount: number = 0;
+  showCryptoTransferModal: boolean = false;
+
+  //check crypto_wallet
+  hasCryptoWallet: boolean = false;
+  showPrivateKey: boolean = false;
+
+  //buuy tokens:
+  showBuyTokensModal: boolean = false;
+  buyAmount: number = 0;
 
   constructor(private walletService: WalletService) {}
 
@@ -73,6 +81,7 @@ export class WalletComponent implements OnInit {
     this.CryptoWallet();
     this.loadTransactionHistory();
     this.loadBeneficiaries();
+    this.checkWalletExists();
   }
 
     // Utility function to clear messages
@@ -80,6 +89,13 @@ export class WalletComponent implements OnInit {
       this.successMessage = null;
       this.errorMessage = null;
     }
+
+  formatCurrency(balance: number | null): string {
+    if (balance === null || balance === undefined) {
+        return '0 DH';
+      }
+    return `${balance} DH`;
+  }
 
   loadWallet() {
     this.walletService.getWallet().subscribe({
@@ -312,11 +328,39 @@ export class WalletComponent implements OnInit {
   // Create Crypto Wallet
    // Create Crypto Wallet
   // Backend Actions
+
+  togglePrivateKeyVisibility() {
+    this.showPrivateKey = !this.showPrivateKey;
+  }
+
+  //check crypto-wallet
+  checkWalletExists() {
+    this.walletService.checkCryptoWalletExists().subscribe({
+      next: (wallet) => {
+        this.hasCryptoWallet = true;
+        this.cryptowallet = wallet; // Stocke les détails du portefeuille
+        // Appeler automatiquement la balance
+        this.getBalance(wallet.wallet_id);
+      },
+      error: (err) => {
+        if (err.status === 404) {
+          this.hasCryptoWallet = false; // Pas de portefeuille trouvé
+        } else {
+          console.error('Error checking wallet existence:', err);
+        }
+      }
+    });
+  }
+
+
+  //Creation de wallet
   createCryptoWallet() {
     this.walletService.createCryptoWallet().subscribe({
       next: (data) => {
-        this.wallet = data;
-        this.successMessage = `Wallet created successfully! Address: ${data.address}`;
+        console.log('Wallet creation response:', data); // Vérifiez ici les données reçues
+        this.hasCryptoWallet = true;
+        this.cryptowallet = data;
+        this.successMessage = `Wallet created successfully! Address: ${data.wallet_id}`;
         this.closeCreateWalletModal();
         setTimeout(() => (this.successMessage = null), 3000);
       },
@@ -328,54 +372,66 @@ export class WalletComponent implements OnInit {
     });
   }
 
+
   getBalance(address: string) {
-    if (!address) {
-      this.errorMessage = 'Address is required to fetch balance.';
-      return;
-    }
     this.walletService.getBalance(address).subscribe({
       next: (data) => {
-        this.balance = data.balance;
-        this.successMessage = `Balance: ${data.balance}`;
+        this.balance = `${data.balance} MADT`; // Affiche le solde avec l'unité
       },
       error: (err) => {
         console.error('Error fetching balance:', err);
-        this.errorMessage = 'Failed to fetch balance. Please try again.';
-      }
+        this.balance = 'Failed to fetch balance';
+      },
     });
   }
 
-  mintTokens(to: string, amount: number | null) {
-    if (!to || !amount || amount <= 0) {
-      this.errorMessage = 'Valid recipient address and amount are required.';
+  // Logique pour acheter les tokens
+  buyTokens() {
+    // Vérifiez si le montant est valide
+    if (this.buyAmount <= 0 || this.buyAmount > this.wallet?.balance) {
+      this.errorMessage = 'Invalid amount. Ensure you have sufficient balance.';
+      setTimeout(() => (this.errorMessage = null), 3000);
       return;
     }
-    this.walletService.mintTokens(to, amount).subscribe({
-      next: (data) => {
-        this.successMessage = `Tokens minted successfully! Transaction Hash: ${data.transaction_hash}`;
-        this.closeMintModal();
+  
+    // Appelle le service pour minter les tokens
+    this.walletService.mintTokens(this.cryptowallet.wallet_id, this.buyAmount).subscribe({
+      next: (response) => {
+        console.log('Minting successful:', response);
+        this.successMessage = 'Tokens purchased successfully!';
+        this.wallet.balance -= this.buyAmount; // Mise à jour du solde
+        this.closeBuyTokensModal();
+        setTimeout(() => (this.successMessage = null), 3000);
       },
       error: (err) => {
         console.error('Error minting tokens:', err);
-        this.errorMessage = 'Failed to mint tokens. Please try again.';
-      }
+        this.errorMessage = 'Failed to purchase tokens. Please try again.';
+        setTimeout(() => (this.errorMessage = null), 3000);
+      },
     });
   }
 
-  transferTokensFrom(fromAddress: string, privateKey: string, toAddress: string, amount: number | null) {
-    if (!fromAddress || !privateKey || !toAddress || !amount || amount <= 0) {
-      this.errorMessage = 'Valid details are required for transferring tokens.';
+  transferTokens() {
+    // Vérifiez si le montant est valide
+    if (this.transfertokenAmount <= 0 || this.transfertokenAmount > this.wallet?.balance) {
+      this.errorMessage = 'Invalid amount. Ensure you have sufficient balance.';
+      setTimeout(() => (this.errorMessage = null), 3000);
       return;
     }
-    this.walletService.transferTokensFrom( toAddress, amount).subscribe({
-      next: (data) => {
-        this.successMessage = `Tokens transferred successfully! Transaction Hash: ${data.transaction_hash}`;
-        this.closeTransferModal();
+  
+    this.walletService.transferTokens(this.transferToAddress, this.transfertokenAmount).subscribe({
+      next: (response) => {
+        console.log('Transfer successful:', response);
+        this.successMessage = 'Tokens transferred successfully!';
+        this.wallet.balance -= this.transfertokenAmount; // Mettre à jour le solde
+        this.closeTransferModal(); // Fermer le modal
+        setTimeout(() => (this.successMessage = null), 3000);
       },
       error: (err) => {
         console.error('Error transferring tokens:', err);
         this.errorMessage = 'Failed to transfer tokens. Please try again.';
-      }
+        setTimeout(() => (this.errorMessage = null), 3000);
+      },
     });
   }
 
@@ -397,5 +453,28 @@ export class WalletComponent implements OnInit {
     this.clearMessages();
   }
 
+
+
+  //Transfer tokens modal
+  openCryptoTransferModal() {
+    this.showCryptoTransferModal = true;
+  }
+  
+  closeCryptoTransferModal() {
+    this.showCryptoTransferModal = false;
+    this.transferToAddress = '';
+    this.transfertokenAmount = 0;
+  }
+
+
+  //Tokens buy modal
+  openBuyTokensModal() {
+    this.showBuyTokensModal = true;
+  }
+  
+  closeBuyTokensModal() {
+    this.showBuyTokensModal = false;
+    this.buyAmount = 0;
+  }
 
 }

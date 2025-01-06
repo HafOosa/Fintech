@@ -681,7 +681,7 @@ select:focus {
 .crypto-wallet-container {
   padding: 20px;
   border-radius: 10px;
-  background: #ffffff;
+  background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(238,238,213,1) 100%);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
   margin: 20px auto;
@@ -689,6 +689,10 @@ select:focus {
   max-width: 1200px;
   animation: fadeIn 0.8s ease-in-out;
   margin-top: 40px;
+}
+
+h2 {
+  font-weight: bold;
 }
 
 /* Wallet Header */
@@ -745,8 +749,8 @@ select:focus {
   gap: 8px;
   padding: 10px;
   font-size: 14px;
-  color: white;
-  background-color: #007bff;
+  color: rgb(235, 180, 30);
+  background-color: #1a202c;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -754,45 +758,13 @@ select:focus {
 }
 
 .buttons .btn:hover {
-  background-color: #0056b3;
+  background-color: rgb(235, 180, 30); /* Couleur jaune sur survol */
+  color: #1a202c;
   transform: scale(1.05);
 }
 
 .buttons .btn .icon {
   font-size: 16px;
-}
-
-/* Icons and Button Specific Colors */
-.btn-create {
-  background-color: #28a745; /* Green for Create Wallet */
-}
-
-.btn-check {
-  background-color: #17a2b8; /* Cyan for Check Balance */
-}
-
-.btn-mint {
-  background-color: #ffc107; /* Yellow for Mint Tokens */
-}
-
-.btn-transfer {
-  background-color: #dc3545; /* Red for Transfer Tokens */
-}
-
-.btn-create:hover {
-  background-color: #218838;
-}
-
-.btn-check:hover {
-  background-color: #138496;
-}
-
-.btn-mint:hover {
-  background-color: #e0a800;
-}
-
-.btn-transfer:hover {
-  background-color: #c82333;
 }
 
 /* Animation */
@@ -808,46 +780,59 @@ select:focus {
 }
 
 .crypto-modal {
-  background: #f8f9fa; /* Couleur de fond spécifique */
-  border: 2px solid #007bff; /* Bordure bleue */
+  background: #1a202c; /* Couleur de fond sombre */
+  border: 2px solid #1a202c; /* Bordure assortie */
   border-radius: 10px; /* Coins arrondis */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre subtile */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Ombre subtile */
+  color: #f8f9fa; /* Texte clair */
 }
 
 .crypto-modal .modal-content {
   padding: 20px;
   font-family: Arial, sans-serif;
-  color: #333; /* Couleur du texte */
+  color: #f8f9fa; /* Texte clair */
 }
 
 .crypto-modal .modal-content h2 {
   font-size: 24px;
   margin-bottom: 15px;
-  color: #007bff; /* Couleur spécifique au titre */
+  color: #f8f9fa; /* Couleur claire pour le titre */
+  text-align: center;
 }
 
 .crypto-modal .modal-content input {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
+  border: 2px solid #f8f9fa; /* Bordure claire */
+  border-radius: 8px;
+  font-size: 16px;
+  background: transparent; /* Fond transparent */
+  color: #f8f9fa; /* Texte clair */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Animation */
+}
+
+.crypto-modal .modal-content input:focus {
+  border-color: rgb(235, 180, 30); /* Bordure jaune au focus */
+  box-shadow: 0 0 8px rgba(235, 180, 30, 0.8); /* Effet d'ombre au focus */
 }
 
 .crypto-modal .btn-transfer-confirm {
-  background: #007bff;
-  color: white;
+  background: #1a202c; /* Fond sombre */
+  color: rgb(235, 180, 30); /* Texte jaune */
   padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
+  border: 2px solid rgb(235, 180, 30); /* Bordure jaune */
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
   font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Animation */
 }
 
 .crypto-modal .btn-transfer-confirm:hover {
-  background: #0056b3;
+  background: rgb(235, 180, 30); /* Fond jaune au survol */
+  color: #1a202c; /* Texte sombre */
+  transform: scale(1.05); /* Effet d'agrandissement */
 }
 
 .crypto-modal .close {
@@ -856,11 +841,11 @@ select:focus {
   right: 15px;
   font-size: 18px;
   cursor: pointer;
-  color: #333;
+  color: rgb(235, 180, 30); /* Couleur jaune */
 }
 
 .crypto-modal .response.success {
-  color: green;
+  color: greenyellow;
   font-size: 14px;
   margin-top: 10px;
 }
@@ -873,25 +858,107 @@ select:focus {
 
 .crypto-modal .btn {
   display: inline-block;
-  background-color: #007bff; /* Couleur bleu primaire */
-  color: #fff;
+  background-color: #1a202c; /* Fond sombre */
+  color: rgb(235, 180, 30); /* Texte jaune */
   padding: 10px 20px;
   font-size: 16px;
   font-weight: bold;
   text-align: center;
   text-decoration: none;
-  border: none;
-  border-radius: 5px;
+  border: 2px solid rgb(235, 180, 30); /* Bordure jaune */
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Animation */
 }
 
 .crypto-modal .btn:hover {
-  background-color: #0056b3; /* Couleur bleu foncé pour hover */
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Effet d'ombre */
+  background-color: rgb(235, 180, 30); /* Fond jaune au survol */
+  color: #1a202c; /* Texte sombre */
+  transform: scale(1.05); /* Effet d'agrandissement */
 }
 
 .crypto-modal .btn:disabled {
-  background-color: #ccc; /* Couleur grise pour bouton désactivé */
+  background-color: #ccc; /* Fond grisé pour bouton désactivé */
   cursor: not-allowed;
+}
+
+/* Animations pour les champs */
+.crypto-modal .modal-content input {
+  transition: border-color 0.3s ease, transform 0.3s ease; /* Animation pour la bordure et mise à l'échelle */
+}
+
+.crypto-modal .modal-content input:focus {
+  transform: scale(1.02); /* Mise à l'échelle au focus */
+}
+
+
+.wallet-header h1 {
+  position: relative; /* Nécessaire pour la pseudo-classe :after */
+  font-size: 32px;
+  text-align: center;
+  color: #1a202c; /* Couleur du texte */
+  margin-bottom: 10px; /* Espacement en bas */
+}
+
+.wallet-header h1:after {
+  content: ''; /* Nécessaire pour afficher la ligne */
+  display: block;
+  width: 80px; /* Longueur de la ligne */
+  height: 4px; /* Épaisseur de la ligne */
+  background-color: rgb(235, 180, 30); /* Couleur jaune */
+  margin: 8px auto 0; /* Centrer la ligne */
+  border-radius: 2px; /* Coins arrondis */
+}
+
+
+.private-key {
+  font-size: 16px;
+  margin-top: 5px;
+  font-weight: bold;
+  gap: 20px; /* Espace entre le texte et le bouton */
+
+  .key-value {
+    font-family: 'Courier New', Courier, monospace; /* Style de texte pour simuler une clé privée */
+    font-size: 14px;
+    background-color: #f8f9fa; /* Fond léger pour la clé */
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+  }
+
+  .key-value.masked {
+    letter-spacing: 3px; /* Espacement pour simuler le masquage */
+    color: #aaa; /* Couleur grise pour masquer */
+  }
+
+  .btn-toggle-key {
+    background-color: #1a202c; /* Même couleur que les autres boutons */
+    color: #ebac1e; /* Couleur jaune */
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    text-decoration: underline;
+    font-size: 0.99em;
+    margin-left: 10px;
+  }
+
+  .btn-toggle-key:hover {
+    color: #1a202c;
+  }
+
+  .btn-toggle-key i {
+    font-size: 14px;
+  }
+}
+
+/* Style pour masquer les flèches d'incrémentation/décrémentation */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: none; /* Pour Firefox */
 }

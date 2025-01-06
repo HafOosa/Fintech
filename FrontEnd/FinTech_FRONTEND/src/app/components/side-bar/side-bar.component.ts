@@ -25,9 +25,18 @@ export class SidebarComponent implements OnInit {
       const decodedToken: any = jwtDecode(token);
       this.userId = decodedToken?.user_id || null;
     }
+  
+    // Redirigez l'utilisateur vers la page de connexion si le token ou userId est invalide
+    if (!this.userId) {
+      console.warn('User ID is null. Redirecting to login.');
+    }
   }
 
   toggleSidebar() {
     this.isCollapsed = !this.isCollapsed;
+  }
+
+  debugLink() {
+    console.log('Generated link:', ['/', this.userId, 'exchange']);
   }
 }
