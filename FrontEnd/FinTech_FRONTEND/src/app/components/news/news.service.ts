@@ -17,7 +17,7 @@ export interface NewsItem {
 })
 export class NewsService {
   private readonly API_URL = 'https://newsdata.io/api/1/news';
-  private readonly API_KEY = ''; //pub_64404ec3266e565440b90a57af30300b724c7
+  private readonly API_KEY = 'pub_64404ec3266e565440b90a57af30300b724c7'; //
 
   constructor(private http: HttpClient) {}
 

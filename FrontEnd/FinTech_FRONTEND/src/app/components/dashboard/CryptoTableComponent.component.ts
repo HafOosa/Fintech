@@ -8,11 +8,11 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     <table class="crypto-table">
-      <thead>
+      <thead  >
         <tr>
-          <th>Crypto</th>
-          <th>Price</th>
-          <th>24h Change</th>
+          <th style=" color:rgb(235, 180, 30);">Crypto</th>
+          <th style=" color:rgb(235, 180, 30);">Price</th>
+          <th style=" color:rgb(235, 180, 30);">24h Change</th>
         </tr>
       </thead>
       <tbody>

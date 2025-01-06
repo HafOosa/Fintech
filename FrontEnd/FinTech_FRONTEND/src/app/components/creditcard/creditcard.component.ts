@@ -1,44 +1,88 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { WalletService } from '@services/wallet.service';
+import { UserService } from '@services/user.service';
+import { AuthService } from '@auth/services/auth/auth.service';
 
 @Component({
   selector: 'app-credit-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './creditcard.component.html',
   styleUrls: ['./creditcard.component.scss'],
 })
 export class CreditCardComponent implements OnInit {
   cardNumber: string = '#### #### #### ####';
+  maskedCardNumber: string = '#### #### #### ####'; // Masked version of cardNumber
+  isCardMasked: boolean = true; // Controls whether the card number is masked or unmasked
   cardHolder: string = 'John Doe';
   expiryDate: string = 'MM/YY';
   balance: number = 0;
-  cardType: string = 'visa'; // Default card type (visa, mastercard, etc.)
+  cardType: string = 'visa';
   errorMessage: string | null = null;
 
-  constructor(private walletService: WalletService) {}
+  constructor(
+    private walletService: WalletService,
+    private userService: UserService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
+    this.loadCurrentUser();
     this.loadWalletDetails();
+  }
+
+  loadCurrentUser(): void {
+    const userId = this.authService.getUserIdFromToken();
+    if (userId) {
+      this.userService.getUserById(userId).subscribe({
+        next: (user) => {
+          console.log('User Data:', user);
+          // Split the name field like in the settings component
+          const nameParts = user.name.split(' ');
+          const firstName = nameParts[0] || 'Unknown';
+          const lastName = nameParts[1] || 'User';
+          this.cardHolder = `${firstName} ${lastName}`;
+        },
+        error: (err) => {
+          console.error('Failed to fetch user details:', err);
+          this.cardHolder = 'Unknown User';
+        },
+      });
+    } else {
+      console.warn('User ID not found in token');
+      this.cardHolder = 'Unknown User';
+    }
   }
 
   loadWalletDetails(): void {
     this.walletService.getWallet().subscribe({
       next: (wallet) => {
+        console.log('Wallet Data:', wallet);
         this.cardNumber = wallet.address
-          ? wallet.address.replace(/(.{4})/g, '$1 ').trim() // Format card number
+          ? wallet.address.replace(/(.{4})/g, '$1 ').trim()
           : this.cardNumber;
-        this.cardHolder = wallet.user_id ? `User ${wallet.user_id}` : this.cardHolder;
-        this.expiryDate = '12/25'; // Placeholder; adjust if real data available
+        this.maskedCardNumber = this.maskCardNumber(this.cardNumber);
         this.balance = wallet.balance || 0;
+        this.expiryDate = '12/25';
         this.cardType = this.detectCardType(this.cardNumber);
       },
       error: (err) => {
-        console.error('Failed to load wallet details', err);
+        console.error('Failed to load wallet details:', err);
         this.errorMessage = 'Unable to fetch wallet details.';
       },
     });
+  }
+
+  maskCardNumber(cardNumber: string): string {
+    return cardNumber
+      .split(' ')
+      .map((chunk, index) => (index < cardNumber.split(' ').length - 1 ? '****' : chunk))
+      .join(' ');
+  }
+
+  toggleCardMask(): void {
+    this.isCardMasked = !this.isCardMasked;
+    this.maskedCardNumber = this.isCardMasked ? this.maskCardNumber(this.cardNumber) : this.cardNumber;
   }
 
   detectCardType(cardNumber: string): string {

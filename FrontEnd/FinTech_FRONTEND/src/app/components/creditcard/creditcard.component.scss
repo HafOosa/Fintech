@@ -1,73 +1,113 @@
+.credit-card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 20px;
+}
+
+.card-title {
+  font-family: 'Arial', sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  color: #0e0453;
+  margin-bottom: 5px;
+  padding-bottom: 0;
+}
+
 .credit-card {
-    width: 300px;
-    height: 150px;
-    border-radius: 16px;
-    background: linear-gradient(135deg, #d3d3d3, #a9a9a9);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    color: #fff;
-    font-family: 'Arial', sans-serif;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 20px ;
-    margin-top: 0;
-    position: relative;
-  }
-  
-  .card-front {
-    width: 100%;
-    height: 100%;
-    border-radius: 16px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  
-  .card-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .card-logo img {
-    width: 40px;
-    height: auto;
-  }
-  
-  .card-brand img {
-    width: 40px;
-    height: auto;
-  }
-  
-  .card-number {
-    font-size: 18px;
-    letter-spacing: 2px;
-    margin-top: 10px;
-    color: #333;
-    background: rgba(255, 255, 255, 0.8);
-    padding: 5px 10px;
-    border-radius: 8px;
-  }
-  
-  .card-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .card-holder {
-    font-size: 14px;
-    color: #333;
-    background: rgba(255, 255, 255, 0.8);
-    padding: 5px 10px;
-    border-radius: 8px;
-  }
-  
-  .card-expiry {
-    font-size: 14px;
-    color: #333;
-    background: rgba(255, 255, 255, 0.8);
-    padding: 5px 10px;
-    border-radius: 8px;
-  }
-  
+  width: 320px;
+  height: 180px;
+  border-radius: 16px;
+  background-color: #c4d1d6; /* Updated background color */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-logo img {
+  width: 40px;
+  height: auto;
+}
+
+.card-brand img {
+  width: 30px;
+  height: auto;
+}
+
+.card-number {
+  font-size: 18px;
+  letter-spacing: 2px;
+  color: #2d2d2d;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+.card-holder {
+  color: #2d2d2d;
+  font-weight: bold;
+}
+
+.card-expiry {
+  color: #2d2d2d;
+  font-weight: bold;
+}
+
+.credit-card:before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  right: -40px;
+  width: 120px;
+  height: 120px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.credit-card:after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: -40px;
+  width: 150px;
+  height: 150px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.card-holder{
+  color:#0e0453;
+}
+.toggle-mask-btn {
+  margin-top: 10px;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-mask-btn:hover {
+  background-color: #0056b3;
+}

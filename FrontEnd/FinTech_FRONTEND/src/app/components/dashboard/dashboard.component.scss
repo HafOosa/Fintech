@@ -48,12 +48,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #ffffff;
+  background-color: #1a202c;
   border-radius: 12px;
   padding: 20px;
   flex: 1;
   margin: 0 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px #d8d9da;
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
@@ -63,16 +63,16 @@
 }
 
 .total-balance span {
-  font-size: 14px;
+  font-size: 20px;
   font-weight: bold;
-  color: #888888;
+  color: rgb(235, 180, 30);
   margin-bottom: 10px;
 }
 
 .total-balance p.balance {
   font-size: 24px;
   font-weight: bold;
-  color: #333333;
+  color: #e6dcdc;
   margin: 0;
 }
 
@@ -119,7 +119,7 @@
 }
 
 .quick-transaction h3 {
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 }
 
 .transaction-list {
@@ -174,7 +174,7 @@
 /* Crypto Trend Chart Section */
 .crypto-trend-chart {
   width: 100%;
-  max-height: width;
+  // max-height: width;
   margin: 5px ;
   padding: 5px;
   background-color: #ffffff;
@@ -187,7 +187,7 @@ h2 {
   font-family: 'Inter', sans-serif; /* Modern and clean font similar to the example */
   font-weight: 600; /* Slightly bold for emphasis */
   font-size: 1.25rem; /* Medium size for balance */
-  color: #333333; /* Dark gray, soft on the eyes */
+  color: #0e0453; /* Dark gray, soft on the eyes */
   margin-bottom: 10px; /* Space between title and content */
   text-transform: capitalize; /* Consistent capitalization */
   letter-spacing: 0.5px; /* Subtle spacing for readability */
@@ -367,23 +367,27 @@ table td {
 .normal-transactions p {
   text-align: center;
   font-size: 14px;
-  color: #888;}
+  color: #888888;}
 
 
   // statistics stufs
   .crypto-table {
     width: 100%;
     border-collapse: collapse;
-    margin: 20px 0;
+    margin: 0px ;
+    background-color: transparent;
+    align-items: center;
+    font-weight:bold;
   
     th, td {
-      border: 1px solid #ddd;
+      border: 1px solid transparent;
       padding: 8px;
-      text-align: left;
+      text-align: center;
+      color: #0e0453;
     }
   
     th {
-      background-color: #f4f4f4;
+      background-color: #09233f;
       font-weight: bold;
     }
   
