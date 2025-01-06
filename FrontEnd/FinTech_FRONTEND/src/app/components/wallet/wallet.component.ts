@@ -34,9 +34,10 @@ export class WalletComponent implements OnInit {
   showTransferModal: boolean = false;
   recipientWalletAddress: string = '';
   transferAmount: number | null = null;
-  showCreateWalletModal = false; 
+  showCreateWalletModal = false;
 
   wallet: any = null;
+  cryptowallet: any = null;
   transactions: any[] = [];
   visibleTransactions: any[] = [];
   showSeeMore: boolean = false;
@@ -69,6 +70,7 @@ export class WalletComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadWallet();
+    this.CryptoWallet();
     this.loadTransactionHistory();
     this.loadBeneficiaries();
   }
@@ -83,6 +85,14 @@ export class WalletComponent implements OnInit {
     this.walletService.getWallet().subscribe({
       next: (data) => {
         this.wallet = data;
+      },
+      error: (err) => console.error('Failed to load wallet', err),
+    });
+  }
+  CryptoWallet() {
+    this.walletService.getCryptoWallet().subscribe({
+      next: (data) => {
+        this.cryptowallet = data;
       },
       error: (err) => console.error('Failed to load wallet', err),
     });
@@ -198,29 +208,29 @@ export class WalletComponent implements OnInit {
   openTransferModal() {
     this.showTransferModal = true;
   }
-  
+
   closeTransferModal() {
     this.showTransferModal = false;
     this.recipientWalletAddress = '';
     this.transferAmount = 0;
   }
-  
+
   transferFunds() {
     if (this.transferAmount !== null && this.transferAmount > 0 && this.recipientWalletAddress?.trim()) {
       const senderWalletAddress = this.wallet?.address; // Récupérer l'adresse du wallet connecté
-  
+
       if (!senderWalletAddress) {
         this.successMessage = 'Votre wallet n’a pas été trouvé. Veuillez réessayer.';
         setTimeout(() => (this.successMessage = null), 3000);
         return;
       }
-  
+
       console.log('Données envoyées :', {
         senderWalletAddress,
         recipientWalletAddress: this.recipientWalletAddress,
         amount: this.transferAmount,
       });
-  
+
       this.walletService
         .transferFunds(this.recipientWalletAddress, this.transferAmount)
         .subscribe({
@@ -357,7 +367,7 @@ export class WalletComponent implements OnInit {
       this.errorMessage = 'Valid details are required for transferring tokens.';
       return;
     }
-    this.walletService.transferTokensFrom(fromAddress, privateKey, toAddress, amount).subscribe({
+    this.walletService.transferTokensFrom( toAddress, amount).subscribe({
       next: (data) => {
         this.successMessage = `Tokens transferred successfully! Transaction Hash: ${data.transaction_hash}`;
         this.closeTransferModal();

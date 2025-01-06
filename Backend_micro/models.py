@@ -26,6 +26,13 @@ class Wallets(Base):
     address = Column(String, nullable=False, unique=True)
     balance = Column(Float, default=0.0)
 
+class CryptoWallets(Base):
+    __tablename__ = "cryptowallets"
+
+    wallet_id = Column(String, primary_key=True, index=True)
+    user_id = Column(Integer, nullable=False, unique=True)
+    private_key = Column(String, nullable=False, unique=True)
+
 
 class WalletTransaction(Base):
     __tablename__ = "wallet_transactions"

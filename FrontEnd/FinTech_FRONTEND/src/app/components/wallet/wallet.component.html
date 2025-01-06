@@ -162,9 +162,9 @@
     </div>
     <h1>Account</h1>
     <p class="account-balance">Balance: {{ balance || '$0' }}</p>
-    <p class="address">{{ wallet?.address || 'No Wallet' }}</p>
+    <p class="address">{{ cryptowallet?.address_id || 'No Wallet' }}</p>
   </div>
-  
+
   <!-- Wallet Actions -->
   <div class="wallet-actions buttons">
     <!-- Create Wallet Button -->
@@ -223,8 +223,7 @@
   <div class="modal-content">
     <span class="close" (click)="closeTransferModal()">&times;</span>
     <h2>Transfer Tokens</h2>
-    <input type="text" placeholder="From Address" [(ngModel)]="fromAddress" />
-    <input type="text" placeholder="Private Key" [(ngModel)]="privateKey" />
+
     <input type="text" placeholder="To Address" [(ngModel)]="recipientAddress" />
     <input type="number" placeholder="Amount" [(ngModel)]="transferAmount" />
     <button class="btn btn-transfer-confirm" (click)="transferTokensFrom(fromAddress, privateKey, recipientAddress, transferAmount)">Transfer</button>

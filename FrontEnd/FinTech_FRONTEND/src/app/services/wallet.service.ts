@@ -38,11 +38,11 @@ export class WalletService {
   getBeneficiaries(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/beneficiaires`);
   }
-  
+
   addBeneficiary(name: string, wallet_address: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/beneficiaires`, { name, wallet_address });
   }
-  
+
   deleteBeneficiary(beneficiaryId: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/beneficiaires/${beneficiaryId}`);
   }
@@ -53,24 +53,26 @@ export class WalletService {
 
   // Create Crypto Wallet
   createCryptoWallet(): Observable<any> {
+   this.http.post<any>(`${this.backendUrl}/create_wallet`, {});
     return this.http.post<any>(`${this.backendUrl}/create_wallet`, {});
   }
-  
+  getCryptoWallet(): Observable<any> {
+    return this.http.get<any>(`${this.backendUrl}`);
+  }
   // Get Balance
   getBalance(address: string): Observable<any> {
     return this.http.get<any>(`${this.backendUrl}/balance/${address}`);
   }
-  
+
   // Mint Tokens
   mintTokens(to: string, amount: number): Observable<any> {
     return this.http.post<any>(`${this.backendUrl}/mint`, { to, amount });
   }
-  
+
   // Transfer Tokens
-  transferTokensFrom(fromAddress: string, privateKey: string, toAddress: string, amount: number): Observable<any> {
+  transferTokensFrom( toAddress: string, amount: number): Observable<any> {
       return this.http.post<any>(`${this.backendUrl}/transfer_from`, {
-        from_address: fromAddress,
-        private_key: privateKey,
+
         to_address: toAddress,
         amount,
   });
