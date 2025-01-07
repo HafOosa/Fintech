@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     <table class="crypto-table">
-      <thead  >
+      <thead >
         <tr>
           <th style=" color:rgb(235, 180, 30);">Crypto</th>
           <th style=" color:rgb(235, 180, 30);">Price</th>

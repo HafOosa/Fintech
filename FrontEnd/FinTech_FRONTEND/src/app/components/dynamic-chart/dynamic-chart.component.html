@@ -1,11 +1,14 @@
 <div class="chart-section ">
-  <h2 class="chart-title">Ethereum Price over Time</h2> <!-- Ajout du titre -->
-  <div class="period-selector">
+  <h2 class="chart-title">Ethereum Price over Time
+
     <button (click)="viewAllTime()">Max</button>
     <button (click)="viewYear()">1a</button>
     <button (click)="viewWeek()">7j</button>
-    <button (click)="view24h()">current</button>
-  </div>
+    <button (click)="view24h()">24h</button>
+  </h2> <!-- Ajout du titre -->
+  <!-- <div class="period-selector"> -->
+
+  <!-- </div> -->
 
   <ngx-charts-line-chart
     [view]="view()"

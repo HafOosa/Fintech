@@ -37,22 +37,28 @@ export class CreditCardComponent implements OnInit {
       this.userService.getUserById(userId).subscribe({
         next: (user) => {
           console.log('User Data:', user);
-          // Split the name field like in the settings component
-          const nameParts = user.name.split(' ');
-          const firstName = nameParts[0] || 'Unknown';
-          const lastName = nameParts[1] || 'User';
-          this.cardHolder = `${firstName} ${lastName}`;
+          
+          // Ensure user.name is a valid string
+          if (user && typeof user.name === 'string' && user.name.trim() !== '') {
+            const nameParts = user.name.split(' ');
+            const firstName = nameParts[0] || 'Unknown'; // Get the first part or fallback
+            const lastName = nameParts.slice(1).join(' ') || 'User'; // Join remaining parts
+            this.cardHolder = `${firstName} ${lastName}`;
+          } else {
+            this.cardHolder = 'Unknown User'; // Fallback if name is invalid
+          }
         },
         error: (err) => {
           console.error('Failed to fetch user details:', err);
-          this.cardHolder = 'Unknown User';
+          this.cardHolder = 'Unknown User'; // Fallback on error
         },
       });
     } else {
       console.warn('User ID not found in token');
-      this.cardHolder = 'Unknown User';
+      this.cardHolder = 'Unknown User'; // Fallback if no user ID
     }
   }
+  
 
   loadWalletDetails(): void {
     this.walletService.getWallet().subscribe({
@@ -76,7 +82,7 @@ export class CreditCardComponent implements OnInit {
   maskCardNumber(cardNumber: string): string {
     return cardNumber
       .split(' ')
-      .map((chunk, index) => (index < cardNumber.split(' ').length - 1 ? '****' : chunk))
+      .map((chunk, index) => (index < cardNumber.split(' ').length - 1 ? '**' : chunk))
       .join(' ');
   }
 

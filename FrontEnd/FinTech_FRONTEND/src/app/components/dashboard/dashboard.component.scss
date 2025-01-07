@@ -2,19 +2,28 @@
 .content-wrapper {
   padding: 1rem;
   animation: fadeIn 1s ease-in-out;
-}
-
-/* Dashboard Layout */
-.dashboard-layout {
+  background-color: transparent;
+  // width: 1100px;
+  width: 1090px;
   display: flex;
   gap: 20px;
 }
 
+/* Dashboard Layout */
+// .dashboard-layout {
+//   // background-color: #4caf50;
+//   //  width: 100%;
+//   // display: flex;
+//   // gap: 20px;
+// }
+
 .dashboard-left {
   flex: 3;
+  width: 60%;
 }
 
 .dashboard-right {
+  width: 300px;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -39,9 +48,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: transparent;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .total-balance {
@@ -115,9 +123,35 @@
   background: #ffffff;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
+  border-radius: 8px;
 
+}
+.quick-transaction1{
+  background: #1a202c;
+  width: 80%;
+  align-self: center;
+  padding: 20px;
+  border-radius: 8px;
+
+}
+.news{
+  background-color: transparent;
+  color: transparent;
+  margin: 0;
+  width: 90%;
+  align-self: center;
+  align-items: center;
+  padding: 0px;
+  border-radius: 8px;
+}
+.section-title {
+  font-family: 'Arial', sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  color: rgb(235, 180, 30);
+  margin-bottom: 5px;
+  padding-bottom: 0;
+}
 .quick-transaction h3 {
   margin-bottom: 0px;
 }
@@ -142,7 +176,7 @@
 
 .transaction-list .profile span {
   font-size: 0.9rem;
-  color: #555;
+  color: #e9dcdc;
 }
 
 .transaction-input {
@@ -154,32 +188,38 @@
 .transaction-input .amount-input {
   flex: 1;
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #1a202c;
   border-radius: 5px;
 }
 
 .transaction-input .send-btn {
   padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
+  background-color: rgb(235, 180, 30);
+  color: #1a202c;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
 .transaction-input .send-btn:hover {
-  background-color: #0056b3;
+  font-weight:bold;
+  // transition: all 0.3s ease-in-out;
+  transform-origin: 20%;
 }
-
+.recent-transactions{
+  background-color: transparent;
+  margin: 10px;
+  width: 94%;
+}
 /* Crypto Trend Chart Section */
 .crypto-trend-chart {
-  width: 100%;
+  width: 98%;
+  height: 550px;
   // max-height: width;
   margin: 5px ;
   padding: 5px;
-  background-color: #ffffff;
+  background-color: transparent;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
 
@@ -279,7 +319,6 @@ table td {
   padding: 20px;
   background-color: #ffffff; /* White background */
   border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
 .normal-transactions h2 {
@@ -373,7 +412,9 @@ table td {
   // statistics stufs
   .crypto-table {
     width: 100%;
-    border-collapse: collapse;
+    // align-self: center;
+    // margin-left: 100px;
+    // border-collapse: collapse;
     margin: 0px ;
     background-color: transparent;
     align-items: center;
@@ -381,7 +422,7 @@ table td {
   
     th, td {
       border: 1px solid transparent;
-      padding: 8px;
+      padding: 5px;
       text-align: center;
       color: #0e0453;
     }

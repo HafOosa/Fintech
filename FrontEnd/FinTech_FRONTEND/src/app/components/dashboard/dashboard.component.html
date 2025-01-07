@@ -1,7 +1,6 @@
 <div class="content-wrapper">
 
     <!-- Left Section -->
-    <div class="dashboard-layout">
       <div class="dashboard-left">
         <section class="account-summary">
           <div class="total-balance">
@@ -25,7 +24,12 @@
             <i class="fab fa-ethereum"></i>
           </div>
         </section>
-
+        <!-- <h2 class="chart-title">Ethereum Price over Time -->
+          <!-- <button (click)="viewAllTime()">Max</button>
+          <button (click)="viewYear()">1a</button>
+          <button (click)="viewWeek()">7j</button>
+          <button (click)="view24h()">current</button> -->
+        <!-- </h2>         -->
         <section class="crypto-trend-chart">
           <app-dynamic-chart></app-dynamic-chart>
         </section>
@@ -93,19 +97,20 @@
         <div class="col-span-4">
           <app-news></app-news>
         </div>
-        <!-- Other dashboard widgets -->
+     
       </div>
-      <div class="quick-transaction"><crypto-table></crypto-table></div>
-
+      <div class="news">
+      <crypto-table></crypto-table>
+      </div>
 
 
 
       <!-- Quick Transaction Section -->
-      <div class="quick-transaction">
-        <h3>Quick Transaction</h3>
+      <div class="quick-transaction1">
+        <h3 class="section-title">Quick Transaction</h3>
         <div class="transaction-list">
           <div class="profile" *ngFor="let profile of profiles">
-            <img [src]="profile.image" [alt]="profile.name" class="profile-img" />
+          <img src="user.png" [alt]="profile.name" class="profile-img" />  <!--  profile.image  -->
             <span>{{ profile.name }}</span>
           </div>
         </div>

@@ -2,55 +2,40 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  padding:0px;
+  width: auto;
+  padding: 0px;
   box-sizing: border-box;
+  background-color:transparent ;
 }
 
 .chart-title {
-  font-size: 28px;
+  font-size: 25px;
   text-align: center;
-  margin-bottom: 5px;
+  margin-bottom: 20px;
+  color: #051b32;
+  font-weight: bold;
 }
 
-.period-selector {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin: 20px 0;
 
-  button {
-    background: #0d6efd; /* Couleur principale correspondant au thème */
-    border: none;
-    padding: 10px 16px;
-    border-radius: 6px;
-    color: white;
-    font-size: 0.9rem;
-    font-weight: 500;
+button {
+    background: #2980b9;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
+    transition: background 0.3s, color 0.3s;
 
     &:hover {
-      background: #0056b3; /* Couleur plus sombre pour hover */
-      transform: translateY(-2px); /* Léger effet de soulèvement */
-    }
-
-    &:active {
-      background: #003f7f; /* Couleur encore plus sombre pour le clic */
-      transform: translateY(0);
+      background: rgb(235, 180, 30);
     }
 
     &.active {
-      background: #ffc107; /* Couleur jaune pour représenter l'état actif */
-      color: #212529; /* Texte sombre pour le contraste */
-      font-weight: bold;
-
-      &:hover {
-        background: #e0a800; /* Couleur jaune plus foncée pour hover */
-      }
+      background: #2980b9;
+      color: #fff;
+      border: none;
     }
   }
-}
+
 
 .chart-container {
   background: #ffffff;
@@ -71,7 +56,7 @@
   }
 
   .line {
-    stroke: #007bff; /* Ligne bleue */
+    stroke: #051b32; /* Ligne bleue */
     fill: rgba(0, 123, 255, 0.2); /* Zone remplie en bleu clair */
   }
 

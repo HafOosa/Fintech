@@ -10,3 +10,6 @@ Generic single-database configuration.
 
 3.  Pour appliquer les migrations à votre base de données :
     alembic upgrade head
+
+
+noter : to run the project :uvicorn main:app --reload  

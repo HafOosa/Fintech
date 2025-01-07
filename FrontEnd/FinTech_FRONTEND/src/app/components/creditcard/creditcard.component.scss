@@ -1,22 +1,23 @@
 .credit-card-container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  margin: 20px;
+  align-items: center;
+  margin: 10px;
 }
 
 .card-title {
+  align-self: flex-start;
   font-family: 'Arial', sans-serif;
   font-size: 18px;
   font-weight: bold;
   color: #0e0453;
-  margin-bottom: 5px;
+  margin-bottom: 0px;
   padding-bottom: 0;
 }
 
 .credit-card {
-  width: 320px;
-  height: 180px;
+  width: 250px;
+  height: 140px;
   border-radius: 16px;
   background-color: #c4d1d6; /* Updated background color */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
@@ -25,7 +26,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 20px;
+  padding: 0px 20px 20px 20px;
 }
 
 .card-top {

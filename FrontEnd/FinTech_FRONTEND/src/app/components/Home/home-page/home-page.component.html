@@ -6,9 +6,7 @@
   <!-- <i class="fab fa-bitcoin"></i>ancati -->
   </span>
       <span class="spacer"></span>
-      <!-- <button mat-icon-button (click)="toggleTheme()">
-        <mat-icon>{{ isDarkTheme ? 'light_mode' : 'dark_mode' }}</mat-icon>
-      </button>       -->
+
       <button mat-button routerLink="/login">Se connecter</button>
       <button mat-raised-button color="accent" routerLink="/register">S'inscrire</button>
     </mat-toolbar>
@@ -18,20 +16,24 @@
       <app-crypto-icons></app-crypto-icons>
       <!-- Hero Section -->
       <section class="hero">
-  
-          <h2 class="mat-display-2">Gérez votre argent et vos cryptos en un seul endroit</h2>
-          <p class="mat-body-1">
-            Bancati vous offre une solution complète pour gérer vos finances traditionnelles 
-            et vos actifs numériques de manière simple et sécurisée.
-          </p>
-          <button mat-raised-button color="primary" class="hero-button" routerLink="/register">
-            Commencer maintenant
-            <mat-icon>arrow_forward</mat-icon>
-          </button>
+        <h2 class="mat-display-2">Gérez votre argent et vos cryptos en un seul endroit</h2>
+        <p class="mat-body-1">
+          Bancati vous offre une solution complète pour gérer vos finances traditionnelles 
+          et vos actifs numériques de manière simple et sécurisée.
+        </p>
+        <p class="mat-body-2" style="font-style: italic; color: #b0bec5;">
+          Découvrez un outil puissant pour surveiller, échanger et sécuriser vos actifs en toute confiance.
+        </p>
+        <button mat-raised-button color="primary" class="hero-button" routerLink="/register">
+          Commencer maintenant
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
       </section>
+      
 
       <!-- Features Section -->
       <section class="features">
+
         <div class="features-grid">
           <mat-card *ngFor="let feature of features" class="feature-card">
             <mat-icon class="feature-icon" aria-hidden="true">{{ feature.icon }}</mat-icon>
@@ -40,26 +42,84 @@
           </mat-card>
         </div>
       </section>
+      <section class="paragr">    
+            <h2 class="mat-display-1" style="color: #b0bec5; font-size: 26px;">Pourquoi choisir Bancati ?</h2>
+        <p class="mat-body-1">
+          Explorez les principales fonctionnalités de notre plateforme conçues pour répondre aux besoins des amateurs de cryptomonnaies et des investisseurs avertis. 
+          Chez Bancati, nous vous offrons la possibilité de gérer vos finances de manière innovante, en combinant la sécurité des transactions traditionnelles avec la flexibilité 
+          des actifs numériques. Que vous soyez un trader expérimenté ou un débutant dans le domaine, notre plateforme vous guide à chaque étape pour vous permettre d'atteindre 
+          vos objectifs financiers. <br> <br>
+          Profitez d'outils puissants, tels que des portefeuilles sécurisés pour vos cryptomonnaies et vos fonds traditionnels, une interface intuitive pour les échanges 
+          de devises numériques, et un système de sécurité avancé pour protéger vos données et vos transactions. Avec Bancati, vous avez tout ce dont vous avez besoin 
+          pour explorer les opportunités qu'offre l'économie numérique, tout en conservant une totale tranquillité d'esprit. Rejoignez-nous dès aujourd'hui et faites 
+          partie de la révolution financière.
+        </p>
+      </section>
+      
     </main>
 
+    <section class="charts">
+      <h2>Informations sur les Cryptomonnaies</h2>
+      <p class="mat-body-1" style="text-align: center; color: #b0bec5;">
+        Découvrez la répartition et les tendances des principales cryptomonnaies.
+      </p>
+      <div class="charts-grid">
+        <div class="chart-container">
+          <canvas id="cryptoMarketShare"></canvas>
+          <p style="text-align: center; margin-top: 10px; font-size: 0.9rem;">
+            Répartition actuelle des parts de marché des cryptomonnaies principales.
+          </p>
+        </div>
+        <div class="chart-container">
+          <canvas id="bitcoinDominance"></canvas>
+          <p style="text-align: center; margin-top: 10px; font-size: 0.9rem;">
+            Visualisez la dominance des principales cryptomonnaies en termes de capitalisation.
+          </p>
+        </div>
+      </div>
+     
+        <div class="cta-container">
+          <h2>Prêt à rejoindre Bancati ?</h2>
+          <p>Créez un compte dès maintenant et commencez à explorer les opportunités offertes par la cryptomonnaie.</p>
+          <button mat-raised-button color="primary" routerLink="/register">S'inscrire</button>
+        </div>
+      </section>
+  
+
+        
+    
+<!-- Footer -->
 <!-- Footer -->
 <footer class="footer">
-<div class="footer-content">
-  <div class="footer-grid">
-    <div *ngFor="let section of footerSections" class="footer-section">
-      <h4 class="footer-title">{{ section.title }}</h4>
-      <ul class="footer-links">
-        <li *ngFor="let link of section.links">
-          <a [href]="link.url" class="footer-link">{{ link.text }}</a>
-        </li>
-      </ul>
+  <div class="footer-content">
+    <div class="footer-grid">
+      <div *ngFor="let section of footerSections" class="footer-section">
+        <h4 class="footer-title">{{ section.title }}</h4>
+        <ul class="footer-links">
+          <li *ngFor="let link of section.links">
+            <a href="javascript:void(0)" (click)="showInfo(link.text)" class="footer-link">
+              {{ link.text }}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      <p>© {{ currentYear }} Bancati. Tous droits réservés.</p>
     </div>
   </div>
-  <div class="footer-divider"></div>
-  <div class="footer-bottom">
-    <p>© {{ currentYear }} Bancati. Tous droits réservés.</p>
+
+  <!-- Info Modal -->
+  <div *ngIf="selectedInfo" class="info-modal">
+    <div class="info-content">
+      <h3>{{ selectedInfo.title }}</h3>
+      <p>{{ selectedInfo.content }}</p>
+      <button mat-button (click)="closeInfo()">Fermer</button>
+    </div>
   </div>
-</div>
 </footer>
+
+
 
   </div>
