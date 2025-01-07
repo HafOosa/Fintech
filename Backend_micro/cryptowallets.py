@@ -65,5 +65,6 @@ def read_crypto_wallet( user_id: int,db: Session = Depends(get_db)):
     wallet = db.query(CryptoWallets).filter(CryptoWallets.user_id == user_id).first()
     if wallet is None:
         raise HTTPException(status_code=404, detail="Wallet not found")
+    print(wallet)
     return wallet
 

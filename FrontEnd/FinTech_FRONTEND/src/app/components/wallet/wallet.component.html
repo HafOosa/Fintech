@@ -161,14 +161,14 @@
       <img src="madt-logo.jpg" alt="mad">
     </div>
     <h1>Account</h1>
-    <p class="account-balance">Balance: {{ balance || '$0' }}</p>
+    <p class="account-balance">Balance: {{ balance || '$0' }} MADT</p>
     <p class="address">
       Wallet ID: {{ cryptowallet?.wallet_id || 'No Wallet' }}
     </p>
 
     <!-- Afficher la clé privée -->
     <p class="private-key">
-      Private Key: 
+      Private Key:
       <span *ngIf="showPrivateKey; else hiddenKey">
         {{ cryptowallet?.private_key || 'Not Available' }}
       </span>
@@ -221,7 +221,7 @@
     <span class="close" (click)="closeBuyTokensModal()">&times;</span>
     <h2>Buy Tokens</h2>
     <p>Use your wallet balance to purchase tokens.</p>
-    
+
     <p>
       Current Wallet Balance: <strong>{{ formatCurrency(wallet?.balance) }}</strong>
     </p>
@@ -258,8 +258,8 @@
     <label for="transferAmount">Amount:</label>
     <input
       type="number"
-      id="transferAmount"
-      [(ngModel)]="transferAmount"
+      id="transfertokenAmount"
+      [(ngModel)]="transfertokenAmount"
       placeholder="Enter amount to transfer"
       min="1"
       required

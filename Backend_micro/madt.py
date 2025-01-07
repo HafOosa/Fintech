@@ -49,8 +49,6 @@ class TransferRequest(BaseModel):
     amount: float
 
 class TransferFromRequest(BaseModel):
-    from_address: str
-    private_key: str
     to_address: str
     amount: float
 
@@ -115,11 +113,10 @@ def create_wallet(db: Session = Depends(get_db), user_id: int = Depends(get_curr
 
 @router.post("/transfer_from")
 def transfer_tokens_from(request: TransferFromRequest,db: Session = Depends(get_db), user_id: int = Depends(get_current_user)):
-    print("Incoming Request Data:", request.dict())
-    address=read_crypto_wallet(db=db, user_id=user_id)
+    address=read_crypto_wallet(user_id=user_id,db=db)
     try:
         tx_hash = blockchain_service.transfer_tokens_from(
-            address.address_id,
+            address.wallet_id,
             address.private_key,
             request.to_address,
             request.amount

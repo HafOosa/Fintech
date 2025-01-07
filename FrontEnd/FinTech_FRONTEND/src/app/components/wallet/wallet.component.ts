@@ -26,7 +26,7 @@ import { WalletService } from '@services/wallet.service';
 export class WalletComponent implements OnInit {
   address: string | null = null;
   encryptedPrivateKey: string | null = null;
-  balance: string | null = null;
+  balance: any | null = null;
   error: string | null = null;
   errorMessage: string | null = null;
   category: string = ''
@@ -376,7 +376,7 @@ export class WalletComponent implements OnInit {
   getBalance(address: string) {
     this.walletService.getBalance(address).subscribe({
       next: (data) => {
-        this.balance = `${data.balance} MADT`; // Affiche le solde avec l'unité
+        this.balance = data.balance; // Affiche le solde avec l'unité
       },
       error: (err) => {
         console.error('Error fetching balance:', err);
@@ -393,7 +393,7 @@ export class WalletComponent implements OnInit {
       setTimeout(() => (this.errorMessage = null), 3000);
       return;
     }
-  
+
     // Appelle le service pour minter les tokens
     this.walletService.mintTokens(this.cryptowallet.wallet_id, this.buyAmount).subscribe({
       next: (response) => {
@@ -401,6 +401,7 @@ export class WalletComponent implements OnInit {
         this.successMessage = 'Tokens purchased successfully!';
         this.wallet.balance -= this.buyAmount; // Mise à jour du solde
         this.closeBuyTokensModal();
+        this.checkWalletExists()
         setTimeout(() => (this.successMessage = null), 3000);
       },
       error: (err) => {
@@ -413,18 +414,19 @@ export class WalletComponent implements OnInit {
 
   transferTokens() {
     // Vérifiez si le montant est valide
-    if (this.transfertokenAmount <= 0 || this.transfertokenAmount > this.wallet?.balance) {
+    if (this.transfertokenAmount <= 0 || this.transfertokenAmount > this.balance) {
       this.errorMessage = 'Invalid amount. Ensure you have sufficient balance.';
       setTimeout(() => (this.errorMessage = null), 3000);
       return;
     }
-  
+
     this.walletService.transferTokens(this.transferToAddress, this.transfertokenAmount).subscribe({
       next: (response) => {
         console.log('Transfer successful:', response);
         this.successMessage = 'Tokens transferred successfully!';
         this.wallet.balance -= this.transfertokenAmount; // Mettre à jour le solde
         this.closeTransferModal(); // Fermer le modal
+        this.checkWalletExists()
         setTimeout(() => (this.successMessage = null), 3000);
       },
       error: (err) => {
@@ -459,7 +461,7 @@ export class WalletComponent implements OnInit {
   openCryptoTransferModal() {
     this.showCryptoTransferModal = true;
   }
-  
+
   closeCryptoTransferModal() {
     this.showCryptoTransferModal = false;
     this.transferToAddress = '';
@@ -471,7 +473,7 @@ export class WalletComponent implements OnInit {
   openBuyTokensModal() {
     this.showBuyTokensModal = true;
   }
-  
+
   closeBuyTokensModal() {
     this.showBuyTokensModal = false;
     this.buyAmount = 0;

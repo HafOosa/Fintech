@@ -84,7 +84,7 @@ export class WalletService {
 
   // Transfer Tokens
   // Méthode pour transférer des tokens
-  transferTokens(to: string, amount: number): Observable<any> {
-    return this.http.post<any>(`${this.backendUrl}/transfer`, {to,amount});
+  transferTokens(to_address: string, amount: number): Observable<any> {
+    return this.http.post<any>(`${this.backendUrl}/transfer_from`, {to_address,amount});
   }
 }
