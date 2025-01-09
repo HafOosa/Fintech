@@ -1,12 +1,12 @@
 // Variables de couleur
 $primary-bg: #1a202c; // Fond sombre pour le footer et le header
 $secondary-bg: #2d3748; // Fond pour les sections principales
-$accent-color: #4fd1c5; // Accent turquoise
+$accent-color: #2d3748; // Accent turquoise
 $text-light: #edf2f7; // Texte clair
 $text-muted: #a0aec0; // Texte adouci
-$button-bg: #319795; // Couleur des boutons
-$button-hover: #2c7a7b; // Couleur au survol des boutons
-$glow-effect: 0 0 20px rgba(79, 209, 197, 0.5);
+$button-bg: #2d3748; // Couleur des boutons
+$button-hover: #2d3748; // Couleur au survol des boutons
+$glow-effect: 0 0 20px #2d3748;
 
 // Mixins
 @mixin glassmorphism {
@@ -131,7 +131,7 @@ main {
     max-width: 600px;
     left:25%;
     text-align: center;
-    background: linear-gradient(135deg, #4fd1c5, #319795);
+    background: linear-gradient(135deg, #2d3748, rgb(235, 180, 30));
     border-radius: 1rem;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     position: relative;
@@ -230,6 +230,7 @@ main {
 
   .features {
     padding: 4rem 2rem;
+    display: flex;
 
     .features-grid {
       display: grid;
@@ -238,7 +239,7 @@ main {
       display: flex;
       .feature-card {
         background: $primary-bg;
-        color: $text-light;
+        color: rgb(235, 180, 30);
         padding: 2rem;
         display: flex;
         border-radius: 0.5rem;
@@ -246,7 +247,8 @@ main {
 
         h3 {
           display: flex;
-          color: $accent-color;
+          color: rgb(235, 180, 30);
+          font-size:large;
           
         }
 

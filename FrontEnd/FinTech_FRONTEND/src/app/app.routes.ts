@@ -13,7 +13,6 @@ import { AuthGuard } from './auth/guards/auth.guard';
 import { AdminDashboardComponent } from '@components/admin/admin-dashboard.component';
 import { HomePageComponent } from '@components/Home/home-page/home-page.component';
 import { CreditCardComponent } from '@components/creditcard/creditcard.component';
-import { CryptoChartComponent } from '@components/crypto-chart/crypto-chart.component';
 import { UserAnalyseComponent } from '@components/user-analyse/user-analyse.component';
 import { AdminOverveiwComponent } from '@components/admin-overveiw/admin-overveiw.component';
 import { CryptoConverterComponent } from './crypto-converter/crypto-converter.component';
@@ -27,7 +26,6 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: SignupComponent },
   { path: 'profile', component: ProfileComponent },
-  { path: 'Page2', component: CryptoChartComponent },
   { path: 'admin', component: AdminDashboardComponent, canActivate : [AuthGuard]},
   { path: 'AdminOverview', component: AdminOverveiwComponent},
 
@@ -35,7 +33,6 @@ export const routes: Routes = [
   // Authenticated routes (inside the layout)
   {
     path: ':userId',
-    // path: '',
 
     component: LayoutComponent,
     canActivate: [AuthGuard],

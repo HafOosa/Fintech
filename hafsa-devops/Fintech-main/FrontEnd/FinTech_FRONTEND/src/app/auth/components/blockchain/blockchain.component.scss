@@ -1,0 +1,42 @@
+.blockchain-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    text-align: center;
+  
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+  
+    .connect-wallet {
+      button {
+        padding: 12px 25px;
+        background-color: #667eea;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+  
+        &:hover {
+          background-color: #5a67d8;
+        }
+      }
+    }
+  
+    .wallet-details {
+      margin-top: 20px;
+      background-color: #f4f4f4;
+      padding: 20px;
+      border-radius: 8px;
+  
+      p {
+        word-break: break-all;
+        color: #667eea;
+      }
+    }
+  }

@@ -90,7 +90,7 @@
 }
 
 .total-balance:first-child i {
-  color: #4caf50; /* Green for Transactions */
+  color: #4caf50; 
 }
 
 .total-balance:nth-child(2) i {
@@ -210,12 +210,17 @@
   background-color: transparent;
   margin: 10px;
   width: 94%;
+  table{
+    th{
+      color: rgb(235, 180, 30);
+      background-color: #09233f;
+    }
+  }
 }
 /* Crypto Trend Chart Section */
 .crypto-trend-chart {
   width: 98%;
-  height: 550px;
-  // max-height: width;
+  height: 620px;
   margin: 5px ;
   padding: 5px;
   background-color: transparent;

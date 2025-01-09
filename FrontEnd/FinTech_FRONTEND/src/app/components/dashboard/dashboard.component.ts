@@ -4,7 +4,6 @@ import {  NgxChartsModule } from '@swimlane/ngx-charts';
 import { DashboardService } from './dashboard.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { CryptoChartComponent } from "../crypto-chart/crypto-chart.component";
 import { NewsComponent } from "../news/news.component";
 import { CreditCardComponent } from '@components/creditcard/creditcard.component';
 import { CryptoTableComponent } from './CryptoTableComponent.component';

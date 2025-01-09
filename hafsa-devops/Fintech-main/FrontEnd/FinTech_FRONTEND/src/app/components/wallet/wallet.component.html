@@ -1,0 +1,46 @@
+<div class="wallet-container mat-elevation-z4">
+    <h2>Wallet Management</h2>
+  
+    <!-- Wallet Creation Section -->
+    <div class="section">
+      <h3>Create a New Wallet</h3>
+      <button mat-raised-button color="primary" (click)="createWallet()">Create Wallet</button>
+    </div>
+  
+    <!-- Wallet Info Section -->
+    <div *ngIf="address" class="section wallet-info">
+      <mat-card>
+        <mat-card-title>Your Wallet</mat-card-title>
+        <mat-card-content>
+          <p><strong>Address:</strong> {{ address }}</p>
+          <p><strong>Encrypted Private Key:</strong> {{ encryptedPrivateKey }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  
+    <!-- Balance Check Section -->
+    <div class="section">
+      <h3>Check Wallet Balance</h3>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Wallet Address</mat-label>
+        <input matInput [(ngModel)]="address" placeholder="Enter wallet address" />
+      </mat-form-field>
+      <button mat-raised-button color="accent" (click)="getBalance()">Get Balance</button>
+    </div>
+  
+    <!-- Balance Info -->
+    <div *ngIf="balance" class="section">
+      <mat-card class="balance-card">
+        <mat-card-content>
+          <h4><strong>Balance:</strong> {{ balance }}</h4>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  
+    <!-- Error Message -->
+    <div *ngIf="error" class="error-message">
+      <mat-icon color="warn">error</mat-icon>
+      <span>{{ error }}</span>
+    </div>
+  </div>
+  

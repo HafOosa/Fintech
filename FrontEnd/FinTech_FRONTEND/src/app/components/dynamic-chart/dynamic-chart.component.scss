@@ -36,9 +36,8 @@ button {
     }
   }
 
-
 .chart-container {
-  background: #ffffff;
+  background: transparent;
   border-radius: 8px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   padding: 20px;
@@ -47,7 +46,7 @@ button {
   justify-content: center;
   align-items: center;
   width: auto;
-  height: auto;
+  height: 100%;
 }
 
 .chart-container ngx-charts-line-chart {

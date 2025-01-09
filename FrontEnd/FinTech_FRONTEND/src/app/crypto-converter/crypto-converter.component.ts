@@ -55,7 +55,7 @@ export class CryptoConverterComponent implements OnInit {
   }
 
   convertCurrency() {
-    const apiKey = '685419b6bedfb725bb6af07ed3dd6fef8f20a83f05c066d1eb20a10c563c7801';
+    const apiKey = '';//685419b6bedfb725bb6af07ed3dd6fef8f20a83f05c066d1eb20a10c563c7801
     const apiUrl = `https://min-api.cryptocompare.com/data/price?fsym=${this.toCurrency}&tsyms=${this.fromCurrency}&api_key=${apiKey}`;
 
     this.http.get(apiUrl).subscribe(

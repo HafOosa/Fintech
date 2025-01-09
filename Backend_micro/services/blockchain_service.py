@@ -4,8 +4,8 @@ import json
 class BlockchainService:
     def __init__(self, rpc_url, contract_address, abi_path, private_key):
         self.web3 = Web3(Web3.HTTPProvider(rpc_url))
-        if not self.web3.is_connected():
-            raise Exception("Failed to connect to Ganache.")
+        # if not self.web3.is_connected():
+        #     raise Exception("Failed to connect to Ganache.")
 
         self.contract_address = contract_address
         self.private_key = private_key
