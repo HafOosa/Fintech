@@ -73,6 +73,10 @@ export class WalletComponent implements OnInit {
   showBuyTokensModal: boolean = false;
   buyAmount: number = 0;
 
+  //show_hide wallets:
+  showNormalWallet: boolean = true;
+  showCryptoWallet: boolean = true;
+
   constructor(private walletService: WalletService) {}
 
 
@@ -82,6 +86,9 @@ export class WalletComponent implements OnInit {
     this.loadTransactionHistory();
     this.loadBeneficiaries();
     this.checkWalletExists();
+
+    this.showNormalWallet = false;
+    this.showCryptoWallet = false;
   }
 
     // Utility function to clear messages
@@ -253,6 +260,7 @@ export class WalletComponent implements OnInit {
           next: () => {
             this.loadWallet();
             this.loadTransactionHistory();
+            this.walletService.calculateTotalTransferOut();
             this.successMessage = 'Virement effectué avec succès !';
             setTimeout(() => (this.successMessage = null), 3000);
             this.closeTransferModal();
@@ -398,16 +406,33 @@ export class WalletComponent implements OnInit {
     this.walletService.mintTokens(this.cryptowallet.wallet_id, this.buyAmount).subscribe({
       next: (response) => {
         console.log('Minting successful:', response);
+
+        // Mettre à jour la balance du wallet normal après la transaction
+        this.wallet.balance -= this.buyAmount; // Mise à jour locale
+        this.updateNormalWalletBalance(this.wallet.balance); //Mise a jour cote serveur
+
+
         this.successMessage = 'Tokens purchased successfully!';
         this.wallet.balance -= this.buyAmount; // Mise à jour du solde
         this.closeBuyTokensModal();
-        this.checkWalletExists()
         setTimeout(() => (this.successMessage = null), 3000);
       },
       error: (err) => {
         console.error('Error minting tokens:', err);
         this.errorMessage = 'Failed to purchase tokens. Please try again.';
         setTimeout(() => (this.errorMessage = null), 3000);
+      },
+    });
+  }
+
+  //mise a jour du normal wallet:
+  updateNormalWalletBalance(newBalance: number): void {
+    this.walletService.updateWalletBalance(newBalance).subscribe({
+      next: () => {
+        console.log('Wallet balance updated successfully');
+      },
+      error: (err) => {
+        console.error('Error updating wallet balance:', err);
       },
     });
   }
@@ -477,6 +502,18 @@ export class WalletComponent implements OnInit {
   closeBuyTokensModal() {
     this.showBuyTokensModal = false;
     this.buyAmount = 0;
+  }
+
+
+
+  toggleSection(section: string): void {
+    if (section === 'normalWallet') {
+      console.log(section)
+      this.showNormalWallet = !this.showNormalWallet;
+    } else if (section === 'cryptoWallet') {
+      console.log(section)
+      this.showCryptoWallet = !this.showCryptoWallet;
+    }
   }
 
 }

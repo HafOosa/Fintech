@@ -15,6 +15,72 @@ body {
   height: 100vh;
 }
 
+.wallets-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-left: 20px; /* Crée un espace entre la sidebar et les sections */
+  padding: 20px; /* Ajoute un peu de padding pour un meilleur espacement */
+}
+
+/* Titre pour Normal Wallet */
+.section-normal-title {
+  font-size: 1.5rem;
+  margin-bottom: 15px; /* Espace entre les titres */
+  cursor: pointer;
+  padding: 15px;
+  background: linear-gradient(to right, #63b3ed, #4299e1);
+  color: white;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Ajoute une ombre subtile */
+}
+
+/* Hover pour Normal Wallet */
+.section-normal-title:hover {
+  background: linear-gradient(to right, #4299e1, #3182ce);
+  transform: translateY(-2px); /* Ajoute un léger effet de levée */
+  box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Titre pour Crypto Wallet */
+.section-crypto-title {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  cursor: pointer;
+  padding: 15px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(238, 238, 213, 1) 100%);
+  color: black;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover pour Crypto Wallet */
+.section-crypto-title:hover {
+  background: linear-gradient(90deg, rgba(238, 238, 213, 1) 0%, rgba(211, 211, 180, 1) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.section-title .icon-open::before {
+  content: "▼";
+  font-size: 1.2rem;
+  margin-left: 10px;
+}
+
+.section-title .icon-closed::before {
+  content: "▶";
+  font-size: 1.2rem;
+  margin-left: 10px;
+}
+
 .wallet-container {
   display: flex;
   flex-direction: row; /* Horizontal layout */

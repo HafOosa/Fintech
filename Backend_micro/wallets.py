@@ -83,6 +83,9 @@ def generate_wallet_address():
     return f"wallet_{secrets.token_hex(16)}"
 
 
+class UpdateBalanceRequest(BaseModel):
+    balance: float
+
 # Initialisation du router
 router = APIRouter()
 
@@ -283,3 +286,15 @@ def delete_beneficiary(
     db.delete(beneficiary)
     db.commit()
     return {"message": "Beneficiary deleted successfully"}
+
+
+@router.put("/wallets/update-balance")
+def update_wallet_balance(request: UpdateBalanceRequest, db: Session = Depends(get_db), user_id: int = Depends(get_current_user)):
+    wallet = db.query(Wallets).filter(Wallets.user_id == user_id).first()
+    if not wallet:
+        raise HTTPException(status_code=404, detail="Wallet not found")
+
+    wallet.balance = request.balance
+    db.commit()
+    db.refresh(wallet)
+    return {"message": "Wallet balance updated successfully"}

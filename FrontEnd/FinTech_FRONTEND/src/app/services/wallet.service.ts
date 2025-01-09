@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +11,24 @@ export class WalletService {
 
   constructor(private http: HttpClient) {}
 
+  // Ajoutez une variable pour stocker et partager le montant total
+  private totalTransferOutSubject = new BehaviorSubject<number>(0);
+  totalTransferOut$ = this.totalTransferOutSubject.asObservable();
+
   getWallet(): Observable<any> {
     return this.http.get<any>(this.apiUrl);
+  }
+
+    // Calculer et mettre à jour le montant total des transferts sortants
+  calculateTotalTransferOut(): void {
+    this.getTransactionHistory().subscribe((transactions) => {
+      const total = transactions
+        .filter((transaction) => transaction.transaction_type === 'transfer_out')
+        .reduce((sum, transaction) => sum + Math.abs(transaction.amount), 0);
+
+      // Mettez à jour la valeur partagée
+      this.totalTransferOutSubject.next(total);
+    });
   }
 
   createWallet(): Observable<any> {
@@ -45,6 +61,10 @@ export class WalletService {
 
   deleteBeneficiary(beneficiaryId: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/beneficiaires/${beneficiaryId}`);
+  }
+
+  updateWalletBalance(newBalance: number): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/update-balance`, { balance: newBalance });
   }
 
 

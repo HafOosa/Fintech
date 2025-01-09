@@ -1,20 +1,24 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {  NgxChartsModule } from '@swimlane/ngx-charts';
 import { DashboardService } from './dashboard.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { TransactionService } from '@services/transaction-normale.service';
 import { CryptoChartComponent } from "../crypto-chart/crypto-chart.component";
 import { NewsComponent } from "../news/news.component";
 import { CreditCardComponent } from '@components/creditcard/creditcard.component';
 import { CryptoTableComponent } from './CryptoTableComponent.component';
 import { DynamicChartComponent } from '../dynamic-chart/dynamic-chart.component';
+import { WalletService } from '@services/wallet.service';
+import { TransactionService } from '@services/transaction-normale.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [
+    ReactiveFormsModule,
     CreditCardComponent,
     NgxChartsModule,
     CommonModule,
@@ -24,12 +28,9 @@ import { DynamicChartComponent } from '../dynamic-chart/dynamic-chart.component'
 
 ],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-
-
-
 
   userId!: string;
   accountBalance: number = 0;
@@ -60,7 +61,35 @@ export class DashboardComponent implements OnInit {
   yAxisLabel: string = 'Price ($US)';
   timeline: boolean = true;
 
-  constructor(private dashboardService: DashboardService, private activatedRoute: ActivatedRoute, private transactionService: TransactionService,) {}
+
+  // Amount/transactions normale Section:
+  balance: any | null = null;
+  wallet : any = { balance: 0 };
+  transactions: any[] = [];
+  totalTransferOut: number = 0;
+
+  //Crypto-wallets Section:
+  address: string | null = null;
+  cryptowallet: any = null;
+  hasCryptoWallet: boolean = false;
+
+  //transactions :
+  showTransactionModal: boolean = false; // Contrôle la visibilité du modal
+  transactionForm: FormGroup; // Formulaire de transaction
+  transactionTypes: string[] = ['Payment', 'Bank Transfer']; // Types de transaction disponibles
+  transactionSuccess: boolean = false; // Indique si la transaction a réussi
+  transactionError: boolean = false; // Indique si une erreur s'est produite
+
+
+  constructor(private dashboardService: DashboardService, private activatedRoute: ActivatedRoute, private fb: FormBuilder, private transactionService: TransactionService, private walletService: WalletService) {
+       // Initialiser le formulaire
+       this.transactionForm = this.fb.group({
+        transaction_type: ['', Validators.required],
+        montant: ['', [Validators.required, Validators.min(1)]],
+        recipient: ['', Validators.required],
+        destination_address: ['', Validators.required]
+    });
+  }
 
   ngOnInit(): void {
     this.userId = this.activatedRoute.snapshot.paramMap.get('userId') || localStorage.getItem('user_id') || '';
@@ -74,6 +103,11 @@ export class DashboardComponent implements OnInit {
     console.log('User ID from localStorage:', localStorage.getItem('user_id'));
     this.loadDashboardData();
     this.loadNormalTransactions();
+    this.loadWallet();
+    this.walletService.totalTransferOut$.subscribe((total) => {
+      this.totalTransferOut = total;
+    });
+    this.walletService.calculateTotalTransferOut();
   }
   }
 
@@ -100,6 +134,7 @@ export class DashboardComponent implements OnInit {
       (error) => {
         console.error('Error fetching normal transactions:', error);
         this.normalTransactions = []; // Assurez-vous que la variable est bien initialisée
+        
       }
     );
   }
@@ -122,5 +157,98 @@ export class DashboardComponent implements OnInit {
   cardNumber = '5995 7474 1103 7513'; // Example card number
   cardType = 'visa';
   currentCardBackground = Math.floor(Math.random() * 25 + 1);
+
+  loadWallet() {
+    this.dashboardService.getWallet().subscribe({
+      next: (data) => {
+        console.log('Wallet data:', data); // Vérifiez la réponse ici
+        this.wallet = data;
+      },
+      error: (err) => console.error('Failed to load wallet', err),
+    });
+  }
+
+  
+
+
+  //CRypto wallets:
+  checkWalletExists() {
+    this.dashboardService.checkCryptoWalletExists().subscribe({
+      next: (wallet) => {
+        this.hasCryptoWallet = true;
+        this.cryptowallet = wallet;
+  
+        if (wallet.wallet_id) {
+          this.getBalance(wallet.wallet_id); // Récupérer la balance après avoir obtenu l'adresse
+        } else {
+          console.error('Wallet ID is undefined');
+        }
+      },
+      error: (err) => {
+        if (err.status === 404) {
+          this.hasCryptoWallet = false; // Pas de portefeuille trouvé
+          this.balance = 'No wallet found';
+        } else {
+          console.error('Error checking wallet existence:', err);
+        }
+      }
+    });
+  }
+
+  getBalance(address: string) {
+    if (!address) {
+      console.error('Address is undefined or empty');
+      this.balance = 'Failed to fetch balance';
+      return;
+    }
+  
+    this.dashboardService.getBalance(address).subscribe({
+      next: (data) => {
+        this.balance = data.balance; // Met à jour la balance
+      },
+      error: (err) => {
+        console.error('Error fetching balance:', err);
+        this.balance = 'Failed to fetch balance';
+      },
+    });
+  }
+
+
+  //transactions :
+  openTransactionModal(): void {
+    this.showTransactionModal = true;
+  }
+
+
+  closeTransactionModal() {
+    this.showTransactionModal = false;
+    this.transactionForm.reset();
+    this.transactionSuccess = false;
+    this.transactionError = false;
+  }
+
+  onSubmit(): void {
+    if (this.transactionForm.valid) {
+      const transactionData = this.transactionForm.value;
+
+      this.transactionService.addTransaction(transactionData).subscribe({
+        next: (response) => {
+          console.log('Transaction Successful:', response);
+          this.transactionSuccess = true;
+          // Recharger les transactions après une soumission réussie
+          this.loadNormalTransactions();
+          setTimeout(() => (this.transactionSuccess = false), 3000);
+          this.closeTransactionModal();
+        },
+        error: (error) => {
+          console.error('Transaction Failed:', error);
+          this.transactionError = true;
+          setTimeout(() => (this.transactionError = false), 3000);
+        }
+      });
+    } else {
+      console.error('Form is invalid');
+    }
+  }
 
 }

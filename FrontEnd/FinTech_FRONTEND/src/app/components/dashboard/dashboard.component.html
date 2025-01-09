@@ -5,22 +5,22 @@
         <section class="account-summary">
           <div class="total-balance">
             <span>Transactions</span>
-            <p class="balance">{{ accountBalance }}</p>
+            <p class="balance">{{ totalTransferOut  }}</p>
             <i class="fas fa-dollar-sign"></i>
           </div>
           <div class="total-balance">
-            <span>Amount</span>
-            <p class="balance">{{ accountBalance }}</p>
+            <span>Balance</span>
+            <p class="balance">{{ wallet.balance }}</p>
             <i class="fas fa-dollar-sign"></i>
           </div>
           <div class="total-balance">
-            <span>Transactions</span>
+            <span>Crypto-Transactions</span>
             <p class="balance">{{ accountBalance }}</p>
             <i class="fab fa-ethereum"></i>
           </div>
           <div class="total-balance">
-            <span>Amount</span>
-            <p class="balance">{{ accountBalance }}</p>
+            <span>Crypto-Balance</span>
+            <p class="balance">{{ balance ? balance + ' MADT' : 'Loading...' }}</p>
             <i class="fab fa-ethereum"></i>
           </div>
         </section>
@@ -34,8 +34,11 @@
           <app-dynamic-chart></app-dynamic-chart>
         </section>
 <!-- add here the table  -->
- <section class="recent-transactions">
-<h2>Recent Normal Transactions</h2>
+<section class="recent-transactions">
+<div class="header-with-button">
+  <h2>Recent Normal Transactions</h2>
+  <button class="open-modal-btn" (click)="openTransactionModal()">Effectuer une Transaction</button>
+</div>
 <table *ngIf="normalTransactions.length > 0; else noTransactions">
   <thead>
     <tr>
@@ -124,7 +127,92 @@
 
   </div>
 
-
-
+  <div class="modal-overlay" *ngIf="showTransactionModal">
+    <div class="modal-content animate__animated animate__zoomIn">
+      <button class="close-btn" (click)="closeTransactionModal()">✕</button>
+      <h1>Effectuer Une Transaction</h1>
+      <hr class="divider" />
+  
+      <!-- Message de succès -->
+      <div *ngIf="transactionSuccess" class="success-banner animate__animated animate__fadeIn">
+        Transaction soumise avec succès !
+      </div>
+  
+      <!-- Message d'erreur -->
+      <div *ngIf="transactionError" class="error-banner animate__animated animate__fadeIn">
+        La soumission de la transaction a échoué. Réessayez.
+      </div>
+  
+      <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="transactionType">Transaction Type</label>
+          <select formControlName="transaction_type" id="transactionType">
+            <option *ngFor="let type of transactionTypes" [value]="type">
+              {{ type }}
+            </option>
+          </select>
+          <div
+            *ngIf="transactionForm.get('transaction_type')?.invalid && transactionForm.get('transaction_type')?.touched"
+            class="error-message"
+          >
+            Transaction type is required.
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="amount">Amount</label>
+          <input
+            id="amount"
+            type="number"
+            formControlName="montant"
+            placeholder="Enter amount"
+          />
+          <div
+            *ngIf="transactionForm.get('montant')?.invalid && transactionForm.get('montant')?.touched"
+            class="error-message"
+          >
+            Amount must be greater than 0.
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="recipient">Recipient</label>
+          <input
+            id="recipient"
+            type="text"
+            formControlName="recipient"
+            placeholder="Enter recipient"
+          />
+          <div
+            *ngIf="transactionForm.get('recipient')?.invalid && transactionForm.get('recipient')?.touched"
+            class="error-message"
+          >
+            Recipient is required.
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="destinationAddress">Destination Address</label>
+          <input
+            id="destinationAddress"
+            type="text"
+            formControlName="destination_address"
+            placeholder="Enter destination address"
+          />
+          <div
+            *ngIf="transactionForm.get('destination_address')?.invalid && transactionForm.get('destination_address')?.touched"
+            class="error-message"
+          >
+            Destination address is required.
+          </div>
+        </div>
+  
+        <button type="submit" class="submit-btn" [disabled]="!transactionForm.valid">
+          Submit Transaction
+        </button>
+      </form>
+    </div>
+  </div>
+  
 
 
