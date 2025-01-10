@@ -233,7 +233,7 @@ export class WalletComponent implements OnInit {
   }
 
   closeTransferModal() {
-    this.showTransferModal = false;
+    this.showTransferModal =  true;
     this.recipientWalletAddress = '';
     this.transferAmount = 0;
   }
@@ -413,8 +413,9 @@ export class WalletComponent implements OnInit {
 
 
         this.successMessage = 'Tokens purchased successfully!';
-        this.wallet.balance -= this.buyAmount; // Mise à jour du solde
+        // this.wallet.balance -= this.buyAmount; // Mise à jour du solde
         this.closeBuyTokensModal();
+        this.getBalance(this.cryptowallet.wallet_id)
         setTimeout(() => (this.successMessage = null), 3000);
       },
       error: (err) => {
@@ -449,8 +450,7 @@ export class WalletComponent implements OnInit {
       next: (response) => {
         console.log('Transfer successful:', response);
         this.successMessage = 'Tokens transferred successfully!';
-        this.wallet.balance -= this.transfertokenAmount; // Mettre à jour le solde
-        this.closeTransferModal(); // Fermer le modal
+        this.closeCryptoTransferModal()
         this.checkWalletExists()
         setTimeout(() => (this.successMessage = null), 3000);
       },
