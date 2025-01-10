@@ -1,3 +1,4 @@
+#utilisateurs.py
 from fastapi import APIRouter,Depends,HTTPException
 from pydantic import BaseModel,EmailStr
 from typing import Optional
@@ -11,6 +12,7 @@ import os
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.sql import func, case
 from models import Transaction 
+from models import Wallets
 
 
 load_dotenv()
@@ -229,6 +231,41 @@ async def get_admin_statistics(db: Session = Depends(get_db), current_user: Util
             status_code=500,
             detail=f"Une erreur s'est produite lors de la récupération des statistiques: {str(e)}"
         )
+
+
+@router.get('/user-analysis/{user_id}')
+def get_user_analysis(user_id: int, db: Session = Depends(get_db), current_user: Utilisateur = Depends(get_current_user)):
+    if current_user.user_id != user_id:
+        raise HTTPException(status_code=403, detail="Access forbidden")
+    
+    # Récupérer les types de transactions et leurs décomptes
+    transactions = db.query(
+        Transaction.transaction_type,
+        func.count(Transaction.transaction_id).label("count")
+    ).filter(Transaction.user_id == user_id).group_by(Transaction.transaction_type).all()
+
+    # Récupérer le solde total des wallets de l'utilisateur
+    total_balance = db.query(
+        func.coalesce(func.sum(Wallets.balance), 0)
+    ).filter(Wallets.user_id == user_id).scalar()
+
+    # Récupérer l'historique des balances
+    balance_history = db.query(
+        Transaction.date.label("date"),
+        func.sum(Transaction.montant).over(order_by=Transaction.date).label("balance")
+    ).filter(Transaction.user_id == user_id).all()
+
+    return {
+        "transactions": {
+            "types": [t[0] for t in transactions],
+            "counts": [t[1] for t in transactions],
+        },
+        "total_balance": total_balance,
+        "balance_history": {
+            "dates": [bh.date.strftime("%Y-%m-%d") for bh in balance_history],
+            "balances": [bh.balance for bh in balance_history],
+        }
+    }
 
 
 

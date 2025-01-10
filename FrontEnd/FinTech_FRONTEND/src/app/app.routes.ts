@@ -1,4 +1,4 @@
-import { NewsComponent } from '@components/news/news.component';
+//app.routes.ts
 import { Routes } from '@angular/router';
 import { LoginComponent } from './auth/components/login/login.component';
 import { SignupComponent } from './auth/components/signup/signup.component';
@@ -13,7 +13,7 @@ import { AuthGuard } from './auth/guards/auth.guard';
 import { AdminDashboardComponent } from '@components/admin/admin-dashboard.component';
 import { HomePageComponent } from '@components/Home/home-page/home-page.component';
 import { CreditCardComponent } from '@components/creditcard/creditcard.component';
-import { UserAnalyseComponent } from '@components/user-analyse/user-analyse.component';
+import { UserAnalysisComponent  } from '@components/user-analyse/user-analyse.component';
 import { AdminOverviewComponent } from '@components/admin-overview/admin-overview.component';
 import { CryptoConverterComponent } from './crypto-converter/crypto-converter.component';
 
@@ -42,10 +42,11 @@ export const routes: Routes = [
       { path: 'wallet', component: WalletComponent },
       { path: 'blockchain', component: BlockchainComponent },
       { path: 'settings',component:SettingsComponent },
-      { path: 'Overview',component:UserAnalyseComponent },
+      { path: 'Overview',component:UserAnalysisComponent },
       { path: 'exchange', component: CryptoConverterComponent },
     ],
   },
+
 
   // Fallback for logout
   { path: 'logout', redirectTo: '/login', pathMatch: 'full' },

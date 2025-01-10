@@ -1,1 +1,54 @@
-<div class="user-analyse"><p>user-analyse works!</p></div>
+<!-- user-analyse.component.html -->
+<div class="user-analysis-container">
+  <div class="header">
+    <h1>User Analysis</h1>
+  </div>
+
+  <div class="stats-container">
+    <!-- Total Balance Card -->
+    <div class="card">
+      <h2>Total Balance</h2>
+      <p *ngIf="totalBalance !== undefined && totalBalance !== null; else noBalance">
+        ${{ totalBalance | number:'1.2-2' }}
+      </p>
+      <ng-template #noBalance>
+        <p>No balance available</p>
+      </ng-template>
+    </div>
+
+    <!-- Transaction Types Card -->
+    <div class="card">
+      <h2>Transaction Types</h2>
+      <ul *ngIf="transactions?.types?.length; else noData">
+        <li *ngFor="let type of transactions?.types; let i = index">
+          {{ type }}: {{ transactions?.counts?.[i] }}
+        </li>
+      </ul>
+      <ng-template #noData>
+        <p>No transaction data available</p>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- Charts Container -->
+  <div class="charts-grid">
+    <div class="chart-card">
+      <h3>Transaction Analysis</h3>
+      <div class="chart-wrapper">
+        <canvas #transactionsChart></canvas>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <h3>Balance History</h3>
+      <div class="chart-wrapper">
+        <canvas #secondChart></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+</div>

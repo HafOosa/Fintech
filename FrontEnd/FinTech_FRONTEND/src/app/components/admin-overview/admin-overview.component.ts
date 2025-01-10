@@ -48,7 +48,7 @@ export class AdminOverviewComponent implements OnInit {
               this.adminData.user_roles.admins,
               this.adminData.user_roles.users,
             ],
-            backgroundColor: ['#FF9800', '#757575'], // Violet pour Admins, Vert pour Users
+            backgroundColor: ['#FF9800', '#757575'], 
             borderColor: ['#f44336', '#4caf50#FF9800', '#757575'],
             borderWidth: 1,
           },
@@ -75,7 +75,7 @@ export class AdminOverviewComponent implements OnInit {
           {
             label: 'Transaction Volume ($)',
             data: this.adminData.monthly_transactions.data, // Montants
-            backgroundColor: '#FF9800', // Rouge
+            backgroundColor: '#FF9800', // arange
             borderColor: '#FF9800',
             borderWidth: 1,
           },
