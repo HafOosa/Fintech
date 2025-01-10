@@ -14,7 +14,7 @@ import { AdminDashboardComponent } from '@components/admin/admin-dashboard.compo
 import { HomePageComponent } from '@components/Home/home-page/home-page.component';
 import { CreditCardComponent } from '@components/creditcard/creditcard.component';
 import { UserAnalyseComponent } from '@components/user-analyse/user-analyse.component';
-import { AdminOverveiwComponent } from '@components/admin-overveiw/admin-overveiw.component';
+import { AdminOverviewComponent } from '@components/admin-overview/admin-overview.component';
 import { CryptoConverterComponent } from './crypto-converter/crypto-converter.component';
 
 
@@ -27,7 +27,7 @@ export const routes: Routes = [
   { path: 'register', component: SignupComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'admin', component: AdminDashboardComponent, canActivate : [AuthGuard]},
-  { path: 'AdminOverview', component: AdminOverveiwComponent},
+  { path: 'AdminOverview', component: AdminOverviewComponent},
 
 
   // Authenticated routes (inside the layout)

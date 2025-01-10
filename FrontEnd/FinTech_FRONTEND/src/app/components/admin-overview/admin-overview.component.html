@@ -1,0 +1,32 @@
+<div class="admin-overview-container">
+  <!-- Statistiques générales -->
+  <div class="stats-overview">
+    <div class="stat-card">
+      <h3>Total Users</h3>
+      <p class="stat-value">{{ adminData.user_stats.total_users | number }}</p>
+    </div>
+    <div class="stat-card">
+      <h3>Active Users</h3>
+      <p class="stat-value">{{ adminData.user_stats.active_users | number }}</p>
+    </div>
+    <div class="stat-card">
+      <h3>Total Transactions</h3>
+      <p class="stat-value">${{ adminData.transaction_stats.total_transactions | number }}</p>
+    </div>
+  </div>
+
+  <!-- Graphiques -->
+  <div class="charts-container">
+    <!-- Répartition des utilisateurs par rôle -->
+    <div class="chart">
+      <h4>User Roles Distribution</h4>
+      <canvas id="userRolesChart"></canvas>
+    </div>
+
+    <!-- Volume des transactions mensuelles -->
+    <div class="chart">
+      <h4>Monthly Transaction Volume</h4>
+      <canvas id="monthlyTransactionsChart"></canvas>
+    </div>
+
+</div>

@@ -9,7 +9,8 @@ from datetime import datetime, timedelta,timezone
 from dotenv import load_dotenv
 import os
 from fastapi.security import OAuth2PasswordBearer
-
+from sqlalchemy.sql import func, case
+from models import Transaction 
 
 
 load_dotenv()
@@ -68,7 +69,7 @@ class PasswordUpdateRequest(BaseModel):
 
 
 
-def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)): # type: ignore
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         user_email: str = payload.get("sub")
@@ -89,7 +90,7 @@ router = APIRouter()
 def get_users(
     skip: int = 0,
     limit: int = 10,
-    db: Session = Depends(get_db),
+    db: Session = Depends(get_db), # type: ignore
     current_user: Utilisateur = Depends(get_current_user)
 ):
     if current_user.role != "admin":
@@ -102,7 +103,7 @@ def get_users(
 
 
 @router.get('/users/{user_id}', response_model=UserResponse)
-def get_user(user_id: int, db: Session = Depends(get_db), current_user: Utilisateur = Depends(get_current_user)):
+def get_user(user_id: int, db: Session = Depends(get_db), current_user: Utilisateur = Depends(get_current_user)): # type: ignore
     if current_user.role != "admin" and current_user.user_id != user_id:
         raise HTTPException(status_code=403, detail="Access forbidden")
     user = db.query(Utilisateur).filter(Utilisateur.user_id == user_id).first()
@@ -110,9 +111,129 @@ def get_user(user_id: int, db: Session = Depends(get_db), current_user: Utilisat
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
+@router.get('/admin-overview/statistics')
+async def get_admin_statistics(db: Session = Depends(get_db), current_user: Utilisateur = Depends(get_current_user)):
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Access forbidden")
+    
+    try:
+        # Vérification que la table existe
+        if not db.query(Utilisateur).first():
+            raise HTTPException(status_code=404, detail="No data available")
+
+        # Récupération des utilisateurs
+        total_users = db.query(Utilisateur).filter(Utilisateur.role == "user").count() or 0
+
+
+        current_date = datetime.now()
+        thirty_days_ago = current_date - timedelta(days=30)
+
+        # Récupération des utilisateurs actifs
+        active_users = (
+            db.query(Utilisateur)
+            .join(Transaction, Utilisateur.user_id == Transaction.user_id)
+            .filter(Transaction.date >= thirty_days_ago)
+            .distinct(Utilisateur.user_id)
+            .count()
+        )
+        
+        
+        # Récupération des transactions totales
+        total_transactions = float(
+            db.query(func.coalesce(func.sum(Transaction.montant), 0)).scalar() or 0
+        )
+        
+        
+        # Répartition des utilisateurs par rôle
+        user_roles = {
+            "admins": db.query(Utilisateur).filter(Utilisateur.role == "admin").count(),
+            "users": db.query(Utilisateur).filter(Utilisateur.role == "user").count(),
+        }
+
+        
+        # Volume des transactions mensuelles
+        monthly_transactions = db.query(
+            func.date_trunc("month", Transaction.date).label("month"),
+            func.coalesce(func.sum(Transaction.montant), 0).label("total")
+        ).group_by(
+            func.date_trunc("month", Transaction.date)
+        ).order_by(
+            func.date_trunc("month", Transaction.date)
+        ).all()
+
+        monthly_transactions_data = {
+            "labels": [row[0].strftime("%B %Y") for row in monthly_transactions],
+            "data": [float(row[1]) for row in monthly_transactions],
+        }
+
+
+        # Récupération des tendances (par mois, pour les 6 derniers mois)
+        current_date = datetime.now()
+        six_months_ago = current_date - timedelta(days=180)
+
+        transaction_trends = db.query(
+            func.date_trunc("month", Transaction.date).label("month"),
+            func.coalesce(
+                func.sum(
+                    case(
+                        (Transaction.transaction_type == "crypto", Transaction.montant),
+                        else_=0
+                    )
+                ),
+                0
+            ).label("crypto"),
+            func.coalesce(
+                func.sum(
+                    case(
+                        (Transaction.transaction_type == "payment", Transaction.montant),
+                        else_=0
+                    )
+                ),
+                0
+            ).label("traditional"),
+        ).filter(
+            Transaction.date >= six_months_ago
+        ).group_by(
+            func.date_trunc("month", Transaction.date)
+        ).order_by(
+            func.date_trunc("month", Transaction.date)
+        ).all()
+
+        # Gestion du cas où il n'y a pas de données pour les tendances
+        if not transaction_trends:
+            trends = {
+                "labels": [],
+                "crypto": [],
+                "traditional": []
+            }
+        else:
+            trends = {
+                "labels": [row[0].strftime("%B %Y") if row[0] else "" for row in transaction_trends],
+                "crypto": [float(row[1] or 0) for row in transaction_trends],
+                "traditional": [float(row[2] or 0) for row in transaction_trends],
+            }
+
+        return {
+            "status": "success",
+            "user_stats": {"total_users": total_users,"active_users": active_users},
+            "transaction_stats": {
+                "total_transactions": total_transactions,
+            },
+            "trends": trends,
+            "user_roles": user_roles,
+            "monthly_transactions": monthly_transactions_data,
+        }
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Une erreur s'est produite lors de la récupération des statistiques: {str(e)}"
+        )
+
+
 
 @router.post('/users', response_model=UserResponse)
-def add_user(user: CreateUser, db: Session = Depends(get_db), current_user: Utilisateur = Depends(get_current_user)):
+def add_user(user: CreateUser, db: Session = Depends(get_db), current_user: Utilisateur = Depends(get_current_user)): # type: ignore
     if current_user.role != "admin":
         raise HTTPException(status_code=403, detail="Access forbidden")
     existing_user = db.query(Utilisateur).filter(Utilisateur.email == user.email).first()
@@ -133,7 +254,7 @@ def add_user(user: CreateUser, db: Session = Depends(get_db), current_user: Util
 
 
 @router.delete('/users/{user_id}')
-def delete_user(user_id: int, db: Session = Depends(get_db), current_user: Utilisateur = Depends(get_current_user)):
+def delete_user(user_id: int, db: Session = Depends(get_db), current_user: Utilisateur = Depends(get_current_user)): # type: ignore
     if current_user.role != "admin":
         raise HTTPException(status_code=403, detail="Access forbidden")
     user = db.query(Utilisateur).filter(Utilisateur.user_id == user_id).first()
@@ -152,7 +273,7 @@ def create_access_token(data: dict):
 
 
 @router.post('/users/login', response_model=LoginResponse)
-def login_user(credentials: LoginRequest, db: Session = Depends(get_db)):
+def login_user(credentials: LoginRequest, db: Session = Depends(get_db)): # type: ignore
     user = db.query(Utilisateur).filter(Utilisateur.email == credentials.email).first()
     if not user or not verify_password(credentials.password, user.password):
         raise HTTPException(status_code=401, detail="Invalid credentials")
@@ -174,7 +295,7 @@ def login_user(credentials: LoginRequest, db: Session = Depends(get_db)):
 def update_user(
     user_id: int,
     user_data: UpdateUser,
-    db: Session = Depends(get_db),
+    db: Session = Depends(get_db), # type: ignore
     current_user: Utilisateur = Depends(get_current_user)
 ):
     if current_user.role != "admin" and current_user.user_id != user_id:
@@ -201,7 +322,7 @@ def update_user(
 
 
 @router.post('/users/register', response_model=UserResponse)
-def register_user(user: CreateUser, db: Session = Depends(get_db)):
+def register_user(user: CreateUser, db: Session = Depends(get_db)): # type: ignore
     # Vérifier si l'email est déjà utilisé
     existing_user = db.query(Utilisateur).filter(Utilisateur.email == user.email).first()
     if existing_user:
@@ -234,7 +355,7 @@ def register_user(user: CreateUser, db: Session = Depends(get_db)):
 def change_password(
     user_id: int,
     request: PasswordUpdateRequest,  # Utilisation du schéma pour valider l'entrée
-    db: Session = Depends(get_db),
+    db: Session = Depends(get_db), # type: ignore
     current_user: Utilisateur = Depends(get_current_user),
 ):
     # Extraire la nouvelle valeur de mot de passe

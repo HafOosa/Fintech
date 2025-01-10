@@ -1,0 +1,53 @@
+.admin-overview-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  background-color: #1a1a2e;
+  color: #fff;
+}
+
+.stats-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  background: #282c34;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card h3 {
+  margin: 0;
+  font-size: 1.2em;
+  color: #ccc;
+}
+
+.stat-value {
+  font-size: 1.8em;
+  color: #FF9800;
+  margin: 10px 0 0;
+}
+
+.charts-container {
+  display: flex;
+  gap: 20px;
+}
+
+.chart {
+  flex: 1;
+  background: #282c34;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.chart h4 {
+  margin-bottom: 20px;
+  color: #ccc;
+  text-align: center;
+}
