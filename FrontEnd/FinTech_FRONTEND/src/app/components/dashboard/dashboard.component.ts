@@ -72,6 +72,7 @@ export class DashboardComponent implements OnInit {
   cryptowallet: any = null;
   hasCryptoWallet: boolean = false;
 
+
   //transactions :
   showTransactionModal: boolean = false; // Contrôle la visibilité du modal
   transactionForm: FormGroup; // Formulaire de transaction
@@ -102,6 +103,7 @@ export class DashboardComponent implements OnInit {
     console.log('User ID from localStorage:', localStorage.getItem('user_id'));
     this.loadDashboardData();
     this.loadNormalTransactions();
+    this.checkWalletExists();
     this.loadWallet();
     this.walletService.totalTransferOut$.subscribe((total) => {
       this.totalTransferOut = total;
@@ -133,7 +135,7 @@ export class DashboardComponent implements OnInit {
       (error) => {
         console.error('Error fetching normal transactions:', error);
         this.normalTransactions = []; // Assurez-vous que la variable est bien initialisée
-        
+
       }
     );
   }
@@ -167,7 +169,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  
+
 
 
   //CRypto wallets:
@@ -176,7 +178,7 @@ export class DashboardComponent implements OnInit {
       next: (wallet) => {
         this.hasCryptoWallet = true;
         this.cryptowallet = wallet;
-  
+        console.log(wallet.wallet_id)
         if (wallet.wallet_id) {
           this.getBalance(wallet.wallet_id); // Récupérer la balance après avoir obtenu l'adresse
         } else {
@@ -200,7 +202,7 @@ export class DashboardComponent implements OnInit {
       this.balance = 'Failed to fetch balance';
       return;
     }
-  
+
     this.dashboardService.getBalance(address).subscribe({
       next: (data) => {
         this.balance = data.balance; // Met à jour la balance
